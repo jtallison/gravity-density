@@ -1,0 +1,103 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>nexusHub Demo</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link rel="stylesheet" href="/styles/main.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/browserHub.js"></script>
+    <!-- <script type="text/javascript" src="js/Tone.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <button onclick="socket.emit('triggerCollide')">two storms collide</button>
+
+    <script>
+        var Hub = require('hub');
+        var hub = new Hub();
+        hub.init();
+        hub.user.name = "max";
+        hub.user.pitch = 55;
+        hub.register();
+
+        var socket = io.connect(window.location.origin, {
+            transports: ['websocket']
+        });
+
+        var myColor = getRandomColor();
+        var myLocation = [0.5, 0.5]; // Default centered
+
+        socket.emit('addme', {
+            name: "audio_controller",
+            color: myColor,
+            note: 60,
+            location: myLocation
+        });
+
+        socket.on('setSection', function(data) {
+            console.log("The section is now: " + data.title);
+            window.max.outlet('section' + " " + data.title);
+        });
+
+        socket.on('triggerBeginning', function(data) {
+            window.max.outlet('playKepler');
+        });
+
+        socket.on('nextChord', function(data) {
+            window.max.outlet('nextChord');
+        });
+
+        socket.on('triggerEnding', function(data) {
+            window.max.outlet('playEnding');
+        });
+
+        socket.on('registerUser', function(data) {
+            window.max.outlet('registerUser' + " " + data.id + " " + data.color + " " + data.locationX + " " + data.locationY + " " + data.note);
+        });
+
+        socket.on('triggerCollide', function(data) {
+            window.max.outlet('triggerCollide' + " " + data.id);
+        });
+
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.max.outlet('DOM ready');
+            var i = 0;
+            var dictName = 'testDict';
+            var dictText = document.getElementById('dict');
+
+            window.max.bindInlet('resetCounter', function() {
+                i = 0;
+                window.max.outlet('reset');
+            });
+
+            document.getElementById('the_click_button').addEventListener('click', function() {
+                window.max.outlet('click', ++i);
+            });
+
+        });
+    </script>
+
+</body>
+
+
+
+</html>
