@@ -17,6 +17,8 @@
     <script type="text/javascript" src="js/nexusUI.js"></script>
     <script type="text/javascript" src="js/browserHub.js"></script>
     <script type="text/javascript" src="js/StartAudioContext.js"></script>
+    <script src="js/wavesurfer.min.js"></script>
+    <script src="js/wavesurfer.regions.min.js"></script>
 
 </head>
 
@@ -49,6 +51,8 @@
                 <button onClick="triggerOthersButton()">Tap Others</button>
                 <br>
                 <div id="slider"></div>
+                <br>
+                <div id="waveform"></div>
                 <p>
                     <button onClick="test1()">Test 1</button>
                     <button onClick="test2()">Test 2</button>
@@ -189,6 +193,7 @@
             // FIXME: move default overlay into Hub
             document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
             document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
+            wavesurfer.load('data/mbira_em.mp3');
         }
 
         hub.channel('chat', null, null, function(data) {
@@ -204,7 +209,11 @@
         });
 
         hub.channel('tap', null, null, function(data) {
-            hub.log(`tap received: ${data}`);
+            hub.log(`
+        tap received: $ {
+            data
+        }
+        `);
         })
 
         function tapButton() {
@@ -370,6 +379,47 @@
 
         var demoSound = new DemoSound();
         hub.user.pitch = demoSound.pitch;
+
+        var wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: 'violet',
+            progressColor: 'purple',
+            plugins: [
+                WaveSurfer.regions.create({
+                    // regions: [{
+                    //         id: 1,
+                    //         start: 1,
+                    //         end: 3,
+                    //         drag: true,
+                    //         color: 'hsla(400, 100%, 30%, 0.5)'
+                    //     }]
+                    // dragSelection: {
+                    //     slop: 5
+                    // }
+                })
+            ]
+        });
+
+        // wavesurfer.enableDragSelection({
+        //     id: 1,
+        //     loop: true
+        // });
+
+        wavesurfer.on('ready', function() {
+            // wavesurfer.play();
+            wavesurfer.addRegion({
+                id: 1,
+                start: 1,
+                end: 3,
+                drag: true,
+                loop: true,
+                color: 'hsla(100, 100%, 30%, 0.5)'
+            });
+            wavesurfer.regions.list[1].on('update', function() {
+                wavesurfer.regions.list[1].play();
+                wavesurfer.regions.list[1].un('update');
+            });
+        });
     </script>
 
 </body>
