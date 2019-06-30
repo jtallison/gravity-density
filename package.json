@@ -20,6 +20,7 @@
         "csv-2-redis": "0.0.10",
         "csv-parser": "^1.9.3",
         "express": "^4.13.4",
+        "multer": "^1.4.1",
         "node-osc": "^2.0.3",
         "parse-redis-url": "0.0.1",
         "redis": "^0.12.1",

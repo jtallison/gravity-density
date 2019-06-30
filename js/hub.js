@@ -21,6 +21,7 @@ var Hub = function() {
     this.ioClients = []; // list of clients who have logged in.
     this.currentSection = 0; // current section.
     this.sectionTitles = ["Welcome", "Preface", "Section 1", "Section 2", "Section 3", "End"];
+    this.app;
 
     // Specific clients who we only want one instance of
 
@@ -305,14 +306,14 @@ Hub.prototype.init = function(sio, publicFolder) {
     var serverPort = this.serverPort;
     console.log("Port: " + this.serverPort);
 
-    var app = express();
-    app.use(express.static(publicFolder));
+    this.app = express();
+    this.app.use(express.static(publicFolder));
     console.log(publicFolder);
 
     // server is the node server (web app via express)
     // this code can launch the server on port 80 and switch the user id away from sudo
     // apparently this makes it more secure - if something goes awry it isn't running under the superuser.
-    var server = http.createServer(app)
+    var server = http.createServer(this.app)
         .listen(serverPort, function(err) {
             if (err) return cb(err);
 
