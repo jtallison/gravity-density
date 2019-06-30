@@ -52,16 +52,15 @@
           <br>
           <div id="waveform"></div>
           <br><audio controls></audio>
-          <div id="player-1">
-            <br>
-            <div id="record-1"></div>
-            <br>
-            <div id="play-1"></div>
-            <br>
-            <div id="loopBegin-1"></div>
-            <br>
-            <div id="loopEnd-1"></div>
+          <div id="samples">
+            <div id="player-1">
+              <div id="record-1"></div>
+              <div id="play-1"></div>
+              <div id="loopBegin-1"></div>
+              <div id="loopEnd-1"></div>
+            </div>
           </div>
+
           <br><br>
           <button onClick="tapEnd()">Tap To End Session</button>
         </p>
@@ -97,7 +96,7 @@
 
     // *** Nexus UI Elements ***
 
-    let record_1 = new Nexus.Button("#record-1");
+    let record_1 = new Nexus.Toggle("#record-1");
     let play_1 = new Nexus.Toggle("#play-1");
     let loopBegin_1 = new Nexus.Number("#loopBegin-1");
     let loopEnd_1 = new Nexus.Number("#loopEnd-1");
@@ -130,7 +129,6 @@
       let sampleState = data.sampleState;
 
       if (sampleState === "start") {
-        playerSampleCount += 1;
         gravSound.createSample(user, sampleLength);
       } else if (sampleState == "stop") {
         console.log("Stop Sampling? ", user);
@@ -218,6 +216,7 @@
       this.tone = new Tone();
 
       this.wavesurfers = [];
+      this.audio = [];
 
       // Audio Input
       var liveFeed = new Tone.UserMedia();
@@ -228,7 +227,7 @@
         //promise resolves when input is available
       });
 
-      this.audio = document.querySelector('audio');
+      this.audio[0] = document.querySelector('audio');
       this.dest = this.tone.context.createMediaStreamDestination();
       this.recorder = new MediaRecorder(this.dest.stream);
 
@@ -238,14 +237,12 @@
 
       this.recorder.ondataavailable = evt => chunks.push(evt.data);
       this.recorder.onstop = evt => {
-
-        // let soundBlob = soundFile.getBlob(); //get the recorded soundFile's blob & store it in a variable
         let soundBlob = new Blob(chunks, {
           type: 'audio/ogg; codecs=opus'
         });
-        // let soundBlob = this.audio.getBlob();
-        this.audio.src = URL.createObjectURL(soundBlob);
-        wavesurfer.loadBlob(soundBlob);
+
+        this.audio[this.recorder.userNumber].src = URL.createObjectURL(soundBlob);
+        this.wavesurfers[this.recorder.userNumber].loadBlob(soundBlob);
 
         let formdata = new FormData(); //create a from to of data to upload to the server
         formdata.append('soundBlob', soundBlob,
@@ -268,18 +265,6 @@
         }).then(error => {
           console.log(error)
         });
-        // console.log(httpRequestOptions);
-        // use p5 to make the POST request at our URL and with our options
-        // httpDo(
-        //   serverUrl,
-        //   httpRequestOptions,
-        //   (successStatusCode) => { //if we were successful...
-        //     console.log("uploaded recording successfully: " + successStatusCode)
-        //   },
-        //   (error) => {
-        //     console.error(error);
-        //   }
-        // )
         console.log('recording stopped');
 
         // let data = {
@@ -292,11 +277,39 @@
 
       this.createSample = function (user, sampleLength) {
 
-        this.recorder.start();
-
-        //     function createDownloadLink(blob) {
         // var url = URL.createObjectURL(blob);
-        // var au = document.createElement('audio');
+        let sampleDiv = document.getElementById("samples");
+        let newDiv = document.createElement("div");
+        newDiv.setAttribute("id", "sample-" + playerSampleCount);
+        let au = document.createElement('audio');
+        let ws = document.createElement('div');
+        ws.setAttribute("id", "waveform-" + playerSampleCount);
+        au.setAttribute("id", 'audio-' + playerSampleCount);
+        newDiv.appendChild(ws);
+        newDiv.appendChild(au);
+        sampleDiv.appendChild(newDiv);
+        
+        this.audio[playerSampleCount] = document.getElementById("audio-" + playerSampleCount);
+        this.wavesurfers[playerSampleCount] = WaveSurfer.create({
+          container: '#waveform-' + playerSampleCount,
+          waveColor: 'violet',
+          progressColor: 'purple',
+          plugins: [
+            WaveSurfer.regions.create({
+              // regions: [{
+              //         id: 1,
+              //         start: 1,
+              //         end: 3,
+              //         drag: true,
+              //         color: 'hsla(400, 100%, 30%, 0.5)'
+              //     }]
+              // dragSelection: {
+              //     slop: 5
+              // }
+            })
+          ]
+        });
+
         // var li = document.createElement('li');
         // var link = document.createElement('a');
         // //add controls to the <audio> element 
@@ -312,12 +325,17 @@
         // //add the li element to the ordered list 
         // recordingsList.appendChild(li);
 
+        this.recorder.start();
+          // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
         let recordingTimer = setTimeout(
-          (user) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
-          this.recorder.user = user;
-          console.log(user);
+          (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
+            this.recorder.user = user;
+            this.recorder.userNumber = userNumber;
+            console.log(user);
             this.recorder.stop(); // stop recording
-          }, sampleLength, user) //record for sample length (in ms)
+          }, sampleLength, user, playerSampleCount) //record for sample length (in ms)
+
+        playerSampleCount += 1;
       }
 
 
