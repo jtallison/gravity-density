@@ -285,6 +285,7 @@
         let ws = document.createElement('div');
         ws.setAttribute("id", "waveform-" + playerSampleCount);
         au.setAttribute("id", 'audio-' + playerSampleCount);
+        au.controls = 'controls';
         newDiv.appendChild(ws);
         newDiv.appendChild(au);
         sampleDiv.appendChild(newDiv);
