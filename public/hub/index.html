@@ -233,45 +233,32 @@
 
       liveFeed.connect(this.dest);
 
-      const chunks = [];
+      this.chunks = [];
 
-      this.recorder.ondataavailable = evt => chunks.push(evt.data);
+      this.recorder.ondataavailable = evt => {
+        // chunks.push(evt.data);
+        for (let i = 0; i < playerSampleCount; i++) {
+          if (this.chunks[i].recording === true) {
+            this.chunks[i].chunks.push(evt.data);
+          }
+        }
+      };
+
       this.recorder.onstop = evt => {
-        let soundBlob = new Blob(chunks, {
+        let soundBlob = new Blob(this.chunks[this.recorder.userNumber].chunks, {
           type: 'audio/ogg; codecs=opus'
         });
-
+        this.chunks[this.recorder.userNumber].recording = false;
+        for (let i = 0; i < playerSampleCount; i++) {
+          if (this.chunks[i].recording === true && this.recorder.state === "inactive") {
+            this.recorder.start();
+          }
+        }
+        console.log('recording stopped');
         this.audio[this.recorder.userNumber].src = URL.createObjectURL(soundBlob);
         this.wavesurfers[this.recorder.userNumber].loadBlob(soundBlob);
-
-        let formdata = new FormData(); //create a from to of data to upload to the server
-        formdata.append('soundBlob', soundBlob,
-          this.recorder.user + 'Sample.ogg'
-        ); // append the sound blob and the name of the file. third argument will show up on the server as req.file.originalname
-
-        // Now we can send the blob to a server...
-        let serverUrl = '/upload'; //we've made a POST endpoint on the server at /upload
-        //build a HTTP POST request
-        let httpRequestOptions = {
-          method: 'POST',
-          body: formdata, // with our form data packaged above
-          headers: new Headers({
-            'enctype': 'multipart/form-data' // the enctype is important to work with multer on the server
-          })
-        };
-
-        fetch(serverUrl, httpRequestOptions).then(res => {
-          console.log(res)
-        }).then(error => {
-          console.log(error)
-        });
-        console.log('recording stopped');
-
-        // let data = {
-        //   "user": data.id
-        // };
-        //data.sample = URL.createObjectURL(blob);
-        // this.sendSample(data)
+        console.log('recording Loaded');
+        this.sendSample(this.recorder.user, this.recorder.userNumber, soundBlob)
       };
 
 
@@ -289,26 +276,34 @@
         newDiv.appendChild(ws);
         newDiv.appendChild(au);
         sampleDiv.appendChild(newDiv);
-        
+
+        this.chunks[playerSampleCount] = {
+          recording: true,
+          chunks: []
+        };
         this.audio[playerSampleCount] = document.getElementById("audio-" + playerSampleCount);
         this.wavesurfers[playerSampleCount] = WaveSurfer.create({
           container: '#waveform-' + playerSampleCount,
           waveColor: 'violet',
           progressColor: 'purple',
           plugins: [
-            WaveSurfer.regions.create({
-              // regions: [{
-              //         id: 1,
-              //         start: 1,
-              //         end: 3,
-              //         drag: true,
-              //         color: 'hsla(400, 100%, 30%, 0.5)'
-              //     }]
-              // dragSelection: {
-              //     slop: 5
-              // }
-            })
+            WaveSurfer.regions.create({})
           ]
+        });
+
+        this.wavesurfers[playerSampleCount].on('ready', (playerSampleCount) => {
+          this.wavesurfers[playerSampleCount].addRegion({
+            id: 1,
+            start: 1,
+            end: 3,
+            drag: true,
+            loop: true,
+            color: 'hsla(100, 100%, 30%, 0.5)'
+          });
+          this.wavesurfers[playerSampleCount].regions.list[1].on('update', (playerSampleCount) => {
+            this.wavesurfers[playerSampleCount].regions.list[1].play();
+            this.wavesurfers[playerSampleCount].regions.list[1].un('update');
+          });
         });
 
         // var li = document.createElement('li');
@@ -325,9 +320,10 @@
         // li.appendChild(link);
         // //add the li element to the ordered list 
         // recordingsList.appendChild(li);
-
-        this.recorder.start();
-          // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
+        if (this.recorder.state === "inactive") {
+          this.recorder.start();
+        }
+        // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
         let recordingTimer = setTimeout(
           (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
             this.recorder.user = user;
@@ -340,10 +336,28 @@
       }
 
 
-      this.sendSample = function (data) {
-        // let data = {user: name, blob: blob}
+      this.sendSample = function (user, userNumber, soundBlob) {
+        let formdata = new FormData(); //create a from to of data to upload to the server
+        formdata.append('soundBlob', soundBlob,
+          this.recorder.user + 'Sample.ogg'
+        ); // append the sound blob and the name of the file. third argument will show up on the server as req.file.originalname
 
-        sampleSound(data);
+        // Now we can send the blob to a server...
+        let serverUrl = '/upload'; //we've made a POST endpoint on the server at /upload
+        let httpRequestOptions = { //build a HTTP POST request
+          method: 'POST',
+          body: formdata, // with our form data packaged above
+          headers: new Headers({
+            'enctype': 'multipart/form-data' // the enctype is important to work with multer on the server
+          })
+        };
+        fetch(serverUrl, httpRequestOptions).then(res => {
+          console.log(res)
+        }).then(error => {
+          console.log(error)
+        });
+
+        console.log('recording sent');
       }
 
 
