@@ -7,5 +7,5 @@ by Anthony Marasco & Jesse Allison
 ---- 
 
 ## Video Demonstration
-![Gravity|Density Demo](GravityDensity.mp4 "Gravity|Density Demo")
+[Gravity|Density Demo](GravityDensity.mp4 "Gravity|Density Demo video")
 
