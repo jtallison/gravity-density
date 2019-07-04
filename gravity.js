@@ -12,6 +12,7 @@
 // ************************************************
 
 const multer  = require('multer') //use multer to upload blob data
+const bodyParser = require('body-parser');
 const upload = multer(); // set multer to be the upload variable (just like express, see above ( include it, then use it/set it up))
 const fs = require('fs'); //use the file system so we can save files
 
@@ -28,6 +29,9 @@ if (process.env.PORT) {
 
 hub.init(sio, publicFolder);
 
+hub.app.use(bodyParser.json());
+hub.app.use(bodyParser.urlencoded({extended: true}));
+
 // *** adding in audio file upload...
 hub.app.post('/upload', upload.single('soundBlob'), function (req, res, next) {
   console.log(req.file); // see what got uploaded
@@ -35,7 +39,9 @@ hub.app.post('/upload', upload.single('soundBlob'), function (req, res, next) {
 
   fs.writeFileSync(uploadLocation, Buffer.from(new Uint8Array(req.file.buffer))); // write the blob to the server as a file
   res.sendStatus(200); //send back that everything went ok
-  console.log("Seems to have uploaded...");
+  console.log("Seems to have uploaded...", req.body.id, req.body.user, req.file.originalname );
+  // Could transmit the load sample from here:
+  hub.transmit('sample', null, {'user': req.body.user, 'val': 'load', 'url': req.file.originalname, 'id':req.body.id});
 })
 
 
@@ -116,6 +122,26 @@ hub.io.sockets.on('connection', function(socket) {
         // hub.ioClients.remove(socket.id);	// FIXME: Remove client if they leave
         hub.log('SERVER: ' + socket.id + ' has left the building');
     });
+
+    hub.channel('sample', null, null, (data) => {
+      // data.user = "name", .sample = "bang", .duration = "5000"
+
+      console.log('sample:', data);
+      hub.log(`sample ${data}`);
+      hub.transmit('sample', null, data);
+
+      if(data.val === 'load') {
+        // hub.transmit('sample', null, data);
+      }
+    });
+
+    hub.channel('loop', null, null, (data) => {
+      // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
+      console.log('loop:', data);
+      hub.log(`loop ${data}`);
+      hub.transmit('loop', null, data);
+    });
+
 
 
     // Model for most nexusHub interactions create a channel and a response you want to have happen
