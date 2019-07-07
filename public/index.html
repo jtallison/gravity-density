@@ -47,11 +47,15 @@
           Sample what you like.<br>
           Select a region and set it.</em>
         <br>
-        <button onClick="setLoop()">Test Set Loop Points</button>
-        <br>
         <button onClick="sample()">Test Sample Some Audio</button>
         <br>
+        <button onClick="setLoop()">Test Set Loop Points</button>
+        <br>
+        <button onClick="wavesurfer.play()">Play</button><button onClick="wavesurfer.pause()">Pause</button>
+        <br>
         <button onClick="setRegion()">Set Sound</button>
+        <br>
+        <button onClick="serverPlay()">Play</button> -- <button onClick="serverPause()">Pause</button> -- <button onClick="serverLoop()">Loop</button>
         <br>
         <div id="slider1"></div>
         <br>
@@ -134,6 +138,27 @@
         'user': hub.user.name,
         'val': 'play'
       });
+    }
+
+    function serverPlay() {
+      hub.transmit('sample', null, {
+        'user': hub.user.name,
+        'val': 'play'
+      })
+    }
+
+    function serverPause() {
+      hub.transmit('sample', null, {
+        'user': hub.user.name,
+        'val': 'pause'
+      })
+    }
+
+    function serverLoop() {
+      hub.transmit('sample', null, {
+        'user': hub.user.name,
+        'val': 'loop'
+      })
     }
 
     // hub.channel('loop', null, null, (data) => {

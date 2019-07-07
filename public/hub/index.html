@@ -230,6 +230,7 @@
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound.sampleLength;
         }
         gravSound.wavesurfers[gravSound.userSamples[data.user].id].drawBuffer()
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].play();
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
       if(data.val == "play") {
