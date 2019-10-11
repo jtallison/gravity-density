@@ -1,10 +1,10 @@
 # Gravity | Density
 
-by Anthony Marasco & Jesse Allison
+by Anonymous Artists
 
-[nexusHub](https://github.com/nexus-js/nexusHub)
+<!-- [nexusHub](https://github.com/nexus-js/nexusHub) -->
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nws7_SSB4Js" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vNSGHJcv8kA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
@@ -14,5 +14,9 @@ by Anthony Marasco & Jesse Allison
 
 ## Video Demonstration
 
-[Gravity|Density Demo](GravityDensity.mp4 "Gravity|Density Demo video")
+<!-- [Gravity|Density Demo](GravityDensity.mp4 "Gravity|Density Demo video") -->
+
+Anonymized Submission Video
+
+[https://youtu.be/vNSGHJcv8kA](https://youtu.be/vNSGHJcv8kA)
 
