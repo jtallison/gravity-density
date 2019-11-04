@@ -18,5 +18,5 @@ by Anonymous Artists
 
 Anonymized Submission Video
 
-[https://youtu.be/vNSGHJcv8kA](https://youtu.be/vNSGHJcv8kA)
+[https://youtu.be/s-NFcPHNAzY](https://youtu.be/s-NFcPHNAzY)
 
