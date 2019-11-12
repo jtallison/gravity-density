@@ -1,11 +1,111 @@
 
-To Fix:
+# Gravity|Density
+
+What needs to be done, should be done, could be done.
+
+
+## TO REPAIR:
 
 - [ ] Audio files can be saved easily as .ogg and used on laptops and Android, but not on iOS devices. They can be saved as .wav and used on all 3, but it has a large file size -- also, right now the .wav file headers are not formatted properly and still won't load on iOS devices... simply opening them in an audio app and re-saving them allows them to be loaded -- Ergo, either fix the wav file corruption, or set up a service on the server that takes the blobs and compresses them using ffmpg to create mp3 files.
 One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
+
+## TODO:
+
 - [ ] battle test wavesurfer usage. Make loop points fully functional  https://www.gettoby.com/p/sf4gx56916kf
-- [ ] Create UI for me as an ensemble sample performer 
+- [ ] Create UI for me as an ensemble sample performer (see list below)
 - [ ] Implement audience - mute, reset/clear, instruction layer, sample playback w/ illumination, receiving and loading samples.
-- [ ] Add event emitter to: ???   https://www.gettoby.com/p/dtklyqd75qs1
+- [ ] Add event emitter to: all the things   https://www.gettoby.com/p/dtklyqd75qs1 add node eventemitter package  https://medium.com/technoetics/node-js-event-emitter-explained-d4f7fd141a1a  https://www.npmjs.com/package/events  
+
+
+## Audience UI
+
+- [ ] find font/text style that is NASA friendly
+- [ ] Orbital Logo to interact with (via gravitdesigner)
+- [ ] 
+
+## Hub UI
+
+- [ ] Clear Audio at once
+- [ ] Clear Audio over time
+- [ ] Trigger Launch
+- [ ] Enable Sampling at once
+- [ ] Enable Sampling over time
+- [ ] 
+
+
+[Gravit Designer](https://designer.gravit.io/) => [SVGArtista](https://svgartista.net/) => [SVGOMG](https://jakearchibald.github.io/svgomg/)
+
+
+
+## Sections
+
+_TEXT Opening_
+
+- [ ] Anthony CD Master - only cds possibly on voices JFK, Armstrong, 
+- [ ] atm | cd hactivision
+- [ ] jta | record samples of text speach
+- [ ] jta | push text to audience and trigger in crowd
+- [ ] atm | sputnik on earth clips
+- [ ] countdown - played on CD played over all audience members
+
+_LAUNCH_
+
+- [ ] Rocket launch sounds
+- [ ] shift launch to audience phones
+- [ ] die out to space section
+
+_SPACE_
+
+shift of scale - vast expanse 
+
+- [ ] enable audience phone capturing & playback (stagger enabling)
+- [ ] sputnik ping sounds very sparse
+- [ ] Audience captures and plays with sounds
+- [ ] jta | clear and re-enable capturing, start shifting pitches towards 
+- [ ] atm | bring in pitched pad
+- [ ] atm | bring in cassini radio sounds
+
+_Gravity_
+
+- [ ] atm | Playing musical samples
+- [ ] jta | enable small groups to sample and play
+- [ ] jta | enable the touch between devices for the other people
+
+
+
+## Sound Gathering
+
+- delay pedal
+- satellite sounds pings, etc.
+- LIGO  sounds - measuring gravity
+- Spudnik pings 
+
+## CHECK:
+
+- ch1 board 2 not fully swinging 0-100kOhms
+
+## BendIt.io integration
+
+- Analyze code for BendIt make folding path
+- shift core functionality to it's own nexusHub instance
+- Update UI for full BendIt.io board functionality
+- buildout communication between nexusHubs
+
+
+
+## Docs
+
+### Channels
+
+__sample(data)__
+- data.user = "name"
+- data.url = "sample-1.wav"
+- data.val =  "load", 'capture'
+- data.duration = 5 (sec)
+- data.loop = 
+- data.play = 
+
+__sharedSlider(data)__
+- data.value = 0.
 

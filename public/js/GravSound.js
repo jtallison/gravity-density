@@ -19,20 +19,21 @@ class GravSound {
     }
     this.tone = new Tone();
 
-    this.wavesurfers = [];
-    this.audio = [];
-    this.userSamples = {};
+    this.wavesurfers = [];    // Each of the wavesurfers
+    this.audio = [];          // An array of the audio tags!
+    this.userSamples = {};    // this.userSamples[user].id => playerSampleCount e.g. the sample number of that username
 
-    this.playerSampleCount = 0;
+    this.playerSampleCount = 0;   // number of samples taken 
     this.sampleLength = 5;    // in seconds
 
-    // Audio Input
+    // ---- Audio Input
     var liveFeed = new Tone.UserMedia();
     Tone.UserMedia.enumerateDevices().then(function (devices) {
       console.log(devices)
     })
     liveFeed.open().then(function () {
       //promise resolves when input is available
+      console.log("Recorder Available")
     });
 
     this.audio[0] = document.querySelector('audio');
@@ -40,6 +41,7 @@ class GravSound {
     this.recorder = new MediaRecorder(this.dest.stream);
 
     liveFeed.connect(this.dest);
+    // ------
 
     this.chunks = [];
 
@@ -80,6 +82,11 @@ class GravSound {
     };
     // this.recorder.onstop.bind(this);
 
+
+
+
+
+    
     // Effects and Synths
 
     this.tremolo = new Tone.Tremolo({
@@ -120,6 +127,12 @@ class GravSound {
 
   };
 
+  //  CONSTRUCTOR Complete //
+
+
+
+
+
   // Various and sundry methods
 
 
@@ -128,10 +141,62 @@ class GravSound {
     this.userSamples[user] = {}
     this.userSamples[user].id = this.playerSampleCount;
 
+        // ----- Create New Sample Div sample-001 ----- //
     // var url = URL.createObjectURL(blob);
     let sampleDiv = document.getElementById("samples");
     let newDiv = document.createElement("div");
     newDiv.setAttribute("id", "sample-" + this.playerSampleCount);
+    sampleDiv.appendChild(newDiv);
+
+    let record = document.createElement("div");
+    record.setAttribute("id", "record-" + this.playerSampleCount);
+    newDiv.appendChild(record);
+    record[this.playerSampleCount] = new Nexus.Toggle("#record-"+ this.playerSampleCount);
+    let play = document.createElement("div");
+    play.setAttribute("id", "play-" + this.playerSampleCount);
+    newDiv.appendChild(play);
+    play[this.playerSampleCount] = new Nexus.Toggle("#play-"+ this.playerSampleCount);
+    let loopBegin = document.createElement("div");
+    loopBegin.setAttribute("id", "loopBegin-" + this.playerSampleCount);
+    newDiv.appendChild(loopBegin);
+    loopBegin[this.playerSampleCount] = new Nexus.Number("#loopBegin-" + this.playerSampleCount);
+    let loopEnd = document.createElement("div");
+    loopEnd.setAttribute("id", "loopEnd-" + this.playerSampleCount);
+    newDiv.appendChild(loopEnd);
+    loopEnd[this.playerSampleCount] = new Nexus.Number("#loopEnd-" + this.playerSampleCount);
+    let clear = document.createElement("div");
+    clear.setAttribute("id", "clear-" + this.playerSampleCount);
+    newDiv.appendChild(clear);
+    clear[this.playerSampleCount] = new Nexus.Button("#clear-" + this.playerSampleCount);
+
+    record[this.playerSampleCount].on('change', function (v) {
+      v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    });
+    play[this.playerSampleCount].on('change', function (v) {
+      // v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    });
+    clear[this.playerSampleCount].on('change', function (v) {
+      console.log("clear", v);
+      v.state ? gravSound.recorder.start() : null;
+    });
+
+
+    // Shared slider... possibly a good volume control?
+    let slider = new Nexus.Slider('#slider', {
+      'mode': 'absolute'
+    });
+    hub.channel('sharedSlider', null, null, function (data) {
+      slider.value = data.value;
+    });
+    slider.on('change', function (v) {
+      // do not send along if not changed from a user interaction.
+      if (slider.clicked) {
+        hub.send('sharedSlider', {
+          value: v
+        });
+      };
+    });
+
     let au = document.createElement('audio');
     let ws = document.createElement('div');
     ws.setAttribute("id", "waveform-" + this.playerSampleCount);
@@ -139,7 +204,8 @@ class GravSound {
     au.controls = 'controls';
     newDiv.appendChild(ws);
     newDiv.appendChild(au);
-    sampleDiv.appendChild(newDiv);
+
+    // ---------
 
     this.chunks[this.playerSampleCount] = {
       recording: true,

@@ -50,6 +50,7 @@
             Tap the title above to test your audio.</em>
           <br>
           <div id="slider"></div>
+          <div id="loadLaunch"></div><div id="triggerLaunch"></div>
           <br>
           <div id="waveform"></div>
           <br><audio controls></audio>
@@ -97,6 +98,15 @@
 
     // *** Nexus UI Elements ***
 
+    let record = [];
+    let play = [];
+    let loopBegin = [];
+    let loopEnd = [];
+    let clear = [];
+
+    let loadLaunch = new Nexus.Button("#loadLaunch");
+    let triggerLaunch = new Nexus.Button("#triggerLaunch");
+
     let record_1 = new Nexus.Toggle("#record-1");
     let play_1 = new Nexus.Toggle("#play-1");
     let loopBegin_1 = new Nexus.Number("#loopBegin-1");
@@ -104,6 +114,23 @@
 
     record_1.on('change', function (v) {
       v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    });
+
+        // -------- LAUNCH CONTROLS
+    loadLaunch.on('change', function (v) {
+      if(v.state==false) {
+        loadFile('/data/mp3s/AtlasVLaunch.mp3');
+      }
+    });
+
+    triggerLaunch.on('change', function (v) {
+      if(v.state==true) {
+        let data = {
+          user : 'all',
+          val : 'play'
+        }
+        hub.transmit('sample',null, data);
+      }
     });
 
 
@@ -213,7 +240,7 @@
 
 
     hub.channel('sample', null, null, (data) => {
-      // data.user = "name", .sample = "bang", .duration = "5000"
+      // data.user = "name", .val = "capture", .duration = "5"
       console.log("User? ", gravSound.userSamples[data.user]);
       if (gravSound.userSamples[data.user] == null) {
         if (data.val == "capture") {
@@ -233,10 +260,23 @@
         gravSound.wavesurfers[gravSound.userSamples[data.user].id].play();
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
-      if(data.val == "play") {
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].playLoop();
+      if(data.user == "all") {
+        // Probably shouldn't play if all is triggered.
+      } else {
+        if(data.val == "play") {
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].playLoop();
+        }
       }
     });
+
+    function loadFile(file) {
+      let data = {
+        user : 'all',
+        val : 'load',
+        url : file
+      }
+      hub.transmit('sample', null, data);
+    }
 
     hub.channel('loop', null, null, (data) => {
       // data.user = "name", .loopBegin = 0., .loopEnd = 1.0

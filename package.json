@@ -1,6 +1,6 @@
 {
     "name": "GravityDensity",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Gravity|Density audio hub",
     "main": "gravity.js",
     "scripts": {
