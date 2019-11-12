@@ -73,6 +73,12 @@ _Gravity_
 - [ ] jta | enable the touch between devices for the other people
 
 
+## Bendit Board Stuff
+
+- [ ] Make ribbon cable for pedal pot wiring
+- [ ] Build thrid board to control pedal stomp switch
+- [ ] Make ribbon cable for pedal stop switch wiring
+- [ ] Add third board controls into performance interface
 
 ## Sound Gathering
 
