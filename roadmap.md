@@ -31,7 +31,7 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 - [ ] Trigger Launch
 - [ ] Enable Sampling at once
 - [ ] Enable Sampling over time
-- [ ] 
+- [ ] Create map of locations - use #seatMap svg to insert audience members and click to select.
 
 
 [Gravit Designer](https://designer.gravit.io/) => [SVGArtista](https://svgartista.net/) => [SVGOMG](https://jakearchibald.github.io/svgomg/)
@@ -44,25 +44,25 @@ _TEXT Opening_
 
 - [ ] Anthony CD Master - only cds possibly on voices JFK, Armstrong, 
 - [ ] atm | cd hactivision
-- [ ] jta | record samples of text speach
-- [ ] jta | push text to audience and trigger in crowd
+- [ ] jta | record samples of text speech  {audio Fadein}
+- [ ] jta | push text to audience and trigger in crowd {.play individuals, then groups .play}
 - [ ] atm | sputnik on earth clips
-- [ ] countdown - played on CD played over all audience members
+- [ ] countdown - played on CD played over all audience members {.load, .play }
 
 _LAUNCH_
 
-- [ ] Rocket launch sounds
+- [ ] Rocket launch sounds {.load, .play}
 - [ ] shift launch to audience phones
-- [ ] die out to space section
+- [ ] die out to space section {.fade}
 
 _SPACE_
 
 shift of scale - vast expanse 
 
-- [ ] enable audience phone capturing & playback (stagger enabling)
-- [ ] sputnik ping sounds very sparse
+- [ ] enable audience phone capturing & playback (stagger enabling) {enable.record}
+- [ ] sputnik ping sounds very sparse 
 - [ ] Audience captures and plays with sounds
-- [ ] jta | clear and re-enable capturing, start shifting pitches towards 
+- [ ] jta | clear and re-enable capturing, start shifting pitches towards {clear, enable.record}
 - [ ] atm | bring in pitched pad
 - [ ] atm | bring in cassini radio sounds
 
@@ -115,8 +115,24 @@ sample(data) => {
   url: "sample-1.wav"
   val:  "load", 'capture'
   duration: 5 (sec)
-  loop: 
-  play: 
+}
+
+sample(data) => {
+  user: "name"
+  val:  "loop"
+  play: boolean
+  loopBegin:  0.25 (normalized position)
+  loopEnd:    0.75 (normalized position)
+}
+
+sample(data) => {
+  user: "name"
+  val:  "playLoop"
+}
+
+sample(data) => {
+  user: "name"
+  val:  "play"
 }
 
 sharedSlider(data) => {

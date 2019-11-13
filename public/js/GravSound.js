@@ -180,23 +180,6 @@ class GravSound {
       v.state ? gravSound.recorder.start() : null;
     });
 
-
-    // Shared slider... possibly a good volume control?
-    let slider = new Nexus.Slider('#slider', {
-      'mode': 'absolute'
-    });
-    hub.channel('sharedSlider', null, null, function (data) {
-      slider.value = data.value;
-    });
-    slider.on('change', function (v) {
-      // do not send along if not changed from a user interaction.
-      if (slider.clicked) {
-        hub.send('sharedSlider', {
-          value: v
-        });
-      };
-    });
-
     let au = document.createElement('audio');
     let ws = document.createElement('div');
     ws.setAttribute("id", "waveform-" + this.playerSampleCount);

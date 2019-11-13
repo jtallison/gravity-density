@@ -31,7 +31,7 @@
       <div class="nexusOverlay">
         <p>Example | <strong>Testing</strong></p>
         <p>Start by tapping your approximate location in the space.</p>
-        <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
+        <svg version="1.1" id="preMap" x="0px" y="0px" viewbox="0 0 640 445"
           style="max-width: 70vh; enable-background:new 0 0 640 445;">
           <rect x="4" y="4" style="fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
             height="437" />
@@ -49,21 +49,32 @@
             Have more users connect.<br>
             Tap the title above to test your audio.</em>
           <br>
+          <div id="map">
+            <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
+              style="max-width: 70vh; enable-background:new 0 0 640 445;">
+              <rect x="4" y="4" style="fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
+                height="437" />
+              <rect x="77.5" y="70" style="fill:none;stroke:#4D4D4D;stroke-width:8;stroke-miterlimit:10;" width="485.1"
+                height="350" />
+              <line style="fill:none;stroke:#4D4D4D;stroke-width:18;stroke-miterlimit:10;" x1="30" y1="40" x2="610"
+                y2="40" />
+            </svg>
+          </div>
           <div id="slider"></div>
           <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
           <div id="enableRecord"></div>Enable Record
           <div id="enableTouch"></div>Enable Touch
           <div id="enableLoop"></div>Enable Loop
           <br>
-          <div id="waveform"></div>
-          <br><audio controls></audio>
+          <!-- <div id="waveform"></div>
+          <br><audio controls></audio> -->
           <div id="samples">
-            <div id="player-1">
+            <!-- <div id="player-1">
               <div id="record-1"></div>
               <div id="play-1"></div>
               <div id="loopBegin-1"></div>
               <div id="loopEnd-1"></div>
-            </div>
+            </div> -->
           </div>
 
           <br><br>
@@ -113,14 +124,14 @@
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
 
-    let record_1 = new Nexus.Toggle("#record-1");
-    let play_1 = new Nexus.Toggle("#play-1");
-    let loopBegin_1 = new Nexus.Number("#loopBegin-1");
-    let loopEnd_1 = new Nexus.Number("#loopEnd-1");
+    // let record_1 = new Nexus.Toggle("#record-1");
+    // let play_1 = new Nexus.Toggle("#play-1");
+    // let loopBegin_1 = new Nexus.Number("#loopBegin-1");
+    // let loopEnd_1 = new Nexus.Number("#loopEnd-1");
 
-    record_1.on('change', function (v) {
-      v ? gravSound.recorder.start() : gravSound.recorder.stop();
-    });
+    // record_1.on('change', function (v) {
+    //   v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    // });
 
     enableRecord.on ('change', (v) => {
       let data = {};
@@ -173,13 +184,13 @@
       'mode': 'absolute'
     });
     hub.channel('sharedSlider', null, null, function (data) {
-      slider.value = data.value;
+      slider.value = data.val;
     });
     slider.on('change', function (v) {
       // do not send along if not changed from a user interaction.
       if (slider.clicked) {
         hub.send('sharedSlider', {
-          value: v
+          val: v
         });
       };
     });
@@ -190,19 +201,19 @@
 
     document.getElementsByTagName('body')[0].style.borderLeft = "15px solid" + hub.user.color;
 
-    seatMap.addEventListener('click', getClickPosition, false);
-    StartAudioContext(Tone.context, '#seatMap').then(function () {
+    preMap.addEventListener('click', getClickPosition, false);
+    StartAudioContext(Tone.context, '#preMap').then(function () {
       console.log("AudioStarted");
     })
 
     function getClickPosition(e) {
-      var m = seatMap.getScreenCTM();
-      var p = document.getElementById('seatMap').createSVGPoint();
+      var m = preMap.getScreenCTM();
+      var p = document.getElementById('preMap').createSVGPoint();
       p.x = e.clientX;
       p.y = e.clientY;
       p = p.matrixTransform(m.inverse());
-      var tx = document.getElementById('seatMap').getAttribute('viewBox').split("")[2];
-      var ty = document.getElementById('seatMap').getAttribute('viewBox').split("")[3];
+      var tx = document.getElementById('preMap').getAttribute('viewBox').split("")[2];
+      var ty = document.getElementById('preMap').getAttribute('viewBox').split("")[3];
       var mx = p.x / tx;
       var my = p.y / ty;
 
@@ -276,9 +287,11 @@
         if (data.loopEnd <= 1.0) {
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound.sampleLength;
         }
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
         gravSound.wavesurfers[gravSound.userSamples[data.user].id].drawBuffer()
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].playLoop();
+        if(data.play) {
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].playLoop();
+        }
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
 
@@ -288,6 +301,10 @@
         if(data.val == "play") {
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = false;
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].play();
+        }
+        if(data.val == "playLoop") {
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].playLoop();
         }
       }
     });
