@@ -9,7 +9,7 @@ class GravSound {
     this.playFirstSound = this.playFirstSound.bind(this);
     this.triggerFirstSound = this.triggerFirstSound.bind(this);
     this.playSecondSound = this.playSecondSound.bind(this);
-    this.sendSample = this.sendSample.bind(this);
+    this.uploadSample = this.uploadSample.bind(this);
     this.createSample = this.createSample.bind(this);
     this.wavebufferRegionPlay = this.wavebufferRegionPlay.bind(this);
     this.wavebufferRegionLoad = this.wavebufferRegionLoad.bind(this);
@@ -78,7 +78,7 @@ class GravSound {
       this.wavesurfers[currentSample].loadBlob(soundBlob);
       console.log('recording Loaded');
 
-      this.sendSample(this.recorder.user, currentSample, soundBlob)
+      this.uploadSample(this.recorder.user, currentSample, soundBlob)
     };
     // this.recorder.onstop.bind(this);
 
@@ -237,7 +237,7 @@ class GravSound {
   };
 
 
-  sendSample(user, userNumber, soundBlob) {
+  uploadSample(user, userNumber, soundBlob) {
     let formdata = new FormData(); //create a from to of data to upload to the server
     let soundFileName = this.recorder.user + 'Sample.wav';
     formdata.append('user', user);

@@ -59,7 +59,7 @@
               <button class="btn-erase" onclick="erase();">Erase</button>
             </div>
         <br>
-        <button onClick="sample()">Test Sample Some Audio</button>
+        <button id="recordSample" onClick="sample()">Test Sample Some Audio</button>
         <br>
         <button onClick="setLoop()">Test Set Loop Points</button>
         <br>
@@ -109,6 +109,11 @@
       wrapper.classList.remove('active')
     }
 
+    let recordEnable = false;
+    let loopEnable = false;
+    let touchEnable = false;
+
+
     var Hub = require('hub');
     var hub = new Hub();
     hub.init();
@@ -147,7 +152,9 @@
           }
         } else {
           if (data.val == "load") {
-            setTimeout((url) => {wavesurfer.load('/uploads/'+url)},2000,data.url);
+            setTimeout((url) => {
+              wavesurfer.load('/uploads/'+url)
+            },2000,data.url);
           }
         }
         if (data.val == "play") {
@@ -167,6 +174,20 @@
         'duration': '5'
       });
     };
+
+    hub.channel('enable', null, null, (data) => {
+      if(data.user === hub.user.name || data.user == 'all') {
+        if (data.val = "record") {
+          enableRecord(data.enabled);
+        }
+        if (data.val = "loop") {
+          enableLoop(data.enabled);
+        }
+        if (data.val = "touch") {
+          enableTouch(data.enabled);
+        }
+      }
+    });
 
     function setRegion() {
       hub.transmit('sample', null, {
@@ -200,12 +221,26 @@
     //   // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
     // });
 
+    function enableLoop(enabled) {
+      loopEnable = enabled;
+      wavesurfer.regions.list[1].loop = loopEnable;
+    }
+
+    function enableTouch(enabled) {
+      touchEnable = enabled;
+      wavesurfer.regions.list[1].drag = touchEnable;
+      wavesurfer.regions.list[1].resize = touchEnable;
+    }
+
+    function enableRecord(enabled) {
+      if(enabled === false || enabled === true) {
+        recordEnable = enabled;
+      } 
+      // control record button
+      document.getElementById("recordSample").disabled = !recordEnable;
+    }
+
     function setLoop(user, begin, end) {
-      // hub.transmit('loop', null, {
-      //   'user': hub.user.name,
-      //   'loopBegin': 0.5,
-      //   'loopEnd': 0.75
-      // });
       hub.transmit('sample', null, {
         'user': hub.user.name,
         'val': 'loop',
@@ -457,12 +492,15 @@
 
     wavesurfer.on('ready', function () {
       // wavesurfer.play();
+      wavesurfer.clearRegions();
+      let dur = wavesurfer.getDuration();
       wavesurfer.addRegion({
         id: 1,
-        start: 1,
-        end: 3,
-        drag: true,
-        loop: true,
+        start: 0,
+        end: dur,
+        drag: touchEnable,
+        resize: touchEnable,
+        loop: loopEnable,
         color: 'hsla(100, 100%, 30%, 0.5)'
       });
       wavesurfer.regions.list[1].on('update', function () {

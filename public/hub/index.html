@@ -50,7 +50,10 @@
             Tap the title above to test your audio.</em>
           <br>
           <div id="slider"></div>
-          <div id="loadLaunch"></div><div id="triggerLaunch"></div>
+          <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
+          <div id="enableRecord"></div>Enable Record
+          <div id="enableTouch"></div>Enable Touch
+          <div id="enableLoop"></div>Enable Loop
           <br>
           <div id="waveform"></div>
           <br><audio controls></audio>
@@ -106,6 +109,9 @@
 
     let loadLaunch = new Nexus.Button("#loadLaunch");
     let triggerLaunch = new Nexus.Button("#triggerLaunch");
+    let enableRecord = new Nexus.Toggle('#enableRecord');
+    let enableTouch = new Nexus.Toggle('#enableTouch');
+    let enableLoop = new Nexus.Toggle('#enableLoop');
 
     let record_1 = new Nexus.Toggle("#record-1");
     let play_1 = new Nexus.Toggle("#play-1");
@@ -115,6 +121,34 @@
     record_1.on('change', function (v) {
       v ? gravSound.recorder.start() : gravSound.recorder.stop();
     });
+
+    enableRecord.on ('change', (v) => {
+      let data = {};
+      data.user = "all";
+      data.val = "record";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enableTouch.on ('change', (v) => {
+      let data = {};
+      data.user = "all";
+      data.val = "touch";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enableLoop.on ('change', (v) => {
+      let data = {};
+      data.user = "all";
+      data.val = "loop";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
 
         // -------- LAUNCH CONTROLS
     loadLaunch.on('change', function (v) {
@@ -151,22 +185,6 @@
     });
 
     // ****** Player Communications ****** //
-
-    hub.channel('sampleSound', null, null, function (data) {
-      let user = data.user;
-      let sampleState = data.sampleState;
-
-      if (sampleState === "start") {
-        gravSound.createSample(user, sampleLength);
-      } else if (sampleState == "stop") {
-        console.log("Stop Sampling? ", user);
-      }
-    });
-
-    function sampleSound(data) {
-      hub.send('sampleSound', [data.user], data);
-    }
-
 
     var secNum = 0;
 
@@ -242,12 +260,14 @@
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
       console.log("User? ", gravSound.userSamples[data.user]);
+
       if (gravSound.userSamples[data.user] == null) {
         if (data.val == "capture") {
           gravSound.createSample(data.user, gravSound.sampleLength);
         }
         console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
       }
+
       if (data.val == "loop") {
         if (data.loopBegin >= 0.) {
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].start = data.loopBegin *
@@ -256,15 +276,18 @@
         if (data.loopEnd <= 1.0) {
           gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound.sampleLength;
         }
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
         gravSound.wavesurfers[gravSound.userSamples[data.user].id].drawBuffer()
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].play();
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].playLoop();
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
+
       if(data.user == "all") {
         // Probably shouldn't play if all is triggered.
       } else {
         if(data.val == "play") {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].playLoop();
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = false;
+          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].play();
         }
       }
     });

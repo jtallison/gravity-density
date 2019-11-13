@@ -135,12 +135,14 @@ hub.io.sockets.on('connection', function(socket) {
       }
     });
 
-    hub.channel('loop', null, null, (data) => {
-      // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
-      console.log('loop:', data);
-      hub.log(`loop ${data}`);
-      hub.transmit('loop', null, data);
+    hub.channel('enable', null, null, (data) => {
+      // data.user = "name", .val = record, .enabled = boolean
+      console.log('enable:', data);
+      hub.log(`enable ${data}`);
+      hub.transmit('enable', null, data);
     });
+
+    
 
 
 

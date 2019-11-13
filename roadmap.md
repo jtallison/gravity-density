@@ -104,14 +104,32 @@ _Gravity_
 
 ### Channels
 
-__sample(data)__
-- data.user = "name"
-- data.url = "sample-1.wav"
-- data.val =  "load", 'capture'
-- data.duration = 5 (sec)
-- data.loop = 
-- data.play = 
+~~~
+message => {
+  .val: [options, ...]
+  .duration: value (unit)
+}
 
-__sharedSlider(data)__
-- data.value = 0.
+sample(data) => {
+  user: "name"
+  url: "sample-1.wav"
+  val:  "load", 'capture'
+  duration: 5 (sec)
+  loop: 
+  play: 
+}
+
+sharedSlider(data) => {
+  value: 0.
+}
+
+
+
+enable = {
+  val: [record, loop, touch],
+  enabled: boolean,
+  user: [all, name]
+}
+~~~
+
 
