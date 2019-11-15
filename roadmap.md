@@ -27,12 +27,12 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 ## Hub UI
 
 - [ ] Clear Audio at once
-- [ ] Clear Audio over time
-- [ ] Trigger Launch
-- [ ] Enable Sampling at once
-- [ ] Enable Sampling over time
-- [ ] Create map of locations - use #seatMap svg to insert audience members and click to select.
-
+- [ ] Clear Audio by individual over time
+- [ ] Trigger Launch (all at once)
+- [ ] Enable Sampling all at once
+- [ ] Enable Sampling individually over time
+- [ ] Create map of locations - use #seatMap svg to insert audience members and click to select with in certain radius
+- [ ] ..
 
 [Gravit Designer](https://designer.gravit.io/) => [SVGArtista](https://svgartista.net/) => [SVGOMG](https://jakearchibald.github.io/svgomg/)
 
@@ -40,25 +40,40 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 ## Sections
 
-_TEXT Opening_
+__Pre-concert__
+- [ ] star field - floating blits.
+- [ ] small blip sounds when popping stars.
+- [ ] trigger other sound on someone nearby phone when you clear the area.
+- [ ] text: Welcome performer density loading... {section: preConcert}
+- [ ] text: designing experience...
+- [ ] text: initiating gravity...
+- [ ] text: Gravity|Density (fade out)
 
+
+_Spoken-Opening_
+
+- [ ] {section: spokenOpening}
+- [ ] text: rotating space text quotes.
 - [ ] Anthony CD Master - only cds possibly on voices JFK, Armstrong, 
 - [ ] atm | cd hactivision
-- [ ] jta | record samples of text speech  {audio Fadein}
+- [ ] jta | record samples of text speech  {fade: 1.0 30000}
 - [ ] jta | push text to audience and trigger in crowd {.play individuals, then groups .play}
 - [ ] atm | sputnik on earth clips
-- [ ] countdown - played on CD played over all audience members {.load, .play }
+- [ ] countdown - played on CD played over all audience members {.load, .play }{section: countdown}
+- [ ] text: countdown
 
 _LAUNCH_
-
+- [ ] {section: launch}
 - [ ] Rocket launch sounds {.load, .play}
 - [ ] shift launch to audience phones
-- [ ] die out to space section {.fade}
+- [ ] die out to space section {fade: 0 10000}
 
 _SPACE_
 
 shift of scale - vast expanse 
 
+- [ ] {section: space} {fade: -6 10000} (db)
+- [ ] text: in space, no one can hear you dream.
 - [ ] enable audience phone capturing & playback (stagger enabling) {enable.record}
 - [ ] sputnik ping sounds very sparse 
 - [ ] Audience captures and plays with sounds
@@ -68,9 +83,19 @@ shift of scale - vast expanse
 
 _Gravity_
 
+- [ ] {section: gravity}
+- [ ] text: attraction to the other
 - [ ] atm | Playing musical samples
 - [ ] jta | enable small groups to sample and play
-- [ ] jta | enable the touch between devices for the other people
+- [ ] jta | enable the touch between devices for the other people {section: touch}
+
+__Post-Concert__
+
+- [ ] {section: postConcert}
+- [ ] {fade: out}
+- [ ] text: Gravity|Density
+
+
 
 
 ## Bendit Board Stuff
@@ -148,4 +173,13 @@ enable = {
 }
 ~~~
 
-
+~~~
+gravity = {
+  section: [preConcert, spokenOpening, countdown, launch, space, gravity, postConcert]
+  volume: 1.0,
+  fade: 0.8 2000,
+  header: 'Gravity|Density',
+  message: 'Listen for a moment',
+  footer: 'by Jesse Allison & Anthony Marasco'
+}
+~~~
