@@ -1,6 +1,8 @@
+html, body { height: 100%; width: 100%; margin: 0; }
+
 body {
     margin: 0;
-    padding-left: 1.0em;
+    /* padding-left: 1.0em; */
     /*	display: flex;
 	align-items: center;
 	justify-content: center;*/
@@ -16,6 +18,7 @@ body {
     user-select: none;
     background-color: #460000;
     color: #C37F00;
+    text-align: center;
 }
 
 .nexusOverlay {
@@ -23,31 +26,67 @@ body {
 }
 
 .mainDisplay {
-    display: none;
+  margin: 0px;
+  padding: 0px;
+  display: none;
+  text-align: center;
+  height: 100%;
 }
 
 .endDisplay {
-    display: none;
-    text-align: center;
+  display: none;
+  text-align: center;
 }
 
 .display {
-    display: block;
-    text-align: center;
+  display: block;
+  text-align: center;
+  height: 100%;
 }
 
 .display p {
-    font-size: 1.0em
+  font-size: 1.0em;
 }
 
 .display .url {
-    font-size: 1.5em
+  font-size: 1.5em;
 }
 
-#typed-text {
-    font-size: 7em;
-    text-align: center;
+#header {
+  font-size: 3.0em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#message {
+  background-color: rgba(253,240,223,0.77);
+  color: #460000;
+  font-size: 1.5em;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  width: 90%;
+  height: 30%;
+}
+
+#waveform {
+  height: 20%;
+  width: 100%;
+}
+
+#recordOrbit {
+  margin: 0px;
+  height: 20%;
+}
+
+
+#footer {
+    font-size: 1em;
+    text-align: left;
     justify-content: center;
+    margin: 0px;
+    height: 10%;
 }
 
 #sliderWrapper {
@@ -73,6 +112,13 @@ body {
 small {
     font-size: 0.5em;
 }
+
+
+
+.userSample {
+  display: block;
+}
+
 
 .pulsate-fwd {
 	-webkit-animation: pulsate-fwd 2s ease-in-out 0.5s 10 both;

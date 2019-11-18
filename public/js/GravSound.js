@@ -13,6 +13,8 @@ class GravSound {
     this.createSample = this.createSample.bind(this);
     this.wavebufferRegionPlay = this.wavebufferRegionPlay.bind(this);
     this.wavebufferRegionLoad = this.wavebufferRegionLoad.bind(this);
+    this.setLoop = this.setLoop.bind(this);
+    this.playLoop = this.playLoop.bind(this);
 
     if(ctx) {
       // use context in setting up tone...
@@ -22,6 +24,11 @@ class GravSound {
     this.wavesurfers = [];    // Each of the wavesurfers
     this.audio = [];          // An array of the audio tags!
     this.userSamples = {};    // this.userSamples[user].id => playerSampleCount e.g. the sample number of that username
+    this.loopBeginNX = [];      // all of the Nexusui elements for each sample
+    this.loopEndNX = [];
+    this.playNX = [];
+    this.recordNX = [];
+    this.clearNX = [];
 
     this.playerSampleCount = 0;   // number of samples taken 
     this.sampleLength = 5;    // in seconds
@@ -36,7 +43,7 @@ class GravSound {
       console.log("Recorder Available")
     });
 
-    this.audio[0] = document.querySelector('audio');
+    // this.audio[0] = document.querySelector('audio');
     this.dest = this.tone.context.createMediaStreamDestination();
     this.recorder = new MediaRecorder(this.dest.stream);
 
@@ -74,7 +81,8 @@ class GravSound {
       console.log("currentSample Oustide: ", currentSample);
       console.log("wavesurfer: ", this.wavesurfers[currentSample]);
 
-      this.wavesurfers[currentSample].on('ready', this.wavebufferRegionLoad(currentSample));
+      this.wavesurfers[currentSample].on('ready', () => {this.wavebufferRegionLoad(currentSample)});
+
       this.wavesurfers[currentSample].loadBlob(soundBlob);
       console.log('recording Loaded');
 
@@ -138,69 +146,113 @@ class GravSound {
 
 
   createSample(user, sampleLength) {
+    let currentSample = this.playerSampleCount;
     this.userSamples[user] = {}
-    this.userSamples[user].id = this.playerSampleCount;
+    this.userSamples[user].id = currentSample;
 
         // ----- Create New Sample Div sample-001 ----- //
     // var url = URL.createObjectURL(blob);
     let sampleDiv = document.getElementById("samples");
     let newDiv = document.createElement("div");
-    newDiv.setAttribute("id", "sample-" + this.playerSampleCount);
+    newDiv.setAttribute("id", "sample-" + currentSample);
+    newDiv.setAttribute("class", "userSample");
+    let sampleLabel = document.createTextNode("Sample", currentSample, "User", user);
     sampleDiv.appendChild(newDiv);
+    newDiv.appendChild(sampleLabel);
 
-    let record = document.createElement("div");
-    record.setAttribute("id", "record-" + this.playerSampleCount);
-    newDiv.appendChild(record);
-    record[this.playerSampleCount] = new Nexus.Toggle("#record-"+ this.playerSampleCount);
+    // let record = document.createElement("div");
+    // record.setAttribute("id", "record-" + currentSample);
+    // let recordLabel = document.createTextNode("Record");
+    // newDiv.appendChild(record);
+    // newDiv.appendChild(recordLabel);
+    // record[currentSample] = new Nexus.Toggle("#record-"+ currentSample);
     let play = document.createElement("div");
-    play.setAttribute("id", "play-" + this.playerSampleCount);
+    play.setAttribute("id", "play-" + currentSample);
+    let playLabel = document.createTextNode("Play");
+    newDiv.appendChild(playLabel);
     newDiv.appendChild(play);
-    play[this.playerSampleCount] = new Nexus.Toggle("#play-"+ this.playerSampleCount);
+    this.playNX[currentSample] = new Nexus.Toggle("#play-"+ currentSample);
     let loopBegin = document.createElement("div");
-    loopBegin.setAttribute("id", "loopBegin-" + this.playerSampleCount);
+    loopBegin.setAttribute("id", "loopBegin-" + currentSample);
+    let loopBeginLabel = document.createTextNode("Loop Begin");
+    newDiv.appendChild(loopBeginLabel);
     newDiv.appendChild(loopBegin);
-    loopBegin[this.playerSampleCount] = new Nexus.Number("#loopBegin-" + this.playerSampleCount);
+    this.loopBeginNX[currentSample] = new Nexus.Number("#loopBegin-" + currentSample, {min: 0., max: 1.0, step:0.01, decimalPlaces:3});
     let loopEnd = document.createElement("div");
-    loopEnd.setAttribute("id", "loopEnd-" + this.playerSampleCount);
+    loopEnd.setAttribute("id", "loopEnd-" + currentSample);
+    let loopEndLabel = document.createTextNode("Loop End");
+    newDiv.appendChild(loopEndLabel);
     newDiv.appendChild(loopEnd);
-    loopEnd[this.playerSampleCount] = new Nexus.Number("#loopEnd-" + this.playerSampleCount);
+    this.loopEndNX[currentSample] = new Nexus.Number("#loopEnd-" + currentSample, {min: 0., max: 1.0, step:0.01, decimalPlaces:3});
     let clear = document.createElement("div");
-    clear.setAttribute("id", "clear-" + this.playerSampleCount);
+    clear.setAttribute("id", "clear-" + currentSample);
+    let clearLabel = document.createTextNode("Clear");
     newDiv.appendChild(clear);
-    clear[this.playerSampleCount] = new Nexus.Button("#clear-" + this.playerSampleCount);
+    newDiv.appendChild(clearLabel);
+    this.clearNX[currentSample] = new Nexus.Button("#clear-" + currentSample);
 
-    record[this.playerSampleCount].on('change', function (v) {
-      v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    // record[currentSample].on('change', function (v) {
+    //   console.log("record", v);
+    //   v ? this.recorder.start() : this.recorder.stop();
+    // });
+    this.playNX[currentSample].on('change', (v) => {
+      v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
     });
-    play[this.playerSampleCount].on('change', function (v) {
-      // v ? gravSound.recorder.start() : gravSound.recorder.stop();
-    });
-    clear[this.playerSampleCount].on('change', function (v) {
+    this.clearNX[currentSample].on('change', (v) => {
       console.log("clear", v);
-      v.state ? gravSound.recorder.start() : null;
+      v.state ? this.wavesurfers[currentSample].empty() : null;
     });
+    // Fix this before using dynamically.
+    this.loopBeginNX[currentSample].on('change', (v) => {
+      if(v.value < this.wavesurfers[currentSample].regions.list[0].end){
+        this.wavesurfers[currentSample].regions.list[0].start = v.value;
+      } else {
+        this.loopBeginNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].end);
+      }
+    })
+    this.loopEndNX[currentSample].on('change', (v) => {
+      if(v.value > this.wavesurfers[currentSample].regions.list[0].start){
+        this.wavesurfers[currentSample].regions.list[0].end = v.value;
+      } else {
+        this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
+      }
+    })
 
     let au = document.createElement('audio');
     let ws = document.createElement('div');
-    ws.setAttribute("id", "waveform-" + this.playerSampleCount);
-    au.setAttribute("id", 'audio-' + this.playerSampleCount);
+    ws.setAttribute("id", "waveform-" + currentSample);
+    au.setAttribute("id", 'audio-' + currentSample);
     au.controls = 'controls';
     newDiv.appendChild(ws);
     newDiv.appendChild(au);
 
     // ---------
 
-    this.chunks[this.playerSampleCount] = {
+    this.chunks[currentSample] = {
       recording: true,
       chunks: []
     };
-    this.audio[this.playerSampleCount] = document.getElementById("audio-" + this.playerSampleCount);
-    this.wavesurfers[this.playerSampleCount] = WaveSurfer.create({
-      container: '#waveform-' + this.playerSampleCount,
-      waveColor: 'violet',
+    // this.audio[currentSample] = document.getElementById("audio-" + currentSample);
+    this.audio[currentSample] = au;
+    this.wavesurfers[currentSample] = WaveSurfer.create({
+      container: '#waveform-' + currentSample,
+      waveColor: 'violet',  // waveColor: hub.user.color,
       progressColor: 'purple',
+      fillParent: true,
+      backgroundColor: 'rgba(253,240,223,0.77)',
       plugins: [
-        WaveSurfer.regions.create({})
+        WaveSurfer.regions.create({
+          regions: [{
+                  id: 0,
+                  start: 1,
+                  end: 3,
+                  drag: true,
+                  color: 'hsla(39, 100%, 38%, 0.75)'
+              }]
+          // dragSelection: {
+          //     slop: 5
+          // }
+        })
       ]
     });
 
@@ -214,7 +266,7 @@ class GravSound {
         this.recorder.userNumber = userNumber;
         console.log("Stopping Recording for: ", user, userNumber);
         this.recorder.stop(); // stop recording
-      }, sampleLength * 1000, user, this.playerSampleCount) //record for sample length (in ms)
+      }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
 
     this.playerSampleCount += 1;
   };
@@ -250,22 +302,47 @@ class GravSound {
 
 
   wavebufferRegionLoad(currentSample) {
-    console.log("currentSample Inside: ", currentSample);
+    // console.log("currentSample Inside: ", currentSample, this);
+    // console.log('This Wavesurfer', this.wavesurfers[currentSample]);
+    this.wavesurfers[currentSample].clearRegions();
+    let regEnd = this.wavesurfers[currentSample].getDuration() * 0.75;
+    let regStart = this.wavesurfers[currentSample].getDuration() * 0.25;
+    // console.log("Loop Points", regEnd, regStart)
     this.wavesurfers[currentSample].addRegion({
       id: 0,
-      start: 1,
-      end: 3,
+      start: regStart,
+      end: regEnd,
       drag: true,
+      resize: true,
       loop: true,
-      color: 'hsla(100, 100%, 30%, 0.5)'
+      color: 'hsla(39, 100%, 38%, 0.75)'
     });
-    this.wavesurfers[currentSample].regions.list[0].on('update', this.wavebufferRegionPlay(currentSample));
+    // Moving Playback to another button instead of touching the ui.
+    // could attach a callback to send selections to people. fun.
+    // this.wavesurfers[currentSample].regions.list[0].on('update', this.wavebufferRegionPlay(currentSample));
   };
   
   wavebufferRegionPlay(currentSample) {
     this.wavesurfers[currentSample].regions.list[0].play();
     this.wavesurfers[currentSample].regions.list[0].un('update');
   };
+
+  setLoop(user, begin, end) {
+    if (begin >= 0. && end <= 1.0) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[sampleNumber].regions.list[0].start = begin * this.wavesurfers[sampleNumber].getDuration();
+      this.wavesurfers[sampleNumber].regions.list[0].end = end * this.wavesurfers[sampleNumber].getDuration();
+      this.wavesurfers[sampleNumber].drawBuffer();
+      this.loopBeginNX[sampleNumber].passiveUpdate(begin);
+      this.loopEndNX[sampleNumber].passiveUpdate(end);
+    }
+  }
+
+  playLoop(user) {
+    let sampleNumber = this.userSamples[user].id;
+    this.wavesurfers[sampleNumber].regions.list[0].loop = true;
+    this.wavesurfers[sampleNumber].regions.list[0].playLoop();
+  }
 
   freq(midi) {
     var note = Tone.Frequency(midi).toFrequency();

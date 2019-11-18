@@ -281,17 +281,9 @@
       }
 
       if (data.val == "loop") {
-        if (data.loopBegin >= 0.) {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].start = data.loopBegin *
-            gravSound.sampleLength;
-        }
-        if (data.loopEnd <= 1.0) {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound.sampleLength;
-        }
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].drawBuffer()
+        gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
         if(data.play) {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].playLoop();
+          gravSound.playLoop(user);
         }
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
