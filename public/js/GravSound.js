@@ -1,4 +1,9 @@
 class GravSound {
+  // Oddly you can insert a filter into the wavesurfer chain
+  // connect the filter also to tone.toMaster (or another tone node)
+  // zero out the wavesurfer volume with wavesurfer.setVolume(0.)
+  // then simply use Tone.
+
   constructor(ctx) {
 
     // Bind functions with this.
@@ -13,6 +18,7 @@ class GravSound {
     this.createSample = this.createSample.bind(this);
     this.wavebufferRegionPlay = this.wavebufferRegionPlay.bind(this);
     this.wavebufferRegionLoad = this.wavebufferRegionLoad.bind(this);
+    this.wavesurferVolume = this.wavesurferVolume.bind(this);
     this.setLoop = this.setLoop.bind(this);
     this.playLoop = this.playLoop.bind(this);
 
@@ -97,13 +103,17 @@ class GravSound {
     
     // Effects and Synths
 
+    this.gain = new Tone.Gain({gain:1.0}).toMaster();
+
     this.tremolo = new Tone.Tremolo({
       "frequency": 8,
       "type": "sine",
       "depth": 0.6,
       "spread": 0
       //"wet": 0.8
-    }).toMaster().start();
+    }).connect(this.gain).start();
+
+    this.feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).connect(this.tremolo);
 
     this.synth = new Tone.Synth({
       "oscillator": {
@@ -115,7 +125,7 @@ class GravSound {
         "sustain": 0.8,
         "release": 2.0
       }
-    }).connect(this.tremolo);
+    }).connect(this.feedbackDelay);
 
     this.synth.volume.value = -10;
 
@@ -146,85 +156,105 @@ class GravSound {
 
 
   createSample(user, sampleLength) {
-    let currentSample = this.playerSampleCount;
-    this.userSamples[user] = {}
-    this.userSamples[user].id = currentSample;
-
-        // ----- Create New Sample Div sample-001 ----- //
-    // var url = URL.createObjectURL(blob);
+    // do we already have a sample by this user?
+    let currentSample;
+    let newUser = this.userSamples[user] == null
+    console.log("user? ", this.userSamples[user]);
+    if (newUser){
+      currentSample = this.playerSampleCount;
+      this.userSamples[user] = {}
+      this.userSamples[user].id = currentSample;
+    } else {
+      currentSample = this.userSamples[user].id;
+    }
+    
     let sampleDiv = document.getElementById("samples");
     let newDiv = document.createElement("div");
-    newDiv.setAttribute("id", "sample-" + currentSample);
-    newDiv.setAttribute("class", "userSample");
-    let sampleLabel = document.createTextNode("Sample", currentSample, "User", user);
-    sampleDiv.appendChild(newDiv);
-    newDiv.appendChild(sampleLabel);
+    let newControlDiv = document.createElement("div");
 
-    // let record = document.createElement("div");
-    // record.setAttribute("id", "record-" + currentSample);
-    // let recordLabel = document.createTextNode("Record");
-    // newDiv.appendChild(record);
-    // newDiv.appendChild(recordLabel);
-    // record[currentSample] = new Nexus.Toggle("#record-"+ currentSample);
-    let play = document.createElement("div");
-    play.setAttribute("id", "play-" + currentSample);
-    let playLabel = document.createTextNode("Play");
-    newDiv.appendChild(playLabel);
-    newDiv.appendChild(play);
-    this.playNX[currentSample] = new Nexus.Toggle("#play-"+ currentSample);
-    let loopBegin = document.createElement("div");
-    loopBegin.setAttribute("id", "loopBegin-" + currentSample);
-    let loopBeginLabel = document.createTextNode("Loop Begin");
-    newDiv.appendChild(loopBeginLabel);
-    newDiv.appendChild(loopBegin);
-    this.loopBeginNX[currentSample] = new Nexus.Number("#loopBegin-" + currentSample, {min: 0., max: 1.0, step:0.01, decimalPlaces:3});
-    let loopEnd = document.createElement("div");
-    loopEnd.setAttribute("id", "loopEnd-" + currentSample);
-    let loopEndLabel = document.createTextNode("Loop End");
-    newDiv.appendChild(loopEndLabel);
-    newDiv.appendChild(loopEnd);
-    this.loopEndNX[currentSample] = new Nexus.Number("#loopEnd-" + currentSample, {min: 0., max: 1.0, step:0.01, decimalPlaces:3});
-    let clear = document.createElement("div");
-    clear.setAttribute("id", "clear-" + currentSample);
-    let clearLabel = document.createTextNode("Clear");
-    newDiv.appendChild(clear);
-    newDiv.appendChild(clearLabel);
-    this.clearNX[currentSample] = new Nexus.Button("#clear-" + currentSample);
+        // ----- Create New Sample Div sample-001 ----- //
+    if(newUser) {
 
-    // record[currentSample].on('change', function (v) {
-    //   console.log("record", v);
-    //   v ? this.recorder.start() : this.recorder.stop();
-    // });
-    this.playNX[currentSample].on('change', (v) => {
-      v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
-    });
-    this.clearNX[currentSample].on('change', (v) => {
-      console.log("clear", v);
-      v.state ? this.wavesurfers[currentSample].empty() : null;
-    });
-    // Fix this before using dynamically.
-    this.loopBeginNX[currentSample].on('change', (v) => {
-      if(v.value < this.wavesurfers[currentSample].regions.list[0].end){
-        this.wavesurfers[currentSample].regions.list[0].start = v.value;
-      } else {
-        this.loopBeginNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].end);
-      }
-    })
-    this.loopEndNX[currentSample].on('change', (v) => {
-      if(v.value > this.wavesurfers[currentSample].regions.list[0].start){
-        this.wavesurfers[currentSample].regions.list[0].end = v.value;
-      } else {
-        this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
-      }
-    })
-
-    let au = document.createElement('audio');
-    let ws = document.createElement('div');
-    ws.setAttribute("id", "waveform-" + currentSample);
-    au.setAttribute("id", 'audio-' + currentSample);
-    au.controls = 'controls';
-    newDiv.appendChild(ws);
-    newDiv.appendChild(au);
+      // var url = URL.createObjectURL(blob);
+      newDiv.setAttribute("id", "sample-" + currentSample);
+      newDiv.setAttribute("class", "userSample");
+      newControlDiv.setAttribute('id','sampleControls-'+currentSample);
+      newControlDiv.setAttribute("class", "userSampleControls");
+      let sampleLabel = document.createTextNode("Sample", currentSample, "User", user);
+      sampleDiv.appendChild(newDiv);
+      newDiv.appendChild(newControlDiv);
+      newControlDiv.appendChild(sampleLabel);
+      
+      // let record = document.createElement("div");
+      // record.setAttribute("id", "record-" + currentSample);
+      // let recordLabel = document.createTextNode("Record");
+      // newDiv.appendChild(record);
+      // newDiv.appendChild(recordLabel);
+      // record[currentSample] = new Nexus.Toggle("#record-"+ currentSample);
+      let play = document.createElement("div");
+      play.setAttribute("id", "play-" + currentSample);
+      let playLabel = document.createTextNode("Play");
+      newControlDiv.appendChild(playLabel);
+      newControlDiv.appendChild(play);
+      this.playNX[currentSample] = new Nexus.Toggle("#play-"+ currentSample);
+      let clear = document.createElement("div");
+      clear.setAttribute("id", "clear-" + currentSample);
+      let clearLabel = document.createTextNode("Clear");
+      newControlDiv.appendChild(clear);
+      newControlDiv.appendChild(clearLabel);
+      this.clearNX[currentSample] = new Nexus.Button("#clear-" + currentSample, {'size': [30,30]});
+      let loopBegin = document.createElement("div");
+      loopBegin.setAttribute("id", "loopBegin-" + currentSample);
+      let loopBeginLabel = document.createTextNode("Loop Begin");
+      newControlDiv.appendChild(loopBeginLabel);
+      newControlDiv.appendChild(loopBegin);
+      this.loopBeginNX[currentSample] = new Nexus.Number("#loopBegin-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
+      let loopEnd = document.createElement("div");
+      loopEnd.setAttribute("id", "loopEnd-" + currentSample);
+      let loopEndLabel = document.createTextNode("Loop End");
+      newControlDiv.appendChild(loopEndLabel);
+      newControlDiv.appendChild(loopEnd);
+      this.loopEndNX[currentSample] = new Nexus.Number("#loopEnd-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
+      
+      // record[currentSample].on('change', function (v) {
+      //   console.log("record", v);
+      //   v ? this.recorder.start() : this.recorder.stop();
+      // });
+      this.playNX[currentSample].on('change', (v) => {
+        v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
+      });
+      this.clearNX[currentSample].on('change', (v) => {
+        console.log("clear", v);
+        v.state ? this.wavesurfers[currentSample].empty() : null;
+      });
+      // Fix this before using dynamically.
+      this.loopBeginNX[currentSample].on('change', (v) => {
+        if(v.value < this.wavesurfers[currentSample].regions.list[0].end){
+          this.wavesurfers[currentSample].regions.list[0].start = v.value;
+        } else {
+          this.loopBeginNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].end);
+        }
+      })
+      this.loopEndNX[currentSample].on('change', (v) => {
+        if(v.value > this.wavesurfers[currentSample].regions.list[0].start){
+          this.wavesurfers[currentSample].regions.list[0].end = v.value;
+        } else {
+          this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
+        }
+      })
+    };
+    let au;
+    if(newUser) {
+      au = document.createElement('audio');
+      let ws = document.createElement('div');
+      ws.setAttribute("id", "waveform-" + currentSample);
+      ws.setAttribute('class', 'waveform');
+      au.setAttribute("id", 'audio-' + currentSample);
+      au.setAttribute('class', 'audiotag');
+      // au.controls = 'controls';
+      newDiv.appendChild(ws);
+      newDiv.appendChild(au);
+    }
 
     // ---------
 
@@ -232,29 +262,34 @@ class GravSound {
       recording: true,
       chunks: []
     };
-    // this.audio[currentSample] = document.getElementById("audio-" + currentSample);
-    this.audio[currentSample] = au;
-    this.wavesurfers[currentSample] = WaveSurfer.create({
-      container: '#waveform-' + currentSample,
-      waveColor: 'violet',  // waveColor: hub.user.color,
-      progressColor: 'purple',
-      fillParent: true,
-      backgroundColor: 'rgba(253,240,223,0.77)',
-      plugins: [
-        WaveSurfer.regions.create({
-          regions: [{
-                  id: 0,
-                  start: 1,
-                  end: 3,
-                  drag: true,
-                  color: 'hsla(39, 100%, 38%, 0.75)'
-              }]
-          // dragSelection: {
-          //     slop: 5
-          // }
-        })
-      ]
-    });
+
+    if(newUser) {
+      this.audio[currentSample] = au;
+      this.wavesurfers[currentSample] = WaveSurfer.create({
+        container: '#waveform-' + currentSample,
+        audioContext: this.tone.context,
+        waveColor: 'violet',  // waveColor: hub.user.color,
+        progressColor: 'purple',
+        fillParent: true,
+        backgroundColor: 'rgba(253,240,223,0.77)',
+        plugins: [
+          WaveSurfer.regions.create({
+            regions: [{
+                    id: 0,
+                    start: 1,
+                    end: 3,
+                    drag: true,
+                    color: 'hsla(39, 100%, 38%, 0.75)'
+                }]
+            // dragSelection: {
+            //     slop: 5
+            // }
+          })
+        ]
+      });
+      this.wavesurfers[currentSample].backend.setFilter(this.feedbackDelay);
+      this.wavesurfers[currentSample].setVolume(0.);
+    }
 
     if (this.recorder.state === "inactive") {
       this.recorder.start();
@@ -267,14 +302,15 @@ class GravSound {
         console.log("Stopping Recording for: ", user, userNumber);
         this.recorder.stop(); // stop recording
       }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
-
-    this.playerSampleCount += 1;
+    if(newUser) {
+      this.playerSampleCount += 1;
+    }
   };
 
 
   uploadSample(user, userNumber, soundBlob) {
     let formdata = new FormData(); //create a from to of data to upload to the server
-    let soundFileName = this.recorder.user + 'Sample.wav';
+    let soundFileName = this.recorder.user + '_Sample';
     formdata.append('user', user);
     formdata.append('id', userNumber);
     formdata.append('soundBlob', soundBlob, soundFileName ); // append the sound blob and the name of the file. third argument will show up on the server as req.file.originalname
@@ -326,6 +362,12 @@ class GravSound {
     this.wavesurfers[currentSample].regions.list[0].play();
     this.wavesurfers[currentSample].regions.list[0].un('update');
   };
+
+  wavesurferVolume(volume) {
+    this.wavesurfers.forEach((surfer)=>{
+      surfer.setValueAtTime(volume, this.tone.context.currentTime, 0.015);
+    });
+  }
 
   setLoop(user, begin, end) {
     if (begin >= 0. && end <= 1.0) {

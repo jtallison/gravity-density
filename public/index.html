@@ -31,8 +31,7 @@
     <div class="nexusOverlay">
       <p>Artists | <strong>Jesse Allison & Anthony Marasco</strong></p>
       <p>Start by tapping your approximate location in the space.</p>
-      <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
-        style="max-width: 70vh; enable-background:new 0 0 640 445;">
+      <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445" style="max-width: 70vh; enable-background:new 0 0 640 445;">
         <rect x="4" y="4" style="fill:#FDF0DF; fill-opacity:0.77;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
           height="437" />
         <rect x="77.5" y="70" style="fill:none;stroke:#4D4D4D;stroke-width:8;stroke-miterlimit:10;" width="485.1"
@@ -43,8 +42,7 @@
 
     <div class="mainDisplay">
       <div id='message'>
-        Sample what you like.<br>
-        Select a region and set it.
+        Sample what you like.<br> Select a region and set it.
       </div>
       <!-- <object type="image/svg+xml" data="data/orbitSample.svg" width="300px" height"300px">
         Dots 
@@ -64,7 +62,7 @@
     </div>
 
     <div class="controls">
-        <button id="recordSample" onClick="sample()">Test Sample Some Audio</button>
+      <button id="recordSample" onClick="sample()">Test Sample Some Audio</button>
       <!-- <button class="btn-draw" onclick="draw();">Draw</button>
       <button class="btn-erase" onclick="erase();">Erase</button> -->
       <button onClick="setLoop()">Test Set Loop Points</button>
@@ -80,7 +78,6 @@
   </div>
 
   <script>
-    
     // Local control of recording status
     // var wrapper = document.querySelector('.mainDisplay svg')
     // function draw() {
@@ -91,32 +88,35 @@
     // }
 
     let recordOrbit = document.getElementById("recordOrbitSVG");
-    
-      // Globally Controlled States
+
+    // Globally Controlled States
     let recordEnable = false;
     let loopEnable = false;
     let touchEnable = false;
 
+    let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
+    let currentSection = 0;
 
     var Hub = require('hub');
     var hub = new Hub();
-    hub.init();
-
-    hub.user.name = "a_user_" + Math.floor(Math.random()*99999);
+    
+    hub.user.name = "a_user_" + Math.floor(Math.random() * 99999);
     hub.user.color = getRandomColor();
     console.log(hub.user.color);
     hub.user.location = {
       x: 0.5,
       y: 0.5
     }
-
+    
+    hub.init();
+    
     let slider = new Nexus.Slider('#slider1', {
       'mode': 'absolute'
     });
-    hub.channel('sharedSlider', null, null, function (data) {
+    hub.channel('sharedSlider', null, null, function(data) {
       slider.value = data.val;
     });
-    slider.on('change', function (v) {
+    slider.on('change', function(v) {
       // do not send along if not changed from a user interaction.
       if (slider.clicked) {
         hub.send('sharedSlider', {
@@ -129,26 +129,28 @@
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .sample = "bang", .duration = "5"
       console.log(`${data.user} recording sample`);
-      if(data.user === hub.user.name || data.user == 'all') {
-        if(data.user == 'all') {
+      if (data.user === hub.user.name || data.user == 'all') {
+        if (data.user == 'all') {
           if (data.val == "load") {
-            setTimeout((url) => {wavesurfer.load(url)},500,data.url);
+            setTimeout((url) => {
+              wavesurfer.load(url)
+            }, 500, data.url);
           }
         } else {
           if (data.val == "load") {
             hub.log('Upload from: ', data.url);
             setTimeout((url) => {
-              wavesurfer.load('/uploads/'+url)
-            },2000,data.url);
+              wavesurfer.load('/uploads/' + url)
+            }, 2000, data.url);
           }
         }
         if (data.val == "play") {
-            wavesurfer.play();
-          }
-          if (data.val == "loop") {
-            //wavesurfer.play();
-            wavesurfer.regions.list[1].play();
-          }
+          wavesurfer.play();
+        }
+        if (data.val == "loop") {
+          //wavesurfer.play();
+          wavesurfer.regions.list[1].play();
+        }
       }
     });
 
@@ -164,7 +166,7 @@
     };
 
     hub.channel('enable', null, null, (data) => {
-      if(data.user === hub.user.name || data.user == 'all') {
+      if (data.user === hub.user.name || data.user == 'all') {
         if (data.val == "record") {
           enableRecord(data.enabled);
         }
@@ -194,11 +196,11 @@
 
     function serverLoop() {
       hub.transmit('sample', null, {
-        'user': hub.user.name,
-        'val': 'loop',
-        'play': true
-      })
-      // or hub.send('sample', {val:'playLoop', user: hub.user.name});
+          'user': hub.user.name,
+          'val': 'loop',
+          'play': true
+        })
+        // or hub.send('sample', {val:'playLoop', user: hub.user.name});
     }
 
     // hub.channel('loop', null, null, (data) => {
@@ -206,7 +208,7 @@
     // });
 
     function enableLoop(enabled) {
-      if(enabled != null) {
+      if (enabled != null) {
         loopEnable = enabled;
       }
       wavesurfer.regions.list[1].loop = loopEnable;
@@ -220,24 +222,25 @@
     }
 
     function enableTouch(enabled) {
-      if(enabled != null) {
+      if (enabled != null) {
         touchEnable = enabled;
       }
       wavesurfer.regions.list[1].drag = touchEnable;
       wavesurfer.regions.list[1].resize = touchEnable;
-      
+
     }
 
     function enableRecord(enabled) {
-      if(enabled === false || enabled === true) {
+      if (enabled === false || enabled === true) {
         recordEnable = enabled;
-      } 
+      }
       // control record button
       document.getElementById("recordSample").disabled = !recordEnable;
-      if(recordEnable) {
+      if (recordEnable) {
         recordOrbit.classList.add('active');
         recordOrbit.classList.add('pulsate-fwd');
         wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        wavesurfer.stop();
         wavesurfer.empty();
         recordOrbit.onclick = () => {
           sample();
@@ -247,7 +250,7 @@
         recordOrbit.classList.remove('pulsate-fwd');
         recordOrbit.onclick = () => {};
       }
-      
+
     }
 
     function setLoop(user, begin, end) {
@@ -255,17 +258,15 @@
         'user': hub.user.name,
         'val': 'loop',
         'play': false,
-        'loopBegin': wavesurfer.regions.list[1].start/wavesurfer.getDuration(),
-        'loopEnd': wavesurfer.regions.list[1].end/wavesurfer.getDuration()
+        'loopBegin': wavesurfer.regions.list[1].start / wavesurfer.getDuration(),
+        'loopEnd': wavesurfer.regions.list[1].end / wavesurfer.getDuration()
       });
     }
-
-    var secNum = 0;
 
     // document.getElementsByTagName("body")[0].style.borderLeft = "15px solid " + hub.user.color;
 
     seatMap.addEventListener("click", getClickPosition, false);
-    StartAudioContext(Tone.context, '#seatMap').then(function () {
+    StartAudioContext(Tone.context, '#seatMap').then(function() {
       console.log("AudioStarted");
       //reverb.generate();
     })
@@ -293,19 +294,18 @@
       // wavesurfer.load('data/mbira_em.mp3');
     }
 
-    hub.channel('chat', null, null, function (data) {
+    hub.channel('chat', null, null, function(data) {
       console.log("chat: " + data);
     });
 
-    hub.channel('setSection', null, null, function (data) {
+    // ******* Sections *******
+    hub.channel('setSection', null, null, function(data) {
       console.log(data);
-      console.log("the section is now: " + data.title);
-
-      secNum = data.sect;
-
+      console.log("the section is now: " + sections[data.section]);
+      currentSection = data.section;
     });
 
-    hub.channel('tap', null, null, function (data) {
+    hub.channel('tap', null, null, function(data) {
       hub.log(`
         tap received: $ {
             data
@@ -319,7 +319,7 @@
       });
     }
 
-    hub.channel('itemback', null, 'about', function (data) {
+    hub.channel('itemback', null, 'about', function(data) {
       console.log("itemback: ", data);
     });
 
@@ -337,7 +337,7 @@
       numClicked++
     }
 
-    hub.channel('tapOthers', null, null, function (data) {
+    hub.channel('tapOthers', null, null, function(data) {
       console.log('Other Person: ', data);
       demoSound.playPitch(data.pitch);
     });
@@ -352,7 +352,7 @@
       });
     }
 
-    hub.channel('sendText', null, ['others'], function (data) {
+    hub.channel('sendText', null, ['others'], function(data) {
       console.log('sendText: ', data)
       var textDiv = document.getElementById('footer');
       textDiv.innerHTML = data.text;
@@ -373,14 +373,14 @@
       return color;
     }
 
-    hub.channel('triggerCollide', null, null, function (data) {
+    hub.channel('triggerCollide', null, null, function(data) {
       demoSound.playSecondSound();
     });
 
     hub.channel('triggerPitch');
     hub.channel('triggerFirstSound', null, ['max']);
 
-    var DemoSound = function () {
+    var DemoSound = function() {
 
       this.tone = new Tone();
 
@@ -389,7 +389,7 @@
         "type": "sine",
         "depth": 0.6,
         "spread": 0
-        //"wet": 0.8
+          //"wet": 0.8
       }).toMaster().start();
 
       this.synth = new Tone.Synth({
@@ -417,14 +417,14 @@
       this.pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
       console.log("Pitch & Length: ", this.pitch, this.pitchCollection.length);
 
-      this.freq = function (midi) {
+      this.freq = function(midi) {
         var note = Tone.Frequency(midi).midiToFrequency(midi);
         // console.log("Midi: ", midi, note)
         return note;
       };
 
       // **** Playing Notes **** //
-      this.playPitch = function (pitch) {
+      this.playPitch = function(pitch) {
         if (pitch) {
           this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
         } else {
@@ -433,23 +433,23 @@
         }
       };
 
-      this.playRandomPitch = function () {
+      this.playRandomPitch = function() {
         var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
         this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
       };
 
-      this.triggerPitch = function () {
+      this.triggerPitch = function() {
         this.synth.triggerAttackRelease(this.freq(this.pitch), 5);
         hub.send('triggerPitch', {
           'pitch': this.pitch
         });
       };
 
-      this.playFirstSound = function () {
+      this.playFirstSound = function() {
         this.player[0].start();
       };
 
-      this.triggerFirstSound = function () {
+      this.triggerFirstSound = function() {
         this.playPitch();
         this.player[0].start();
         // this.seqRandomize();
@@ -464,7 +464,7 @@
 
       // ****  Events ****
 
-      this.playSecondSound = function () {
+      this.playSecondSound = function() {
         this.player[1].start();
         // var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
         // this.synth.triggerAttackRelease(this.freq(pitch), 5);
@@ -485,15 +485,15 @@
       plugins: [
         WaveSurfer.regions.create({
           regions: [{
-                  id: 0,
-                  start: 0.5,
-                  end: 1,
-                  drag: true,
-                  color: 'hsla(39, 100%, 38%, 0.75)'
-              }]
-          // dragSelection: {
-          //     slop: 5
-          // }
+              id: 0,
+              start: 0.5,
+              end: 1,
+              drag: true,
+              color: 'hsla(39, 100%, 38%, 0.75)'
+            }]
+            // dragSelection: {
+            //     slop: 5
+            // }
         })
       ]
     });
@@ -503,7 +503,7 @@
     //     loop: true
     // });
 
-    wavesurfer.on('ready', function () {
+    wavesurfer.on('ready', function() {
       let waveHeight = document.getElementById('waveform').clientHeight;
       wavesurfer.setHeight(waveHeight);
       // wavesurfer.play();
@@ -519,18 +519,16 @@
         loop: true,
         color: 'hsla(39, 100%, 38%, 0.75)'
       });
-      wavesurfer.regions.list[1].on('update', function () {
+      wavesurfer.regions.list[1].on('update', function() {
         // wavesurfer.regions.list[1].play();
         wavesurfer.regions.list[1].un('update');
-        wavesurfer.regions.list[1].on('update', function () {
+        wavesurfer.regions.list[1].on('update', function() {
           setLoop();
         });
       });
       enableLoop();
       enableTouch();
     });
-
-
   </script>
 
 </body>

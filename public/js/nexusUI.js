@@ -3608,7 +3608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.style.height = this.height + "px";
 	
 	        this.boundRender = this.render.bind(this);
-	
+          this.boundRenderSet = this.renderSet.bind(this);
 	        this.element.addEventListener("change", this.boundRender);
 	
 	        this.parent.appendChild(this.element);
@@ -3639,6 +3639,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	          value: this._value,
 	          index: this._selectedIndex
 	        });
+	      }
+      },
+      renderSet: {
+	      value: function renderSet() {
+	        this._value = this.element.options[this.element.selectedIndex].text;
+	        this._selectedIndex = this.element.selectedIndex;
 	      }
 	    },
 	    click: {
@@ -3719,6 +3725,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this._selectedIndex = v;
 	        this.element.selectedIndex = v;
 	        this.render();
+	      }
+      },
+      selectIndex: {
+        set: function (v) {
+          this._selectedIndex = v;
+          this.element.selectedIndex = v;
+	        this.renderSet();
 	      }
 	    },
 	    customDestroy: {

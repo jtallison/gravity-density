@@ -36,7 +36,7 @@ hub.app.use(bodyParser.urlencoded({ extended: true }));
 // *** adding in audio file upload...
 hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
   console.log(req.file); // see what got uploaded
-  let uploadLocation = __dirname + '/public/uploads/' + req.file.originalname // where to save the file to. make sure the incoming name has a .wav extension
+  let uploadLocation = __dirname + '/public/uploads/' + req.file.originalname + ".wav" // where to save the file to. make sure the incoming name has a .wav extension
 
   fs.writeFileSync(uploadLocation, Buffer.from(new Uint8Array(req.file.buffer))); // write the blob to the server as a file
   res.sendStatus(200); //send back that everything went ok
@@ -52,7 +52,7 @@ hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
 function mp3(fileName) {
   console.log('MP3: ', fileName);
   try {
-    let process = new ffmpeg(__dirname + '/public/uploads/' + fileName);
+    let process = new ffmpeg(__dirname + '/public/uploads/' + fileName + ".wav");
     // console.log('process: ', process);
     process.then(function(audio) {
       // callback mode
@@ -79,9 +79,9 @@ function mp3(fileName) {
 // *********************
 // Set Hub Variables  or add more if you like.
 
-hub.currentSection = 0; // current section.
-hub.sectionTitles = ["Welcome", "Preface", "Section 1", "Section 2", "End"];
-
+hub.sectionTitles = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
+hub.currentSection = 0;
+console.log(hub.sectionTitles.length);
 // *********************
 
 
@@ -109,7 +109,7 @@ hub.io.sockets.on('connection', function(socket) {
       console.log("Hello display: " + hub.display.id);
     }
 
-    if (socket.username == "controller") {
+    if (socket.username == "gravityHub") {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
       console.log("Hello Controller: " + hub.controller.id);
@@ -145,6 +145,11 @@ hub.io.sockets.on('connection', function(socket) {
         // console.log("Added New User", {id: socket.id, color: socket.userColor, locationX: socket.userLocation[0], locationY: socket.userLocation[1], note: socket.userNote});
       }
     }
+    
+    if (hub.controller.id) {
+      hub.io.to(hub.controller.id).emit('welcome', {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation });
+    }
+
   });
 
   // Traditional socket assignments work just fine
@@ -174,42 +179,6 @@ hub.io.sockets.on('connection', function(socket) {
 
 
 
-
-
-  // Model for most nexusHub interactions create a channel and a response you want to have happen
-  // TODO: remove the need for the socket.broadcast.emit and uncomment the hub.transmit as the replacement.
-
-  hub.channel('test', 'test', ['others'], function(data) {
-    console.log('Adding in a new socket.on test with data:', data);
-    hub.log(`test ${data}`);
-    hub.transmit('test', null, data);
-  });
-
-
-  hub.channel('test1', null, null, function(data) {
-    hub.log("test1", data);
-    hub.transmit('test1', null, data);
-  });
-  hub.channel('test2', null, null, function(data) {
-    hub.log("test2", data);
-    hub.transmit('test2', null, data);
-  });
-  hub.channel('test3', null, null, function(data) {
-    hub.log("test3", data);
-    hub.transmit('test3', null, data);
-  });
-  hub.channel('test4', null, null, function(data) {
-    hub.log("test4", data);
-    hub.transmit('test4', null, data);
-  });
-  hub.channel('test5', null, null, function(data) {
-    hub.log("test5", data);
-    hub.transmit('test5', null, data);
-  });
-  hub.channel('test6', null, null, function(data) {
-    hub.log("test6", data);
-    hub.transmit('test6', null, data);
-  });
 
 
 
@@ -261,9 +230,14 @@ hub.io.sockets.on('connection', function(socket) {
   });
 
   hub.channel('section', null, null, function(data) {
-    hub.log(`Section is now: ${data}`);
-    hub.currentSection = data;
-    hub.sendSection(hub.currentSection);
+    if (data.section == 'next') {
+      hub.currentSection += 1;
+    } else if (data.section >= 0 && data.section < hub.sectionTitles.length) {
+      hub.currentSection = data.section;
+    }
+
+    hub.setSection(hub.currentSection);
+    hub.log(`Section is now: ${data.section}`)
   });
 
   hub.channel('item', null, null, function(data) {
@@ -277,6 +251,8 @@ hub.io.sockets.on('connection', function(socket) {
     }
     hub.transmit('itemback', null, data);
   });
+
+
 
   console.log("On Connect socket id: ", socket.id);
   hub.onConnection(socket);
