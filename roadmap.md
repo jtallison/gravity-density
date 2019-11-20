@@ -88,6 +88,7 @@ _Gravity_
 - [ ] atm | Playing musical samples
 - [ ] jta | enable small groups to sample and play
 - [ ] jta | enable the touch between devices for the other people {section: touch}
+- [ ] jta | Push Magnificent Desoloation & enable for one final playback.
 
 __Post-Concert__
 

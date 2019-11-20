@@ -97,6 +97,29 @@
     let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
     let currentSection = 0;
 
+    let messageText = {
+      'preConcert': [ 'Welcome Performer</br>density loading...', 
+                      'designing interstellar experience...', 
+                      'initiating gravity...',
+                      'Gravity|Density'],
+      'spokenOpening': ['With sputnik beeping from above</br>a single human object beyond earth</br>the pull of space is felt.'],
+      'countdown': ['10','5', '3','2','1',''],
+      'launch': '',
+      'space': '',
+      'gravity': "Ain't that something<br>Magnificent sight out here",
+      'postConcert': 'Thank you for participating'
+    }
+
+    let instructionText = {
+      'preConcert': '',
+      'spokenOpening': '',
+      'countdown': '',
+      'launch': '',
+      'space': '',
+      'gravity': '',
+      'postConcert': ''
+    }
+
     var Hub = require('hub');
     var hub = new Hub();
     

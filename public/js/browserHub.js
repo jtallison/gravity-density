@@ -83,12 +83,12 @@ Hub.prototype.channel = function(channel, channelNickname, destinations, callbac
 
 
 Hub.prototype.send = function(channelNickname, data) {
-    this.log('Logging a send ', channelNickname, data);
+    // this.log('Logging a send ', channelNickname, data);
     this.transmit(channelNickname, null, data);
 };
 
 Hub.prototype.transmit = function(channelNickname, destinations, data) {
-    this.log('Logging a transmit ', channelNickname, destinations, data);
+    // this.log('Logging a transmit ', channelNickname, destinations, data);
     // Does this channel exist?
     let channel;
     if (this.channels.hasOwnProperty(channelNickname)) {
