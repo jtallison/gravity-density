@@ -16,7 +16,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/js/Tone.js"></script>
   <script type="text/javascript" src="/js/nexusUI.js"></script>
-  <script type="text/javascript" src="/js/GravSound.js"></script>
+  <script type="text/javascript" src="/js/GravSound_hub.js"></script>
   <script type="text/javascript" src="/js/browserHub.js"></script>
   <script type="text/javascript" src="/js/StartAudioContext.js"></script>
   <script src="/js/wavesurfer.min.js"></script>
@@ -58,9 +58,12 @@
         <div id='sectionSelector'></div><div id='sectionNext'></div>
         <div id="slider"></div>
         <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
-        <div id="enableRecord"></div>Enable Record
-        <div id="enableTouch"></div>Enable Touch
-        <div id="enableLoop"></div>Enable Loop
+        <div class='controls'>
+          <div id="enableRecord"></div>Enable Record
+          <div id="enableEdit"></div>Enable Edit
+          <div id="enableTouch"></div>Enable Touch
+          <div id="enableLoop"></div>Enable Loop
+        </div>
       </div>
       <div id="samples">
         <!-- <div id="player-1">
@@ -123,6 +126,7 @@
     let loadLaunchNX = new Nexus.Button("#loadLaunch");
     let triggerLaunch = new Nexus.Button("#triggerLaunch");
     let enableRecord = new Nexus.Toggle('#enableRecord');
+    let enableEdit = new Nexus.Toggle('#enableEdit');
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
 
@@ -139,6 +143,15 @@
       let data = {};
       data.user ="all";
       data.val ="record";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enableRecord.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="edit";
       data.enabled = v;
       console.log(data)
       hub.transmit('enable', null, data);
@@ -182,16 +195,17 @@
 
 
     // Shared slider... possibly a good volume control?
-    let slider = new Nexus.Slider('#slider', {
-      'mode': 'absolute'
+    let masterFaderNX = new Nexus.Slider('#slider', {
+      'mode': 'absolute',
+      'value': 1.0
     });
-    hub.channel('sharedSlider', null, null, function (data) {
-      slider.value = data.val;
+    hub.channel('masterFader', null, null, function (data) {
+      masterFaderNX.value = data.val;
     });
-    slider.on('change', function (v) {
+    masterFaderNX.on('change', function (v) {
       // do not send along if not changed from a user interaction.
-      if (slider.clicked) {
-        hub.send('sharedSlider', {
+      if (masterFaderNX.clicked) {
+        hub.send('masterFader', {
           val: v
         });
         // console.log(v);

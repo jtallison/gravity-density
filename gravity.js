@@ -30,6 +30,7 @@ if (process.env.PORT) {
 
 hub.init(sio, publicFolder);
 
+
 hub.app.use(bodyParser.json());
 hub.app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -81,6 +82,16 @@ function mp3(fileName) {
 
 hub.sectionTitles = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
 hub.currentSection = 0;
+
+// global states
+gravity = {
+  masterFader: 1.0,
+  recordEnable: false,
+  editEnable: false,
+  loopEnable: false,
+  touchEnable: false
+}
+
 console.log(hub.sectionTitles.length);
 // *********************
 
@@ -131,9 +142,6 @@ hub.io.sockets.on('connection', function(socket) {
       hub.ioClients.push(socket.id);
     }
 
-    var title = hub.getSection(hub.currentSection);
-
-    //        socket.emit('chat', 'SERVER: You have connected. Hello: ' + username);
 
     // hub.sendSection(hub.currentSection, ['self']);
 
@@ -149,6 +157,10 @@ hub.io.sockets.on('connection', function(socket) {
     if (hub.controller.id) {
       hub.io.to(hub.controller.id).emit('welcome', {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation });
     }
+
+    socket.emit('gravityState', gravity);
+    var title = hub.getSection(hub.currentSection);
+    socket.emit('setSection', { section: hub.currentSection, title: title })
 
   });
 
@@ -174,6 +186,7 @@ hub.io.sockets.on('connection', function(socket) {
     // data.user = "name", .val = record, .enabled = boolean
     console.log('enable:', data);
     hub.log(`enable ${data}`);
+    gravity[data.val+'Enable'] = data.enabled;
     hub.transmit('enable', null, data);
   });
 
@@ -204,9 +217,10 @@ hub.io.sockets.on('connection', function(socket) {
     hub.transmit('shareToggle', null, data);
   });
 
-  hub.channel('sharedSlider', null, null, function(data) {
-    // hub.transmit('sharedSlider', null, data);
-    socket.broadcast.emit('sharedSlider', data);
+  hub.channel('masterFader', null, null, function(data) {
+    // hub.transmit('masterFader', null, data);
+    gravity['masterFader'] = data.val;
+    socket.broadcast.emit('masterFader', data);
   });
 
   hub.channel('shareColor', null, ["others"], function(data) {

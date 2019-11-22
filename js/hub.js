@@ -149,8 +149,9 @@ Hub.prototype.onConnection = function(sock) {
 //default ['others'], Server channel, browser client channel, server transmit, browser client transmit
 
 Hub.prototype.send = function(channelNickname, data) {
-  this.send(channelNickname, null, data);
-}
+  // this.log('Logging a send ', channelNickname, data);
+  this.transmit(channelNickname, null, data);
+};
 
 Hub.prototype.transmit = function(channelNickname, destinations, data) {
   // Does this channel exist?

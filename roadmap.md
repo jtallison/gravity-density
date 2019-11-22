@@ -6,7 +6,7 @@ What needs to be done, should be done, could be done.
 
 ## TO REPAIR:
 
-- [ ] Audio files can be saved easily as .ogg and used on laptops and Android, but not on iOS devices. They can be saved as .wav and used on all 3, but it has a large file size -- also, right now the .wav file headers are not formatted properly and still won't load on iOS devices... simply opening them in an audio app and re-saving them allows them to be loaded -- Ergo, either fix the wav file corruption, or set up a service on the server that takes the blobs and compresses them using ffmpg to create mp3 files.
+- [x] Audio files can be saved easily as .ogg and used on laptops and Android, but not on iOS devices. They can be saved as .wav and used on all 3, but it has a large file size -- also, right now the .wav file headers are not formatted properly and still won't load on iOS devices... simply opening them in an audio app and re-saving them allows them to be loaded -- Ergo, either fix the wav file corruption, or set up a service on the server that takes the blobs and compresses them using ffmpg to create mp3 files.
 One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 
@@ -20,8 +20,9 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 ## Audience UI
 
-- [ ] find font/text style that is NASA friendly
-- [ ] Orbital Logo to interact with (via gravitdesigner)
+- [x] find font/text style that is NASA friendly
+- [x] Orbital Logo to interact with (via gravitdesigner)
+- [ ] Loop when held 
 - [ ] 
 
 ## Hub UI
@@ -51,26 +52,37 @@ __Pre-concert__
 
 
 _Spoken-Opening_
+≈2'30" | Track 1 1'20" + glitching
 
 - [ ] {section: spokenOpening}
 - [ ] text: rotating space text quotes.
 - [ ] Anthony CD Master - only cds possibly on voices JFK, Armstrong, 
 - [ ] atm | cd hactivision
+- [ ] atm | cd1 interview of cd2 
 - [ ] jta | record samples of text speech  {fade: 1.0 30000}
 - [ ] jta | push text to audience and trigger in crowd {.play individuals, then groups .play}
 - [ ] atm | sputnik on earth clips
+
+__Countdown__
+≈2'20" | track 2
+
+- [ ] atm | reduce the duration for countdown & launch to be 1'30"-1'45"
+
 - [ ] countdown - played on CD played over all audience members {.load, .play }{section: countdown}
+- [ ] atm | CD2 plays straight through
+- [ ] atm | CD1 glitched all over
 - [ ] text: countdown
 
 _LAUNCH_
+extending from track 2 above | 
+
 - [ ] {section: launch}
 - [ ] Rocket launch sounds {.load, .play}
 - [ ] shift launch to audience phones
 - [ ] die out to space section {fade: 0 10000}
 
 _SPACE_
-
-shift of scale - vast expanse 
+≈3'00" | shift of scale - vast expanse 
 
 - [ ] {section: space} {fade: -6 10000} (db)
 - [ ] text: in space, no one can hear you dream.
@@ -82,6 +94,7 @@ shift of scale - vast expanse
 - [ ] atm | bring in cassini radio sounds
 
 _Gravity_
+≈ 3'00"
 
 - [ ] {section: gravity}
 - [ ] text: attraction to the other
