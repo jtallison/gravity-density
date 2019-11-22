@@ -57,7 +57,15 @@
       <div class='controls'>
         <div id='sectionSelector'></div><div id='sectionNext'></div>
         <div id="slider"></div>
-        <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
+        <div class='controls'>
+          <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
+          <div id="enableCountdown"></div>Enable Countdown <div id="triggerCountdown"></div>Trigger Countdown
+        </div>
+        <div class='controls'>
+          <div id="loadSpeaking"></div>Load Speaking <div id="triggerSpeaking"></div>Trigger Speaking
+          <div id="magnificentLaunch"></div>Magnificent <div id="silence"></div>silence
+        </div>
+        
         <div class='controls'>
           <div id="enableRecord"></div>Enable Record
           <div id="enableEdit"></div>Enable Edit
@@ -109,6 +117,12 @@
 
     let registeredUsers = [];
 
+    let countdownClips = ['/data/mp3s/cd-0.mp3', '/data/mp3s/cd-1.mp3', '/data/mp3s/cd-2.mp3', '/data/mp3s/cd-3.mp3', '/data/mp3s/cd-4.mp3', '/data/mp3s/cd-5.mp3', '/data/mp3s/cd-6.mp3', '/data/mp3s/cd-7.mp3', '/data/mp3s/cd-8.mp3', '/data/mp3s/cd-9.mp3', '/data/mp3s/cd-10.mp3'];
+    let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
+    
+    let countdownPosition = 10;
+    let countdownNumber = 5;
+
     // *** Nexus UI Elements ***
 
     let record = [];
@@ -125,10 +139,17 @@
     
     let loadLaunchNX = new Nexus.Button("#loadLaunch");
     let triggerLaunch = new Nexus.Button("#triggerLaunch");
+    let enableCountdown = new Nexus.Toggle('#enableCountdown');
+    let triggerCountdown = new Nexus.Button("#triggerCountdown");
+    let loadSpeaking = new Nexus.Button("#loadSpeaking");
+    let triggerSpeaking = new Nexus.Button("#triggerSpeaking");
     let enableRecord = new Nexus.Toggle('#enableRecord');
     let enableEdit = new Nexus.Toggle('#enableEdit');
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
+    let magnificentLaunch = new Nexus.Button("#magnificentLaunch");
+    let silence = new Nexus.Button("#silence");
+    
 
     // let record_1 = new Nexus.Toggle("#record-1");
     // let play_1 = new Nexus.Toggle("#play-1");
@@ -175,7 +196,6 @@
       hub.transmit('enable', null, data);
     });
 
-
         // -------- LAUNCH CONTROLS
     loadLaunchNX.on('change', function (v) {
       if(v.state==false) {
@@ -192,6 +212,69 @@
         hub.transmit('sample',null, data);
       }
     });
+
+    // enableCountdown triggerCountdown loadSpeaking triggerSpeaking
+
+    function randomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    
+    enableCountdown.on ('change', (v) => {
+      countdownPosition = 10;
+    });
+
+    triggerCountdown.on('change', function (v) {
+      if(countdownPosition >=0) {
+        for(let i;i<countdownNumber;i++) {
+          let file = countdownClips[countdownPosition]
+          let user = randomItem(registeredUsers);
+          loadPlayFile(user.username, file);
+        }
+        countdownPosition--;
+      }
+      // if(v.state==true) {
+      //   let data = {
+      //     user : 'all',
+      //     val : 'play'
+      //   }
+      //   hub.transmit('sample',null, data);
+      // }
+    });
+
+    loadSpeaking.on('change', function (v) {
+      let user = randomItem(registeredUsers);
+      let file = randomItem(speakingClips);
+      if(v.state==false) {
+        loadPlayFile(user.username, file);
+      }
+    });
+
+    triggerSpeaking.on('change', function (v) {
+      if(v.state==false) {
+        let user = randomItem(registeredUsers);
+        let file = randomItem(speakingClips);
+        loadPlayFile(user.username, file);
+        // let data = {
+        //   user : 'all',
+        //   val : 'play'
+        // }
+        // hub.transmit('sample',null, data);
+      }
+    });
+
+    magnificentLaunch.on('change', function (v) {
+      if(v.state==false) {
+        loadFile('/data/mp3s/MagnificentDesolation.mp3');
+      }
+    });
+
+    silence.on('change', function (v) {
+      if(v.state==false) {
+        loadFile('/data/mp3s/silence.mp3');
+      }
+    });
+
+    
 
 
     // Shared slider... possibly a good volume control?
@@ -247,7 +330,7 @@
 
     hub.channel('welcome', null, null, (data) => {
       console.log('welcome', data);
-      registeredUsers.push[data]; 
+      registeredUsers.push(data); 
       // {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation }
       let sv = document.getElementById('seatMap');
       let svgns = "http://www.w3.org/2000/svg";
@@ -341,7 +424,7 @@
       if (data.val == "loop") {
         gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
         if(data.play) {
-          gravSound.playLoop(user);
+          gravSound.playLoop(data.user);
         }
         console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
       }
@@ -349,13 +432,14 @@
       if(data.user == "all") {
         // Probably shouldn't play if all is triggered.
       } else {
-        if(data.val == "play") {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = false;
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].play();
+        if(data.val == "playHub") {
+          gravSound.playRegion(data.user);
         }
-        if(data.val == "playLoop") {
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].loop = true;
-          gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].playLoop();
+        if(data.val == "loopHub") {
+          gravSound.playLoop(data.user);
+        }
+        if(data.val == "pauseHub") {
+          gravSound.pause(data.user);
         }
       }
     });
@@ -365,6 +449,16 @@
         user : 'all',
         val : 'load',
         url : file
+      }
+      hub.transmit('sample', null, data);
+    }
+
+    function loadPlayFile(user, file) {
+      let data = {
+        user : user,
+        val : 'load',
+        url : file,
+        play : true
       }
       hub.transmit('sample', null, data);
     }

@@ -22,7 +22,7 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 - [x] find font/text style that is NASA friendly
 - [x] Orbital Logo to interact with (via gravitdesigner)
-- [ ] Loop when held 
+- [ ] Loop when held (for some reason onmousedown & onmouseup are not functioning)
 - [ ] 
 
 ## Hub UI

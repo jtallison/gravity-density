@@ -45,7 +45,7 @@ hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
 
   mp3(req.file.originalname);
   // Could transmit the load sample from here:
-  hub.transmit('sample', null, { 'user': req.body.user, 'val': 'load', 'url': req.file.originalname + '.mp3', 'id': req.body.id });
+  hub.transmit('sample', null, { 'user': req.body.user, 'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id });
 })
 
 

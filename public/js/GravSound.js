@@ -21,8 +21,10 @@ class GravSound {
     this.setLoop = this.setLoop.bind(this);
     this.moveLoop = this.moveLoop.bind(this);
     this.playLoop = this.playLoop.bind(this);
+    this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
     this.hasLoop = this.hasLoop.bind(this);
+    this.masterGain = this.masterGain.bind(this);
 
     if(ctx) {
       // use context in setting up tone...
@@ -94,6 +96,8 @@ class GravSound {
               start: 0.5,
               end: 1,
               drag: true,
+              resize: true,
+              loop: true,
               color: 'hsla(39, 100%, 38%, 0.75)'
             }]
         })
@@ -112,6 +116,9 @@ class GravSound {
   //  CONSTRUCTOR Complete //
 
 
+  masterGain(val) {
+
+  };
 
   freq (midi) {
     var note = Tone.Frequency(midi).midiToFrequency(midi);
@@ -165,15 +172,15 @@ class GravSound {
   // ****  wavesurfers ****
 
 
-  loadSample(url) {
+  loadSample(url, toPlay=false) {
     console.log('Loading Sample: ', url);
-    this.wavesurfer.on('ready', () => {this.wavesurferLoaded()});
+    this.wavesurfer.on('ready', () => {this.wavesurferLoaded(toPlay)});
   
     this.wavesurfer.load(url);
   }
   
 
-  wavesurferLoaded() {
+  wavesurferLoaded(toPlay=false) {
     console.log('Wave Loaded!')
     let waveHeight = this.wavesurferDiv.clientHeight;
     this.wavesurfer.setHeight(waveHeight);
@@ -199,13 +206,23 @@ class GravSound {
         this.moveLoop();
       });
     });
-    enableLoop();
-    enableTouch();
+    // enableLoop();
+    // enableTouch();
+    if(toPlay) {
+      this.playRegion();
+    }
   };
+
+  play(){
+    this.wavesurfer.stop();
+    this.wavesurfer.play(0.);
+  }
   
   playRegion(currentSample) {
-    this.wavesurfer.regions.list[1].play();
-    this.wavesurfer.regions.list[1].un('update');
+    if (this.hasLoop()) {
+      this.wavesurfer.regions.list[1].loop = false;
+      this.wavesurfer.regions.list[1].play(0.);
+    }
   };
 
   wavesurferVolume(volume) {
@@ -214,9 +231,11 @@ class GravSound {
 
   setLoop(user, begin, end) {
     if (begin >= 0. && end <= 1.0) {
-      this.wavesurfer.regions.list[0].start = begin * this.wavesurfer.getDuration();
-      this.wavesurfer.regions.list[0].end = end * this.wavesurfer.getDuration();
-      this.wavesurfer.drawBuffer();
+      if (this.hasLoop()) {
+        this.wavesurfer.regions.list[1].start = begin * this.wavesurfer.getDuration();
+        this.wavesurfer.regions.list[1].end = end * this.wavesurfer.getDuration();
+        this.wavesurfer.drawBuffer();
+      }
     }
   }
 
@@ -231,8 +250,12 @@ class GravSound {
   }
 
   playLoop() {
-    this.wavesurfer.regions.list[1].loop = true;
-    this.wavesurfer.regions.list[1].playLoop();
+    if (this.hasLoop()) {
+      this.wavesurfer.regions.list[1].loop = true;
+      this.wavesurfer.regions.list[1].playLoop();
+    } else {
+      console.log('No loop 1');
+    }
   }
 
   pause() {
@@ -240,8 +263,7 @@ class GravSound {
   }
 
   hasLoop() {
-    // there must be a cleaner way.
-    return (!this.wavesurfer.regions.list[1]==false)
+    return ('1' in this.wavesurfer.regions.list)
   }
 
   isPlaying() {

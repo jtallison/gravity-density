@@ -16,7 +16,7 @@ class GravSound {
     this.playSecondSound = this.playSecondSound.bind(this);
     this.uploadSample = this.uploadSample.bind(this);
     this.createSample = this.createSample.bind(this);
-    this.wavebufferRegionPlay = this.wavebufferRegionPlay.bind(this);
+    this.playRegion = this.playRegion.bind(this);
     this.wavebufferRegionLoad = this.wavebufferRegionLoad.bind(this);
     this.wavesurferVolume = this.wavesurferVolume.bind(this);
     this.setLoop = this.setLoop.bind(this);
@@ -146,6 +146,62 @@ class GravSound {
   };
 
   //  CONSTRUCTOR Complete //
+
+
+
+  freq(midi) {
+    var note = Tone.Frequency(midi).toFrequency();
+    // console.log("Midi:", midi, note)
+    return note;
+  };
+
+  // **** Playing Notes **** //
+  playPitch(pitch) {
+    if (pitch) {
+      this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
+    } else {
+      this.synth.triggerAttackRelease(this.freq(this.pitch), 5);
+
+    }
+  };
+  
+  playRandomPitch() {
+    var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
+    this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
+  };
+
+  triggerPitch() {
+    this.synth.triggerAttackRelease(this.freq(this.pitch), 5);
+    hub.send('triggerPitch', {
+      'pitch': this.pitch
+    });
+  };
+
+  playFirstSound() {
+    this.player[0].start();
+  };
+
+  triggerFirstSound() {
+    this.playPitch();
+    this.player[0].start();
+    // this.seqRandomize();
+    hub.send('triggerFirstSound', {
+      'pitch': this.pitch
+    });
+
+    var elements = document.getElementsByClassName("mainTitle");
+    // elements[0].className +=" clicked";
+    elements[0].style.backgroundColor = hub.user.color;
+  };
+
+  // ****  Events ****
+
+  playSecondSound() {
+    this.player[1].start();
+    // var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
+    // this.synth.triggerAttackRelease(this.freq(pitch), 5);
+    this.playRandomPitch();
+  };
 
 
 
@@ -337,6 +393,10 @@ class GravSound {
   };
 
 
+
+  // *************** Wavesurfer Methods ***********************
+
+
   wavebufferRegionLoad(currentSample) {
     // console.log("currentSample Inside: ", currentSample, this);
     // console.log('This Wavesurfer', this.wavesurfers[currentSample]);
@@ -355,12 +415,7 @@ class GravSound {
     });
     // Moving Playback to another button instead of touching the ui.
     // could attach a callback to send selections to people. fun.
-    // this.wavesurfers[currentSample].regions.list[0].on('update', this.wavebufferRegionPlay(currentSample));
-  };
-  
-  wavebufferRegionPlay(currentSample) {
-    this.wavesurfers[currentSample].regions.list[0].play();
-    this.wavesurfers[currentSample].regions.list[0].un('update');
+    // this.wavesurfers[currentSample].regions.list[0].on('update', this.playRegion(currentSample));
   };
 
   wavesurferVolume(volume) {
@@ -369,75 +424,62 @@ class GravSound {
     });
   }
 
+  playRegion(user) {
+    if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[this.userSamples[currentSample].id].regions.list[0].loop = false;
+      this.wavesurfers[gravSound.userSamples[currentSample].id].play(0.);
+    }
+  };
+
   setLoop(user, begin, end) {
     if (begin >= 0. && end <= 1.0) {
-      let sampleNumber = this.userSamples[user].id;
-      this.wavesurfers[sampleNumber].regions.list[0].start = begin * this.wavesurfers[sampleNumber].getDuration();
-      this.wavesurfers[sampleNumber].regions.list[0].end = end * this.wavesurfers[sampleNumber].getDuration();
-      this.wavesurfers[sampleNumber].drawBuffer();
-      this.loopBeginNX[sampleNumber].passiveUpdate(begin);
-      this.loopEndNX[sampleNumber].passiveUpdate(end);
+      if (user in this.userSamples) {
+        let sampleNumber = this.userSamples[user].id;
+        if(sampleNumber){
+          this.wavesurfers[sampleNumber].regions.list[0].start = begin * this.wavesurfers[sampleNumber].getDuration();
+          this.wavesurfers[sampleNumber].regions.list[0].end = end * this.wavesurfers[sampleNumber].getDuration();
+          this.wavesurfers[sampleNumber].drawBuffer();
+          this.loopBeginNX[sampleNumber].passiveUpdate(begin);
+          this.loopEndNX[sampleNumber].passiveUpdate(end);
+        }
+      }
     }
   }
 
   playLoop(user) {
-    let sampleNumber = this.userSamples[user].id;
-    this.wavesurfers[sampleNumber].regions.list[0].loop = true;
-    this.wavesurfers[sampleNumber].regions.list[0].playLoop();
+    if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[sampleNumber].regions.list[0].loop = true;
+      this.wavesurfers[sampleNumber].regions.list[0].playLoop();
+    }
   }
 
-  freq(midi) {
-    var note = Tone.Frequency(midi).toFrequency();
-    // console.log("Midi:", midi, note)
-    return note;
-  };
-
-  // **** Playing Notes **** //
-  playPitch(pitch) {
-    if (pitch) {
-      this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
-    } else {
-      this.synth.triggerAttackRelease(this.freq(this.pitch), 5);
-
+  pause(user) {
+    if (user in this.userSamples) {
+    let sampleNumber = this.userSamples[user].id;
+    this.wavesurfers[sampleNumber].pause();
     }
-  };
-  
-  playRandomPitch() {
-    var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
-    this.synth.triggerAttackRelease(this.freq(pitch), 0.5);
-  };
+  }
 
-  triggerPitch() {
-    this.synth.triggerAttackRelease(this.freq(this.pitch), 5);
-    hub.send('triggerPitch', {
-      'pitch': this.pitch
-    });
-  };
+  hasLoop(user) {
+    if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      return ('0' in this.wavesurfers[sampleNumber].regions.list);
+    } else {
+      return false;
+    }
+  }
 
-  playFirstSound() {
-    this.player[0].start();
-  };
+  hasLoop() {
+    return ('1' in this.wavesurfer.regions.list)
+  }
 
-  triggerFirstSound() {
-    this.playPitch();
-    this.player[0].start();
-    // this.seqRandomize();
-    hub.send('triggerFirstSound', {
-      'pitch': this.pitch
-    });
-
-    var elements = document.getElementsByClassName("mainTitle");
-    // elements[0].className +=" clicked";
-    elements[0].style.backgroundColor = hub.user.color;
-  };
-
-  // ****  Events ****
-
-  playSecondSound() {
-    this.player[1].start();
-    // var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
-    // this.synth.triggerAttackRelease(this.freq(pitch), 5);
-    this.playRandomPitch();
-  };
+  isPlaying(user) {
+    if (user in this.userSamples) {
+    let sampleNumber = this.userSamples[user].id;
+    return this.wavesurfers[sampleNumber].isPlaying();
+    }
+  }
 
 }
