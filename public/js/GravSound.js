@@ -117,7 +117,7 @@ class GravSound {
 
 
   masterGain(val) {
-
+    this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
   };
 
   freq (midi) {

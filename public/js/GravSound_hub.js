@@ -17,10 +17,13 @@ class GravSound {
     this.uploadSample = this.uploadSample.bind(this);
     this.createSample = this.createSample.bind(this);
     this.playRegion = this.playRegion.bind(this);
-    this.wavebufferRegionLoad = this.wavebufferRegionLoad.bind(this);
+    this.loadSample = this.loadSample.bind(this);
+    this.loadAllSamples = this.loadAllSamples.bind(this);
+    this.wavesurferLoaded = this.wavesurferLoaded.bind(this);
     this.wavesurferVolume = this.wavesurferVolume.bind(this);
     this.setLoop = this.setLoop.bind(this);
     this.playLoop = this.playLoop.bind(this);
+    this.masterGain = this.masterGain.bind(this);
 
     if(ctx) {
       // use context in setting up tone...
@@ -30,8 +33,8 @@ class GravSound {
     this.wavesurfers = [];    // Each of the wavesurfers
     this.audio = [];          // An array of the audio tags!
     this.userSamples = {};    // this.userSamples[user].id => playerSampleCount e.g. the sample number of that username
-    this.loopBeginNX = [];      // all of the Nexusui elements for each sample
-    this.loopEndNX = [];
+    // this.loopBeginNX = [];      // all of the Nexusui elements for each sample
+    // this.loopEndNX = [];
     this.playNX = [];
     this.recordNX = [];
     this.clearNX = [];
@@ -87,7 +90,7 @@ class GravSound {
       console.log("currentSample Oustide: ", currentSample);
       console.log("wavesurfer: ", this.wavesurfers[currentSample]);
 
-      this.wavesurfers[currentSample].on('ready', () => {this.wavebufferRegionLoad(currentSample)});
+      this.wavesurfers[currentSample].on('ready', () => {this.wavesurferLoaded(currentSample)});
 
       this.wavesurfers[currentSample].loadBlob(soundBlob);
       console.log('recording Loaded');
@@ -147,6 +150,14 @@ class GravSound {
 
   //  CONSTRUCTOR Complete //
 
+
+
+
+
+
+  masterGain(val) {
+    this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
+  };
 
 
   freq(midi) {
@@ -212,11 +223,11 @@ class GravSound {
 
 
   createSample(user, sampleLength) {
-    // do we already have a sample by this user?
-    let currentSample;
-    let newUser = this.userSamples[user] == null
-    console.log("user? ", this.userSamples[user]);
-    if (newUser){
+        // do we already have a sample by this user?
+    let isNewUser = !(user in this.userSamples);
+    let currentSample;  // the userSample number of the sample
+    console.log("Create new user? ", isNewUser);
+    if (isNewUser){
       currentSample = this.playerSampleCount;
       this.userSamples[user] = {}
       this.userSamples[user].id = currentSample;
@@ -224,83 +235,99 @@ class GravSound {
       currentSample = this.userSamples[user].id;
     }
     
+        // Prepare userSample divs
     let sampleDiv = document.getElementById("samples");
-    let newDiv = document.createElement("div");
-    let newControlDiv = document.createElement("div");
+    let userSampleDiv;
+    let newControlDiv;
+
+    if(isNewUser) {
+      userSampleDiv = document.createElement("div");
+      newControlDiv = document.createElement("div");
+    } else {
+      // Do we need these?
+    }
+
 
         // ----- Create New Sample Div sample-001 ----- //
-    if(newUser) {
+    if(isNewUser) {
 
       // var url = URL.createObjectURL(blob);
-      newDiv.setAttribute("id", "sample-" + currentSample);
-      newDiv.setAttribute("class", "userSample");
+      userSampleDiv.setAttribute("id", "sample-" + currentSample);
+      userSampleDiv.setAttribute("class", "userSample");
       newControlDiv.setAttribute('id','sampleControls-'+currentSample);
       newControlDiv.setAttribute("class", "userSampleControls");
-      let sampleLabel = document.createTextNode("Sample", currentSample, "User", user);
-      sampleDiv.appendChild(newDiv);
-      newDiv.appendChild(newControlDiv);
-      newControlDiv.appendChild(sampleLabel);
+      let sampleLabel = document.createElement("span");
+      let sampleLabelText = document.createTextNode(`Sample ${currentSample} User ${user}`);
+      sampleLabel.setAttribute("class", "userSampleLabel");
+      sampleLabel.appendChild(sampleLabelText);
+      sampleDiv.appendChild(userSampleDiv);
+      userSampleDiv.appendChild(newControlDiv);
+      userSampleDiv.appendChild(sampleLabel);
       
-      // let record = document.createElement("div");
-      // record.setAttribute("id", "record-" + currentSample);
-      // let recordLabel = document.createTextNode("Record");
-      // newDiv.appendChild(record);
-      // newDiv.appendChild(recordLabel);
-      // record[currentSample] = new Nexus.Toggle("#record-"+ currentSample);
       let play = document.createElement("div");
       play.setAttribute("id", "play-" + currentSample);
-      let playLabel = document.createTextNode("Play");
+      play.setAttribute("class", "playUserSample");
+      let playLabel = document.createElement("span");
+      let playLabelText = document.createTextNode("Play");
+      playLabel.setAttribute("class", "playUserSampleLabel");
+      playLabel.appendChild(playLabelText);
       newControlDiv.appendChild(playLabel);
       newControlDiv.appendChild(play);
       this.playNX[currentSample] = new Nexus.Toggle("#play-"+ currentSample);
+
       let clear = document.createElement("div");
       clear.setAttribute("id", "clear-" + currentSample);
-      let clearLabel = document.createTextNode("Clear");
-      newControlDiv.appendChild(clear);
+      clear.setAttribute("class", "clearUserSample");
+      let clearLabel = document.createElement("span");
+      let clearLabelText = document.createTextNode("Clear");
+      clearLabel.setAttribute("class", "clearUserSampleLabel");
+      clearLabel.appendChild(clearLabelText);
       newControlDiv.appendChild(clearLabel);
+      newControlDiv.appendChild(clear);
       this.clearNX[currentSample] = new Nexus.Button("#clear-" + currentSample, {'size': [30,30]});
-      let loopBegin = document.createElement("div");
-      loopBegin.setAttribute("id", "loopBegin-" + currentSample);
-      let loopBeginLabel = document.createTextNode("Loop Begin");
-      newControlDiv.appendChild(loopBeginLabel);
-      newControlDiv.appendChild(loopBegin);
-      this.loopBeginNX[currentSample] = new Nexus.Number("#loopBegin-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
-      let loopEnd = document.createElement("div");
-      loopEnd.setAttribute("id", "loopEnd-" + currentSample);
-      let loopEndLabel = document.createTextNode("Loop End");
-      newControlDiv.appendChild(loopEndLabel);
-      newControlDiv.appendChild(loopEnd);
-      this.loopEndNX[currentSample] = new Nexus.Number("#loopEnd-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
       
-      // record[currentSample].on('change', function (v) {
-      //   console.log("record", v);
-      //   v ? this.recorder.start() : this.recorder.stop();
-      // });
+      // let loopBegin = document.createElement("div");
+      // loopBegin.setAttribute("id", "loopBegin-" + currentSample);
+      // let loopBeginLabel = document.createTextNode("Loop Begin");
+      // newControlDiv.appendChild(loopBeginLabel);
+      // newControlDiv.appendChild(loopBegin);
+      // this.loopBeginNX[currentSample] = new Nexus.Number("#loopBegin-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
+      // let loopEnd = document.createElement("div");
+      // loopEnd.setAttribute("id", "loopEnd-" + currentSample);
+      // let loopEndLabel = document.createTextNode("Loop End");
+      // newControlDiv.appendChild(loopEndLabel);
+      // newControlDiv.appendChild(loopEnd);
+      // this.loopEndNX[currentSample] = new Nexus.Number("#loopEnd-" + currentSample, {'min': 0., 'max': 1.0, 'step':0.01, 'decimalPlaces':3});
+ 
       this.playNX[currentSample].on('change', (v) => {
-        v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
+        if(this.sampleHasLoop(currentSample)) {
+          v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
+        }
       });
       this.clearNX[currentSample].on('change', (v) => {
         console.log("clear", v);
         v.state ? this.wavesurfers[currentSample].empty() : null;
       });
       // Fix this before using dynamically.
-      this.loopBeginNX[currentSample].on('change', (v) => {
-        if(v.value < this.wavesurfers[currentSample].regions.list[0].end){
-          this.wavesurfers[currentSample].regions.list[0].start = v.value;
-        } else {
-          this.loopBeginNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].end);
-        }
-      })
-      this.loopEndNX[currentSample].on('change', (v) => {
-        if(v.value > this.wavesurfers[currentSample].regions.list[0].start){
-          this.wavesurfers[currentSample].regions.list[0].end = v.value;
-        } else {
-          this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
-        }
-      })
+      // this.loopBeginNX[currentSample].on('change', (v) => {
+      //   if(v.value < this.wavesurfers[currentSample].regions.list[0].end){
+      //     this.wavesurfers[currentSample].regions.list[0].start = v.value;
+      //   } else {
+      //     this.loopBeginNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].end);
+      //   }
+      // })
+      // this.loopEndNX[currentSample].on('change', (v) => {
+      //   if(v.value > this.wavesurfers[currentSample].regions.list[0].start){
+      //     this.wavesurfers[currentSample].regions.list[0].end = v.value;
+      //   } else {
+      //     this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
+      //   }
+      // })
     };
+
+      // Create Audio Tag and Wavesurfer elements
     let au;
-    if(newUser) {
+    if(isNewUser) {
       au = document.createElement('audio');
       let ws = document.createElement('div');
       ws.setAttribute("id", "waveform-" + currentSample);
@@ -308,18 +335,18 @@ class GravSound {
       au.setAttribute("id", 'audio-' + currentSample);
       au.setAttribute('class', 'audiotag');
       // au.controls = 'controls';
-      newDiv.appendChild(ws);
-      newDiv.appendChild(au);
+      userSampleDiv.appendChild(ws);
+      userSampleDiv.appendChild(au);
     }
 
     // ---------
-
+      // Reset Chunks for recording this user's sample
     this.chunks[currentSample] = {
       recording: true,
       chunks: []
     };
-
-    if(newUser) {
+      // Store the Audio element and initialize the wavesurfer
+    if(isNewUser) {
       this.audio[currentSample] = au;
       this.wavesurfers[currentSample] = WaveSurfer.create({
         container: '#waveform-' + currentSample,
@@ -347,18 +374,21 @@ class GravSound {
       this.wavesurfers[currentSample].setVolume(0.);
     }
 
+        // make sure the recorder is running
     if (this.recorder.state === "inactive") {
       this.recorder.start();
     }
+
     // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
-    let recordingTimer = setTimeout(
-      (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
-        this.recorder.user = user;
-        this.recorder.userNumber = userNumber;
-        console.log("Stopping Recording for: ", user, userNumber);
-        this.recorder.stop(); // stop recording
-      }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
-    if(newUser) {
+    let recordingTimer = setTimeout( (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
+      this.recorder.user = user;
+      this.recorder.userNumber = userNumber;
+      console.log("Stopping Recording for: ", user, userNumber);
+      this.recorder.stop(); // stop recording
+    }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
+    
+    // increment the number of samples
+    if(isNewUser) {
       this.playerSampleCount += 1;
     }
   };
@@ -396,8 +426,27 @@ class GravSound {
 
   // *************** Wavesurfer Methods ***********************
 
+  loadSample(user, url, toPlay=false) {
+    console.log('Loading Sample: ', url);
+    if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
+    
+      this.wavesurfers[sampleNumber].load(url);
+    }
+  }
 
-  wavebufferRegionLoad(currentSample) {
+  loadAllSamples(url, toPlay=false) {
+    console.log('Loading Samples for everyone: ', url);
+    Object.entries(this.userSamples).forEach(([username, user])=>{
+      let sampleNumber = user.id;
+      this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
+      this.wavesurfers[sampleNumber].load(url);
+    });
+  };
+
+
+  wavesurferLoaded(currentSample, toPlay=false) {
     // console.log("currentSample Inside: ", currentSample, this);
     // console.log('This Wavesurfer', this.wavesurfers[currentSample]);
     this.wavesurfers[currentSample].clearRegions();
@@ -427,21 +476,23 @@ class GravSound {
   playRegion(user) {
     if (user in this.userSamples) {
       let sampleNumber = this.userSamples[user].id;
-      this.wavesurfers[this.userSamples[currentSample].id].regions.list[0].loop = false;
-      this.wavesurfers[gravSound.userSamples[currentSample].id].play(0.);
+      this.wavesurfers[sampleNumber].regions.list[0].loop = false;
+      this.wavesurfers[sampleNumber].play(0.);
     }
   };
 
   setLoop(user, begin, end) {
     if (begin >= 0. && end <= 1.0) {
       if (user in this.userSamples) {
-        let sampleNumber = this.userSamples[user].id;
-        if(sampleNumber){
+        if(this.hasLoop(user)){
+          let sampleNumber = this.userSamples[user].id;
           this.wavesurfers[sampleNumber].regions.list[0].start = begin * this.wavesurfers[sampleNumber].getDuration();
           this.wavesurfers[sampleNumber].regions.list[0].end = end * this.wavesurfers[sampleNumber].getDuration();
           this.wavesurfers[sampleNumber].drawBuffer();
-          this.loopBeginNX[sampleNumber].passiveUpdate(begin);
-          this.loopEndNX[sampleNumber].passiveUpdate(end);
+          // this.loopBeginNX[sampleNumber].passiveUpdate(begin);
+          // this.loopEndNX[sampleNumber].passiveUpdate(end);
+        } else {
+          console.log('setLoop but no loop for user ', user);
         }
       }
     }
@@ -469,10 +520,6 @@ class GravSound {
     } else {
       return false;
     }
-  }
-
-  hasLoop() {
-    return ('1' in this.wavesurfer.regions.list)
   }
 
   isPlaying(user) {

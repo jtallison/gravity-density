@@ -168,7 +168,8 @@
     hub.channel('masterFader', null, null, function(data) {
       masterFaderNX.value = data.val;
       // gravSound.masterFader(data.val);
-      gravSound.gain.gain.setValueAtTime(data.val, gravSound.tone.context.currentTime, 0.015);
+      // gravSound.gain.gain.setValueAtTime(data.val, gravSound.tone.context.currentTime, 0.015);
+      gravSound.masterGain(data.val);
     });
     masterFaderNX.on('change', function(v) {
       // do not send along if not changed from a user interaction.

@@ -137,18 +137,18 @@
     });
     let sectionNextNX = new Nexus.Button('#sectionNext');
     
-    let loadLaunchNX = new Nexus.Button("#loadLaunch");
-    let triggerLaunch = new Nexus.Button("#triggerLaunch");
+    let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
+    let triggerLaunch = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
     let enableCountdown = new Nexus.Toggle('#enableCountdown');
-    let triggerCountdown = new Nexus.Button("#triggerCountdown");
-    let loadSpeaking = new Nexus.Button("#loadSpeaking");
-    let triggerSpeaking = new Nexus.Button("#triggerSpeaking");
+    let triggerCountdown = new Nexus.Button("#triggerCountdown", {'size': [30,30]});
+    let loadSpeaking = new Nexus.Button("#loadSpeaking", {'size': [30,30]});
+    let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
     let enableRecord = new Nexus.Toggle('#enableRecord');
     let enableEdit = new Nexus.Toggle('#enableEdit');
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
-    let magnificentLaunch = new Nexus.Button("#magnificentLaunch");
-    let silence = new Nexus.Button("#silence");
+    let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
+    let silence = new Nexus.Button("#silence", {'size': [30,30]});
     
 
     // let record_1 = new Nexus.Toggle("#record-1");
@@ -264,13 +264,15 @@
 
     magnificentLaunch.on('change', function (v) {
       if(v.state==false) {
-        loadFile('/data/mp3s/MagnificentDesolation.mp3');
+        let file = '/data/mp3s/MagnificentDesolation.mp3';
+        loadFile(file);
       }
     });
 
     silence.on('change', function (v) {
       if(v.state==false) {
-        loadFile('/data/mp3s/silence.mp3');
+        let file = '/data/mp3s/silence.mp3';
+        loadFile(file);
       }
     });
 
@@ -292,7 +294,7 @@
           val: v
         });
         // console.log(v);
-        gravSound.gain.gain.setValueAtTime(v, gravSound.tone.context.currentTime, 0.015);
+        gravSound.masterGain(v);
       };
     });
 
@@ -412,35 +414,31 @@
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
-      console.log("User? ", gravSound.userSamples[data.user]);
+      console.log("User? ", data.user in gravSound.userSamples);
 
-      if (gravSound.userSamples[data.user] == null) {
-        if (data.val == "capture") {
+      switch(data.val){
+        case 'capture':
           gravSound.createSample(data.user, gravSound.sampleLength);
-        }
-        console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
-      }
-
-      if (data.val == "loop") {
-        gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
-        if(data.play) {
-          gravSound.playLoop(data.user);
-        }
-        console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
-      }
-
-      if(data.user == "all") {
-        // Probably shouldn't play if all is triggered.
-      } else {
-        if(data.val == "playHub") {
+          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
+          break;
+        case 'loop':
+          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
+          if(data.play) {
+            gravSound.playLoop(data.user);
+          }
+          console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+          break;
+        case 'playHub': 
           gravSound.playRegion(data.user);
-        }
-        if(data.val == "loopHub") {
+          break;
+        case 'loopHub': 
           gravSound.playLoop(data.user);
-        }
-        if(data.val == "pauseHub") {
+          break;
+        case 'pauseHub': 
           gravSound.pause(data.user);
-        }
+          break;
+        case 'default':
+          console.log('Sample Command not recognized: ', data.val);
       }
     });
 
@@ -451,6 +449,7 @@
         url : file
       }
       hub.transmit('sample', null, data);
+      gravSound.loadAllSamples(file);
     }
 
     function loadPlayFile(user, file) {
@@ -461,6 +460,7 @@
         play : true
       }
       hub.transmit('sample', null, data);
+      gravSound.loadSample(user, file);
     }
 
     hub.channel('loop', null, null, (data) => {

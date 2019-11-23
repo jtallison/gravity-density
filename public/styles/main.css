@@ -248,11 +248,19 @@ small {
   /* justify-content: left; */
 }
 
+.userSampleLabel {
+
+}
+
 .userSampleControls {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: center; */
   /* width: fit-content; */
+}
+
+.playUserSample {
+  
 }
 
 .pulsate-fwd {
