@@ -69,6 +69,7 @@
         <div class='controls'>
           <div id="enableRecord"></div>Enable Record
           <div id="enableEdit"></div>Enable Edit
+          <div id="enablePlay"></div>Enable Play
           <div id="enableTouch"></div>Enable Touch
           <div id="enableLoop"></div>Enable Loop
         </div>
@@ -145,6 +146,7 @@
     let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
     let enableRecord = new Nexus.Toggle('#enableRecord');
     let enableEdit = new Nexus.Toggle('#enableEdit');
+    let enablePlay = new Nexus.Toggle('#enablePlay');
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
     let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
@@ -169,10 +171,19 @@
       hub.transmit('enable', null, data);
     });
 
-    enableRecord.on ('change', (v) => {
+    enableEdit.on ('change', (v) => {
       let data = {};
       data.user ="all";
       data.val ="edit";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enablePlay.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="play";
       data.enabled = v;
       console.log(data)
       hub.transmit('enable', null, data);

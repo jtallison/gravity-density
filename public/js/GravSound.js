@@ -70,8 +70,10 @@ class GravSound {
     // Players
 
     this.player = [];
-    this.player[0] = new Tone.Player("/data/mp3s/CD_Track_2.mp3").toMaster();
-    this.player[1] = new Tone.Player("/data/mp3s/Collide.mp3").toMaster();
+    this.player[0] = new Tone.Player("/data/mp3s/noisybeep-delay.mp3").toMaster();
+    this.player[1] = new Tone.Player("/data/mp3s/beep.mp3").toMaster();
+    this.player[0].volume.value = -10;
+    this.player[1].volume.value = -10;
 
     Tone.Transport.start();
 
@@ -86,9 +88,9 @@ class GravSound {
       container: this.wavesurferContainer,
       audioContext: this.tone.context,
       fillParent: true,
-      waveColor: 'violet',  // wavecolor: hub.user.color,
-      backgroundColor: 'rgba(253,240,223,0.77)',
-      progressColor: 'purple',
+      waveColor: 'black',  // wavecolor: hub.user.color,
+      backgroundColor: 'rgba(253,240,223,0.77)',    // 'rgba(253,240,223,0.77)',
+      progressColor: 'rgba(195,127,0,0.75)',
       plugins: [
         WaveSurfer.regions.create({
           regions: [{
@@ -206,8 +208,9 @@ class GravSound {
         this.moveLoop();
       });
     });
-    // enableLoop();
-    // enableTouch();
+    enableLoop();
+    enableTouch();
+    enablePlay();
     if(toPlay) {
       this.playRegion();
     }

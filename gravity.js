@@ -89,7 +89,8 @@ gravity = {
   recordEnable: false,
   editEnable: false,
   loopEnable: false,
-  touchEnable: false
+  touchEnable: false,
+  playEnable: false
 }
 
 console.log(hub.sectionTitles.length);
