@@ -44,6 +44,8 @@
       </div>
     </div>
 
+    <div id="coverBlur"></div>
+
     <div class="mainDisplay">
       <div id="header" class="header">
         <svg id="title-spinner" class="title-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 10 100" width="1em" height="2.5em"><line x1="5" y1="2" x2="5" y2="98" vector-effect="non-scaling-stroke" stroke-width="4" stroke="rgb(195,127,0)" stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="3"/></svg>
@@ -93,6 +95,7 @@
   </div>
 
   <script>
+    window.addEventListener("contextmenu", function(e) { e.preventDefault(); e.stopPropagation(); return false;})
     document.addEventListener("touchstart", function(){}, true);
 
     let titleSpinner = document.getElementById('title-spinner');
@@ -391,25 +394,42 @@
         gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
         setInstruction(instructionText.toSample);
         // playOrbit.onmousedown = () => {
-        recordOrbit.onclick = () => {
+        recordOrbit.addEventListener('touchstart', () => {
+          if(!gravSound.isPlaying()) {
+            console.log('play')
+            setInstruction(instructionText.playing);
+            gravSound.playLoop();
+            hubPlay();
+          }}, false);
+        recordOrbit.addEventListener('touchend', () => {
           if(gravSound.isPlaying()) {
             console.log('pause')
             setInstruction(instructionText.toPlay);
             gravSound.pause();
             hubPause();
-          } else {
-            console.log('play')
-            setInstruction(instructionText.playing);
-            gravSound.playLoop();
-            hubPlay();
-          }
-        };
+          }}, false);
+
+        // recordOrbit.onclick = () => {
+        //   if(gravSound.isPlaying()) {
+        //     console.log('pause')
+        //     setInstruction(instructionText.toPlay);
+        //     gravSound.pause();
+        //     hubPause();
+        //   } else {
+        //     console.log('play')
+        //     setInstruction(instructionText.playing);
+        //     gravSound.playLoop();
+        //     hubPlay();
+        //   }
+        // };
         // playOrbit.onmouseup = () => {
         //   gravSound.pause();
         // }
       } else {
         setInstruction(instructionText[sections[currentSection]]);
         recordOrbit.classList.remove('rotate-center')
+        recordOrbit.removeEventListener('touchstart');
+        recordOrbit.removeEventListener('touchend');
         if(recordEnable) {
           enableRecord();
         } else {

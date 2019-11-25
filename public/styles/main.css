@@ -6,6 +6,7 @@ body {
   position: fixed;
   overflow-x: hidden;
   overflow: hidden;
+  touch-action: manipulation;
 }
 
 body {
@@ -39,6 +40,17 @@ body {
 .blurBlur {
   filter: blur(50px);
   /* animation: pulsate-fwd 2s ease-in-out 0.5s 10 both; */
+}
+
+#coverBlur {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(50,0,0,0.6);
 }
 
 .nexusOverlay {
@@ -219,6 +231,14 @@ body {
 
 #recordOrbitSVG:hover:active {
   filter: blur(5px);
+}
+
+#sampleGalaxy {
+  pointer-events: none;
+}
+
+.gd-sampleOrbit-1 .gd-sampleOrbit-2 .gd-sampleOrbit-3 .gd-sampleOrbit-4 {
+  pointer-events: none;
 }
 
 #playOrbitSVG {
