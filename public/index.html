@@ -93,6 +93,8 @@
   </div>
 
   <script>
+    document.addEventListener("touchstart", function(){}, true);
+
     let titleSpinner = document.getElementById('title-spinner');
     let recordOrbit = document.getElementById("recordOrbitSVG");
     // let playOrbit = document.getElementById('playOrbitSVG');
@@ -408,12 +410,18 @@
       } else {
         setInstruction(instructionText[sections[currentSection]]);
         recordOrbit.classList.remove('rotate-center')
-        recordOrbit.onclick = () => {};
+        if(recordEnable) {
+          enableRecord();
+        } else {
+          recordOrbit.onclick = () => {};
+          recordOrbit.classList.add('blurry');
+        }
+        
         // playOrbit.classList.remove('active');
         // playOrbit.classList.remove('pulsate-fwd');
         // recordOrbit.onmousedown = () => {};
         // recordOrbit.onmouseup = () => {};
-        recordOrbit.classList.add('blurry');
+        
       }
     }
 
@@ -454,10 +462,10 @@
       console.log('gravityState', data);
       masterFaderNX.value = data.masterFader;
       enablePlay(data.playEnable);
-      enableRecord(data.recordEnable);
       enableEdit(data.editEnable);
       enableLoop(data.editEnable);
       enableTouch(data.editEnable);
+      enableRecord(data.recordEnable);
     });
 
     // ******* Sections *******
