@@ -3,6 +3,9 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
+}
+
+.nxUIFix {
   position: fixed;
   overflow-x: hidden;
   overflow: hidden;

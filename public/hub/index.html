@@ -100,7 +100,7 @@
 
   <script>
     document.addEventListener("touchstart", function(){}, true);
-    
+
     var Hub = require('hub');
     var hub = new Hub();
 
@@ -125,6 +125,7 @@
     
     let countdownPosition = 10;
     let countdownNumber = 5;
+    let nearbyRange = 0.2;
 
     // *** Nexus UI Elements ***
 
@@ -191,6 +192,16 @@
       hub.transmit('enable', null, data);
     });
 
+      // If you want to set this outside of a sample load command do it here
+    function enablePlayOnce() {
+      let data = {};
+      data.user ="all";
+      data.val ="playOnce";
+      data.enabled = true;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    };
+
     enableTouch.on ('change', (v) => {
       let data = {};
       data.user ="all";
@@ -237,11 +248,13 @@
     });
 
     triggerCountdown.on('change', function (v) {
+      console.log("Countdown: " + countdownPosition);
       if(countdownPosition >=0) {
-        for(let i;i<countdownNumber;i++) {
+        for(let i= 0;i<countdownNumber;i++) {
           let file = countdownClips[countdownPosition]
           let user = randomItem(registeredUsers);
           loadPlayFile(user.username, file);
+          console.log('Countdown:' + countdownPosition + ' user ' + user.username);
         }
         countdownPosition--;
       }
@@ -278,7 +291,7 @@
     magnificentLaunch.on('change', function (v) {
       if(v.state==false) {
         let file = '/data/mp3s/MagnificentDesolation.mp3';
-        loadFile(file);
+        loadFile(file, true); // file, playOnce?
       }
     });
 
@@ -311,11 +324,100 @@
       };
     });
 
+
+
+
+
+    hub.channel('sample', null, null, (data) => {
+      // data.user = "name", .val = "capture", .duration = "5"
+      console.log("User? ", data.user in gravSound.userSamples);
+
+      switch(data.val){
+        case 'capture':
+          gravSound.createSample(data.user, gravSound.sampleLength);
+          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
+          break;
+        case 'loop':
+          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
+          if(data.play) {
+            gravSound.playLoop(data.user);
+          }
+          console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+          break;
+        case 'playHub': 
+          gravSound.playRegion(data.user);
+          break;
+        case 'loopHub': 
+          gravSound.playLoop(data.user);
+          break;
+        case 'pauseHub': 
+          gravSound.pause(data.user);
+          break;
+        case 'default':
+          console.log('Sample Command not recognized: ', data.val);
+      }
+    });
+
+    function loadFile(file, playOnce=false) {
+      let data = {
+        user : 'all',
+        val : 'load',
+        playOnce: playOnce,
+        url : file
+      }
+      hub.transmit('sample', null, data);
+      // gravSound.loadAllSamples(file);
+
+        // Doing this here allows for us to add in users who had not recorded anything yet.
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        gravSound.loadSample(user.username, file)
+        // let sampleNumber = user.id;
+        // this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
+        // this.wavesurfers[sampleNumber].load(url);
+      });
+    };
+
+    function loadPlayFile(user, file) {
+      let data = {
+        user: user,
+        val: 'load',
+        url: file,
+        play: true
+      }
+      hub.transmit('sample', null, data);
+      gravSound.loadSample(user, file);
+    }
+
+    hub.channel('loop', null, null, (data) => {
+      // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
+      if (data.loopBegin >= 0.) {
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].start = data.loopBegin *
+          gravSound.sampleLength;
+      }
+      if (data.loopEnd <= 1.0) {
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound
+          .sampleLength;
+      }
+
+      console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+    });
+
+
+
+
+
+
+
+    // *********************************** //
+
+    //      Sections, and other boilerplate //
+
     // ****** Player Communications ****** //
 
     document.getElementsByTagName('body')[0].style.borderLeft = "15px solid" + hub.user.color;
 
     preMap.addEventListener('click', getClickPosition, false);
+    seatMap.addEventListener('click', clickToFindNearbyUsers, false);
     StartAudioContext(Tone.context, '#preMap').then(function () {
       console.log("AudioStarted");
     })
@@ -341,7 +443,58 @@
       document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
       document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
       // wavesurfer.load('data/mbira_em.mp3');
+      preMap.removeEventListener('click', getClickPosition, false);
     }
+
+    function clickToFindNearbyUsers(e) {
+      var m = seatMap.getScreenCTM();
+      var p = document.getElementById('seatMap').createSVGPoint();
+      p.x = e.clientX;
+      p.y = e.clientY;
+      p = p.matrixTransform(m.inverse());   // point clicked in svg coords
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      var mx = p.x / tx;
+      var my = p.y / ty;
+      nearbyRegionCircle.setAttribute("cx", p.x);
+      nearbyRegionCircle.setAttribute("cy", p.y);
+      console.log("Client",e.clientX,e.clientY, " t ", tx, ty, " m ", mx, my)
+      let aspect = tx/ty;
+      let nearbyUsers = findNearbyUsers(mx,my, nearbyRange, aspect)
+      nearbyUsers.forEach((user) => {
+        playRemote(user);
+      });
+    }
+
+    function findNearbyUsers(x,y, nRange=nearbyRange, aspect=1.0) {
+      let nearbyUsers = [];
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        let mag = Math.sqrt((((user.location.x-x)*aspect)*((user.location.x-x)*aspect))+((user.location.y-y)*(user.location.y-y)));
+        console.log("Magnitude ", mag, user.username);
+        if (mag <= nRange) {
+          nearbyUsers.push(user.username);
+        }
+      });
+      return nearbyUsers;
+    }
+
+    function createNearbyRegion(){
+      let sv = document.getElementById('seatMap');
+      let svgns = "http://www.w3.org/2000/svg";
+      let circle = document.createElementNS(svgns, 'circle');
+
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      circle.setAttributeNS(null, 'cx', (0.5 * tx)); // 640
+      circle.setAttributeNS(null, 'cy', (0.5 * ty)); // 445
+      circle.setAttributeNS(null, 'r', nearbyRange*ty);
+      circle.setAttributeNS(null, 'style', 'fill: none; stroke: red; stroke-width: 2px;' );
+      circle.setAttributeNS(null, 'id', "nearbyRegion-seatmap");
+      sv.appendChild(circle);
+    }
+    createNearbyRegion();
+    let nearbyRegionCircle = document.getElementById('nearbyRegion-seatmap');
+
 
     hub.channel('welcome', null, null, (data) => {
       console.log('welcome', data);
@@ -360,7 +513,26 @@
       circle.setAttributeNS(null, 'style', 'fill: orange; stroke: red; stroke-width: 1px;' );
       circle.setAttributeNS(null, 'id', data.username + "-seatmap");
       sv.appendChild(circle);
+      let c = document.getElementById(data.username + "-seatmap");
+      c.onclick = (e) => {
+        let seatID = e.target.id;
+        console.log('seatID', seatID);
+        let name = seatID.split('-seatmap')[0];
+        playRemote(name);
+        e.stopPropagation();
+      };
     });
+
+    function playRemote(user) {
+      console.log('Play: ', user)
+      let data = {
+          user : user,
+          val : 'play'
+        }
+        hub.transmit('sample',null, data);
+    }
+
+
 
       // ******* Sections *******
     hub.channel('setSection', null, null, function (data) {
@@ -394,25 +566,26 @@
       });
     }
 
-    hub.channel('tap', null, null, function (data) {
-      hub.log(`tap received: $ { data }`);
-    })
+    // hub.channel('tap', null, null, function (data) {
+    //   hub.log(`tap received: $ { data }`);
+    // })
 
-    function tapButton() {
-      hub.send('tap', {
-        'tap': 1
-      });
-    }
+    // function tapButton() {
+    //   hub.send('tap', {
+    //     'tap': 1
+    //   });
+    // }
 
-    hub.channel('itemback', null, 'about', function (data) {
-      console.log("itemback: ", data);
-    });
+    // hub.channel('itemback', null, 'about', function (data) {
+    //   console.log("itemback: ", data);
+    // });
 
 
     function tapEnd() {
       document.getElementsByClassName("mainDisplay")[0].style.display = 'none';
       document.getElementsByClassName("endDisplay")[0].style.display = 'block';
     }
+
 
 
     function getRandomColor() {
@@ -424,71 +597,6 @@
       return color;
     }
 
-
-    hub.channel('sample', null, null, (data) => {
-      // data.user = "name", .val = "capture", .duration = "5"
-      console.log("User? ", data.user in gravSound.userSamples);
-
-      switch(data.val){
-        case 'capture':
-          gravSound.createSample(data.user, gravSound.sampleLength);
-          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
-          break;
-        case 'loop':
-          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
-          if(data.play) {
-            gravSound.playLoop(data.user);
-          }
-          console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
-          break;
-        case 'playHub': 
-          gravSound.playRegion(data.user);
-          break;
-        case 'loopHub': 
-          gravSound.playLoop(data.user);
-          break;
-        case 'pauseHub': 
-          gravSound.pause(data.user);
-          break;
-        case 'default':
-          console.log('Sample Command not recognized: ', data.val);
-      }
-    });
-
-    function loadFile(file) {
-      let data = {
-        user : 'all',
-        val : 'load',
-        url : file
-      }
-      hub.transmit('sample', null, data);
-      gravSound.loadAllSamples(file);
-    }
-
-    function loadPlayFile(user, file) {
-      let data = {
-        user : user,
-        val : 'load',
-        url : file,
-        play : true
-      }
-      hub.transmit('sample', null, data);
-      gravSound.loadSample(user, file);
-    }
-
-    hub.channel('loop', null, null, (data) => {
-      // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
-      if (data.loopBegin >= 0.) {
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].start = data.loopBegin *
-          gravSound.sampleLength;
-      }
-      if (data.loopEnd <= 1.0) {
-        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound
-          .sampleLength;
-      }
-
-      console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
-    });
 
     var gravSound = new GravSound();
     hub.user.pitch = gravSound.pitch;

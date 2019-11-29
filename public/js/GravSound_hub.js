@@ -16,6 +16,7 @@ class GravSound {
     this.playSecondSound = this.playSecondSound.bind(this);
     this.uploadSample = this.uploadSample.bind(this);
     this.createSample = this.createSample.bind(this);
+    this.createUI = this.createUI.bind(this);
     this.playRegion = this.playRegion.bind(this);
     this.loadSample = this.loadSample.bind(this);
     this.loadAllSamples = this.loadAllSamples.bind(this);
@@ -44,6 +45,7 @@ class GravSound {
 
     // ---- Audio Input
     var liveFeed = new Tone.UserMedia();
+
     Tone.UserMedia.enumerateDevices().then(function (devices) {
       console.log(devices)
     })
@@ -135,8 +137,8 @@ class GravSound {
     // Players
 
     this.player = [];
-    this.player[0] = new Tone.Player("/data/mp3s/CD_Track_2.mp3").toMaster();
-    this.player[1] = new Tone.Player("/data/mp3s/Collide.mp3").toMaster();
+    this.player[0] = new Tone.Player("/data/mp3s/noisybeep-delay.mp3").toMaster();
+    this.player[1] = new Tone.Player("/data/mp3s/beep.mp3").toMaster();
 
     Tone.Transport.start();
 
@@ -223,8 +225,34 @@ class GravSound {
 
 
   createSample(user, sampleLength) {
-        // do we already have a sample by this user?
+    // do we already have a sample by this user?
     let isNewUser = !(user in this.userSamples);
+    
+    let currentSample = this.createUI(user, isNewUser);
+
+    // ---------
+      // Reset Chunks for recording this user's sample
+      this.chunks[currentSample] = {
+        recording: true,
+        chunks: []
+      };
+
+        // make sure the recorder is running
+    if (this.recorder.state === "inactive") {
+      this.recorder.start();
+    }
+
+    // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
+    let recordingTimer = setTimeout( (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
+      this.recorder.user = user;
+      this.recorder.userNumber = userNumber;
+      console.log("Stopping Recording for: ", user, userNumber);
+      this.recorder.stop(); // stop recording
+    }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
+    
+  };
+
+  createUI(user, isNewUser=true) {
     let currentSample;  // the userSample number of the sample
     console.log("Create new user? ", isNewUser);
     if (isNewUser){
@@ -323,6 +351,12 @@ class GravSound {
       //     this.loopEndNX[currentSample].passiveUpdate(this.wavesurfers[currentSample].regions.list[0].start);
       //   }
       // })
+
+      // Empty Chunk Array.
+      this.chunks[currentSample] = {
+        recording: false,
+        chunks: []
+      };
     };
 
       // Create Audio Tag and Wavesurfer elements
@@ -339,12 +373,6 @@ class GravSound {
       userSampleDiv.appendChild(au);
     }
 
-    // ---------
-      // Reset Chunks for recording this user's sample
-    this.chunks[currentSample] = {
-      recording: true,
-      chunks: []
-    };
       // Store the Audio element and initialize the wavesurfer
     if(isNewUser) {
       this.audio[currentSample] = au;
@@ -374,24 +402,12 @@ class GravSound {
       this.wavesurfers[currentSample].setVolume(0.);
     }
 
-        // make sure the recorder is running
-    if (this.recorder.state === "inactive") {
-      this.recorder.start();
-    }
-
-    // Passing the current playerSampleCount in as this.recorder.userNumber so that it remains the correct number is multiple records happen.
-    let recordingTimer = setTimeout( (user, userNumber) => { // setup a timeout for the recording, after the time below expires, do the tings inside the {}
-      this.recorder.user = user;
-      this.recorder.userNumber = userNumber;
-      console.log("Stopping Recording for: ", user, userNumber);
-      this.recorder.stop(); // stop recording
-    }, sampleLength * 1000, user, currentSample) //record for sample length (in ms)
-    
-    // increment the number of samples
+        // increment the number of samples
     if(isNewUser) {
       this.playerSampleCount += 1;
     }
-  };
+    return currentSample;
+  }
 
 
   uploadSample(user, userNumber, soundBlob) {
@@ -429,6 +445,13 @@ class GravSound {
   loadSample(user, url, toPlay=false) {
     console.log('Loading Sample: ', url);
     if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
+    
+      this.wavesurfers[sampleNumber].load(url);
+    } else {
+      // create a wavesurfer - must not have recorded yet.
+      this.createUI(user)
       let sampleNumber = this.userSamples[user].id;
       this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
     

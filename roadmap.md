@@ -6,12 +6,15 @@ What needs to be done, should be done, could be done.
 
 ## TO REPAIR:
 
+- [ ] Must setup https cert to be able to use getUserMedia when served not locally
+- [ ] 
+
 - [x] Audio files can be saved easily as .ogg and used on laptops and Android, but not on iOS devices. They can be saved as .wav and used on all 3, but it has a large file size -- also, right now the .wav file headers are not formatted properly and still won't load on iOS devices... simply opening them in an audio app and re-saving them allows them to be loaded -- Ergo, either fix the wav file corruption, or set up a service on the server that takes the blobs and compresses them using ffmpg to create mp3 files.
 One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
-
 ## TODO:
 
+- [ ] Deploy - tried now, but they've disabled docker and node.js deployment (shoot) moving to Heroku
 - [ ] battle test wavesurfer usage. Make loop points fully functional  https://www.gettoby.com/p/sf4gx56916kf
 - [ ] Create UI for me as an ensemble sample performer (see list below)
 - [ ] Implement audience - mute, reset/clear, instruction layer, sample playback w/ illumination, receiving and loading samples.
@@ -67,7 +70,7 @@ __Countdown__
 ≈2'20" | track 2
 
 - [ ] atm | reduce the duration for countdown & launch to be 1'30"-1'45"
-
+- [ ] cue | Given control of critical functios::JFK I feel that this nation::liftoff clock has started
 - [ ] countdown - played on CD played over all audience members {.load, .play }{section: countdown}
 - [ ] atm | CD2 plays straight through
 - [ ] atm | CD1 glitched all over
@@ -97,10 +100,12 @@ _Gravity_
 ≈ 3'00"
 
 - [ ] {section: gravity}
+- [ ] cue | gravity groove - {message: magnetic waves...}
 - [ ] text: attraction to the other
 - [ ] atm | Playing musical samples
 - [ ] jta | enable small groups to sample and play
 - [ ] jta | enable the touch between devices for the other people {section: touch}
+- [ ] cue | beepy-beeps::12345,54321::JFK::12345,54321::JFK::beepy-beeps slow down... Ain't that somethin'
 - [ ] jta | Push Magnificent Desoloation & enable for one final playback.
 
 __Post-Concert__

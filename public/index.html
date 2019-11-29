@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="nxUIFix">
 
 <head>
   <meta charset="utf-8">
@@ -106,6 +106,7 @@
     // Globally Controlled States
     let recordEnable = false;
     let playEnable = false;
+    let playOnceEnable = false;
     let loopEnable = false;
     let touchEnable = false;
     let editEnable = false;
@@ -133,7 +134,8 @@
                 },
       'gravity':  { default: "Ain't that somethin'",
                     2: 'Magnificent sight out here',
-                    3: 'Magnificent Desolation'
+                    3: 'The Final Singularity',
+                    4: 'Magnificent Desolation'
                   },
       'postConcert': { default: 'Thank you for participating' }
     }
@@ -147,8 +149,9 @@
       'space': 'Listen\nShortly you will\nbe enabled to Sample',
       'gravity': 'Connect to Someone',
       'postConcert': 'Magnificent Desolation',
-      'toSample': 'Listen\npress to sample',
-      'sampling': 'Sampling your sound',
+      'playMagnificent': 'Press Once\nto play one last time',
+      'toSample': 'Listen\ntap to sample',
+      'sampling': 'recording transmission...',
       'loading': 'loading...',
       'toPlay': 'Press and hold to play',
       'playing': 'Playing',
@@ -201,6 +204,17 @@
       if (data.user === hub.user.name || data.user == 'all') {
         if (data.user == 'all') {
           if (data.val == "load") {
+            if(data.playOnce){
+              playOnceEnable = true;
+              enableLoop(false);
+              enableTouch(false);
+              enableRecord(false);
+              enablePlay(false);
+              setInstruction(instructionText.loading);
+              setTimeout((url) => {
+                gravSound.loadSample(url)
+              }, 500, data.url);
+            }
             setInstruction(instructionText.loading);
             setTimeout((url) => {
               gravSound.loadSample(url)
@@ -271,6 +285,12 @@
         }
         if (data.val == "play") {
           enablePlay(data.enabled);
+        }
+        if (data.val == "playOnce") {
+          enableLoop(false);
+          enableTouch(false);
+          enablePlay(false);
+          // will enable the PlayOnce set once the file loads.
         }
       }
     });
@@ -375,6 +395,39 @@
         enablePlay(); // are we supposed to be able to play?
       }
     }
+
+    let _touchPlay = (e) => {
+      if(!gravSound.isPlaying()) {
+        console.log('play')
+        setInstruction(instructionText.playing);
+        gravSound.playLoop();
+        hubPlay();
+      }
+    };
+    let _touchPlayEnd = (e) => {
+      if(gravSound.isPlaying()) {
+        console.log('pause')
+        setInstruction(instructionText.toPlay);
+        gravSound.pause();
+        hubPause();
+      }
+    };
+    let _touchPlayOnce = (e) => {
+      if(!gravSound.isPlaying()) {
+        console.log('play')
+        setInstruction(instructionText.postConcert);
+        gravSound.play();
+        // gravSound.playOnce();
+        hubPlay();
+        recordOrbit.classList.remove('active');
+        if(_touchPlayOnce != undefined){
+          // recordOrbit.onclick = () => {};
+          recordOrbit.removeEventListener('touchstart', _touchPlayOnce);
+          recordOrbit.removeEventListener('mousedown', _touchPlayOnce);
+        }
+      }
+    };
+
     function enablePlay(enabled) {
       if (enabled === false || enabled === true) {
         playEnable = enabled;
@@ -393,21 +446,11 @@
         recordOrbit.classList.add('active');
         gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
         setInstruction(instructionText.toSample);
-        // playOrbit.onmousedown = () => {
-        recordOrbit.addEventListener('touchstart', () => {
-          if(!gravSound.isPlaying()) {
-            console.log('play')
-            setInstruction(instructionText.playing);
-            gravSound.playLoop();
-            hubPlay();
-          }}, false);
-        recordOrbit.addEventListener('touchend', () => {
-          if(gravSound.isPlaying()) {
-            console.log('pause')
-            setInstruction(instructionText.toPlay);
-            gravSound.pause();
-            hubPause();
-          }}, false);
+
+        recordOrbit.addEventListener('touchstart', _touchPlay, false);
+        recordOrbit.addEventListener('touchend', _touchPlayEnd, false);
+        recordOrbit.addEventListener('mousedown', _touchPlay);
+        recordOrbit.addEventListener('mouseup', _touchPlayEnd);
 
         // recordOrbit.onclick = () => {
         //   if(gravSound.isPlaying()) {
@@ -428,20 +471,46 @@
       } else {
         setInstruction(instructionText[sections[currentSection]]);
         recordOrbit.classList.remove('rotate-center')
-        recordOrbit.removeEventListener('touchstart');
-        recordOrbit.removeEventListener('touchend');
+        recordOrbit.removeEventListener('touchstart', _touchPlay);
+        recordOrbit.removeEventListener('touchend', _touchPlayEnd);
+        recordOrbit.removeEventListener('mousedown', _touchPlay);
+        recordOrbit.removeEventListener('mouseup', _touchPlayEnd);
+        // recordOrbit.onclick = () => {};
         if(recordEnable) {
           enableRecord();
         } else {
-          recordOrbit.onclick = () => {};
           recordOrbit.classList.add('blurry');
         }
-        
-        // playOrbit.classList.remove('active');
-        // playOrbit.classList.remove('pulsate-fwd');
-        // recordOrbit.onmousedown = () => {};
-        // recordOrbit.onmouseup = () => {};
-        
+      }
+    }
+
+    function enablePlayOnce(enabled) {
+      if (enabled === false || enabled === true) {
+        playOnceEnable = enabled;
+      }
+
+      console.log('Play Once Enabled ', playOnceEnable);
+      if (playOnceEnable) {
+        recordOrbit.classList.remove('blur');
+        recordOrbit.classList.remove('blurry');
+        recordOrbit.classList.remove('rotate-center');
+        recordOrbit.classList.add('pulsate-fwd');
+        recordOrbit.classList.add('active');
+        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        setInstruction(instructionText.playMagnificent);
+        // playOrbit.onmousedown = () => {
+        recordOrbit.addEventListener('touchstart', _touchPlayOnce);
+        recordOrbit.addEventListener('mousedown', _touchPlayOnce);
+
+        // recordOrbit.onclick = _touchPlayOnce;
+        // recordOrbit.addEventListener('touchend', () => {
+        //   if(gravSound.isPlaying()) {
+        //     console.log('pause')
+        //     setInstruction(instructionText.toPlay);
+        //     gravSound.pause();
+        //     hubPause();
+        //   }}, false);
+
       }
     }
 
@@ -587,6 +656,11 @@
 
     var gravSound = new GravSound();
     hub.user.pitch = gravSound.pitch;
+
+    gravSound.wavesurfer.on('region-click', function (e) {
+      console.log('Clicked-region ', e);
+    });
+
 
   </script>
 

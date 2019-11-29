@@ -25,6 +25,7 @@ class GravSound {
     this.pause = this.pause.bind(this);
     this.hasLoop = this.hasLoop.bind(this);
     this.masterGain = this.masterGain.bind(this);
+    this.playbackRate = this.playbackRate.bind(this);
 
     if(ctx) {
       // use context in setting up tone...
@@ -35,6 +36,7 @@ class GravSound {
     this.audio;
     this.wavesurferContainer = '#waveform';
     this.wavesurferDiv = document.getElementById('waveform');
+    this.region;
 
     this.sampleLength = 5;    // in seconds
 
@@ -122,6 +124,10 @@ class GravSound {
     this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
   };
 
+  playbackRate(val) {
+    this.wavesurfer.setPlaybackRate(val);
+  }
+
   freq (midi) {
     var note = Tone.Frequency(midi).midiToFrequency(midi);
     // var note = Tone.Frequency(midi).toFrequency();
@@ -208,9 +214,46 @@ class GravSound {
         this.moveLoop();
       });
     });
-    enableLoop();
-    enableTouch();
-    enablePlay();
+
+    this.region = document.getElementsByClassName('wavesurfer-region')[0]
+    // this.region.onpointermove = (e)=> {
+    //   console.log('onpointermove', e);
+    //   let regionDragY = e.clientY;
+    //   let moveY = this.pastRegionDragY - regionDragY;  // this direction gets larger going upward, smaller downward
+    //   this.wavesurfer.regions.list[1].start -= moveY;
+    //   this.wavesurfer.regions.list[1].end += moveY;
+    //   this.wavesurfer.drawBuffer();
+    // };
+    this.region.ontouchstart = (e) => {
+      this.pastRegionDragY = e.targetTouches[0].clientY;
+    }
+    this.region.ontouchmove = (e)=> {
+      // console.log('ontouchmove', e);
+      let regionDragScaler = 0.001;
+      let regionDragY = e.targetTouches[0].clientY;
+      let moveY = (this.pastRegionDragY - regionDragY) * regionDragScaler;  // this direction gets larger going upward, smaller downward
+      console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY);
+      let newStart = Math.max(0.,this.wavesurfer.regions.list[1].start - moveY);
+      let newEnd = Math.min(1.0,this.wavesurfer.regions.list[1].end + moveY);
+      this.wavesurfer.regions.list[1].start = newStart;
+      this.wavesurfer.regions.list[1].end = newEnd;
+      this.wavesurfer.drawBuffer();
+      this.pastRegionDragY = regionDragY;
+    };
+
+
+    if(playOnceEnable) {
+      this.wavesurfer.regions.list[1].color = 'hsla(39, 100%, 38%, 0.25)';
+      this.wavesurfer.regions.list[1].start = 0.;
+      this.wavesurfer.regions.list[1].end = this.wavesurfer.getDuration();
+      this.wavesurfer.drawBuffer();
+      enablePlayOnce();
+    } else {
+      enableLoop();
+      enableTouch();
+      enablePlay();
+    }
+
     if(toPlay) {
       this.playRegion();
     }
@@ -218,6 +261,10 @@ class GravSound {
 
   play(){
     this.wavesurfer.stop();
+    this.wavesurfer.regions.list[1].start = 0.;
+    this.wavesurfer.regions.list[1].end = this.wavesurfer.getDuration();
+    this.wavesurfer.drawBuffer();
+    this.wavesurfer.regions.list[1].loop = false;
     this.wavesurfer.play(0.);
   }
   
@@ -247,8 +294,8 @@ class GravSound {
       'user': hub.user.name,
       'val': 'loop',
       'play': false,
-      'loopBegin': gravSound.wavesurfer.regions.list[1].start / gravSound.wavesurfer.getDuration(),
-      'loopEnd': gravSound.wavesurfer.regions.list[1].end / gravSound.wavesurfer.getDuration()
+      'loopBegin': this.wavesurfer.regions.list[1].start / this.wavesurfer.getDuration(),
+      'loopEnd': this.wavesurfer.regions.list[1].end / this.wavesurfer.getDuration()
     });
   }
 
