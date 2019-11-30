@@ -45,8 +45,9 @@ RUN npm install
 # RUN npm install --only=production
 
 # Bundle app source
-COPY . . \
-chmod -R 757 public/uploads/
+COPY . . 
+
+RUN ["chmod", "757", "public/uploads"]
 
 # Our app runs on port 3000. Expose it!
 # Using 3001 with Docker to be able to test it separate from running the server outside of Docker
