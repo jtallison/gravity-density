@@ -213,25 +213,16 @@ class GravSound {
     // Moving Playback to another button instead of touching the ui.
     // could attach a callback to send selections to people. fun.
     // this.wavesurfers[currentSample].regions.list[0].on('update', this.playRegion(currentSample));
-    this.wavesurfer.regions.list[1].on('update', () => {
-      // wavesurfer.regions.list[1].play();
-      this.wavesurfer.regions.list[1].un('update');
-      this.wavesurfer.regions.list[1].on('update', () => {
-        this.moveLoop();
-      });
-    });
+    // this.wavesurfer.regions.list[1].on('update', () => {
+    //   // wavesurfer.regions.list[1].play();
+    //   this.wavesurfer.regions.list[1].un('update');
+    //   this.wavesurfer.regions.list[1].on('update', () => {
+    //     this.moveLoop();
+    //   });
+    // });
 
     this.region = document.getElementsByClassName('wavesurfer-region')[0]
     this.waveBox = this.wavesurferDiv.getBoundingClientRect();  // .y, .width = 375
-
-    // this.region.onpointermove = (e)=> {
-    //   console.log('onpointermove', e);
-    //   let regionDragY = e.clientY;
-    //   let moveY = this.pastRegionDrag.y - regionDragY;  // this direction gets larger going upward, smaller downward
-    //   this.wavesurfer.regions.list[1].start -= moveY;
-    //   this.wavesurfer.regions.list[1].end += moveY;
-    //   this.wavesurfer.drawBuffer();
-    // };
 
         // *** Replace Wavesurfer region drag controls
         // Grab original click location )verify that the finger is on the wavesurfer
@@ -262,6 +253,7 @@ class GravSound {
       console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY, "move:X", moveX);
       console.log("clientY:",regionDragY, "clientX", regionDragX);
 
+          // Normalized start and end times
       let newStart = Math.max(0.,((this.wavesurfer.regions.list[1].start / this.duration) - moveY) + moveX);
       let newEnd = Math.min(1.0,((this.wavesurfer.regions.list[1].end / this.duration) + moveY) + moveX);
       
@@ -274,9 +266,12 @@ class GravSound {
         }
       }
 
-      this.wavesurfer.regions.list[1].start = newStart * this.duration;
-      this.wavesurfer.regions.list[1].end = newEnd * this.duration;
-      this.wavesurfer.drawBuffer();
+      this.setLoop(hub.user.name, newStart, newEnd);
+      this.moveLoop(hub.user.name, newStart, newEnd);
+      // this.wavesurfer.regions.list[1].start = newStart * this.duration;
+      // this.wavesurfer.regions.list[1].end = newEnd * this.duration;
+      // this.wavesurfer.drawBuffer();
+
       this.pastRegionDrag.y = regionDragY;
       this.pastRegionDrag.x = regionDragX;
     };
@@ -319,7 +314,8 @@ class GravSound {
     this.wavesurfers.setValueAtTime(volume, this.tone.context.currentTime, 0.015);
   }
 
-  setLoop(user, begin, end) {
+    // Sets this loop region
+  setLoop(user=hub.user.name, begin=this.wavesurfer.regions.list[1].start, end=this.wavesurfer.regions.list[1].end) {
     if (begin >= 0. && end <= 1.0) {
       if (this.hasLoop()) {
         this.wavesurfer.regions.list[1].start = begin * this.duration;
@@ -329,13 +325,13 @@ class GravSound {
     }
   }
 
-  moveLoop() {
+  moveLoop(user=hub.user.name, begin=(this.wavesurfer.regions.list[1].start / this.duration), end=(this.wavesurfer.regions.list[1].end / this.duration)) {
     hub.transmit('sample', null, {
-      'user': hub.user.name,
+      'user': user,
       'val': 'loop',
       'play': false,
-      'loopBegin': this.wavesurfer.regions.list[1].start / this.duration,
-      'loopEnd': this.wavesurfer.regions.list[1].end / this.duration
+      'loopBegin': begin,
+      'loopEnd': end
     });
   }
 

@@ -17,7 +17,8 @@ require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c=
 */
 
 var Hub = function() {
-
+    this.environment = 'development';
+    this.logEnable = true;
     this.user = new User();
 
     this.channels = {};
@@ -33,8 +34,10 @@ Hub.prototype.register = function() {
     this.socket.emit('register', this.user);
 };
 
-Hub.prototype.log = function(l) {
-    console.log('Hub Log: ' + l);
+Hub.prototype.log = function(title='Log:', ...l) {
+  if(this.logEnable) {
+    console.log('Hub', title, l);
+  }
 };
 
 Hub.prototype.init = function() {

@@ -55,6 +55,7 @@
         </svg>
       </div>
       <div class='controls'>
+        <div id='cueSelector'></div><div id='cueNext'></div>
         <div id='sectionSelector'></div><div id='sectionNext'></div>
         <div id="slider"></div>
         <div class='controls'>
@@ -117,7 +118,10 @@
     let currentSection = 0;
     // let playerSampleCount = 0;
     // let sampleLength = 5000;
-
+    let cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
+    let currentCue = 0;
+    let currentSubCue = 0;
+    
     let registeredUsers = [];
 
     let countdownClips = ['/data/mp3s/cd-0.mp3', '/data/mp3s/cd-1.mp3', '/data/mp3s/cd-2.mp3', '/data/mp3s/cd-3.mp3', '/data/mp3s/cd-4.mp3', '/data/mp3s/cd-5.mp3', '/data/mp3s/cd-6.mp3', '/data/mp3s/cd-7.mp3', '/data/mp3s/cd-8.mp3', '/data/mp3s/cd-9.mp3', '/data/mp3s/cd-10.mp3'];
@@ -140,6 +144,12 @@
       'options': sections
     });
     let sectionNextNX = new Nexus.Button('#sectionNext');
+
+    let cueNX = new Nexus.Select('#cueSelector',{
+      'size': [100,30],
+      'options': cues
+    });
+    let cueNextNX = new Nexus.Button('#cueNext');
     
     let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
     let triggerLaunch = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
@@ -248,23 +258,18 @@
     });
 
     triggerCountdown.on('change', function (v) {
-      console.log("Countdown: " + countdownPosition);
-      if(countdownPosition >=0) {
-        for(let i= 0;i<countdownNumber;i++) {
-          let file = countdownClips[countdownPosition]
-          let user = randomItem(registeredUsers);
-          loadPlayFile(user.username, file);
-          console.log('Countdown:' + countdownPosition + ' user ' + user.username);
+      if(v.state == true) {
+        console.log("Countdown: " + countdownPosition);
+        if(countdownPosition >=0) {
+          for(let i= 0;i<countdownNumber;i++) {
+            let file = countdownClips[countdownPosition]
+            let user = randomItem(registeredUsers);
+            loadPlayFile(user.username, file);
+            console.log('Countdown:' + countdownPosition + ' user ' + user.username);
+          }
+          countdownPosition--;
         }
-        countdownPosition--;
       }
-      // if(v.state==true) {
-      //   let data = {
-      //     user : 'all',
-      //     val : 'play'
-      //   }
-      //   hub.transmit('sample',null, data);
-      // }
     });
 
     loadSpeaking.on('change', function (v) {
@@ -324,9 +329,42 @@
       };
     });
 
+        // ******* Cues *******
+    hub.channel('setCue', null, null, function (data) {
+      console.log(data);
+      console.log("the section is now: " + cues[data.val]);
 
+      currentCue = data.val;
+      cueNX.selectIndex = currentCue;
+    });
 
+    cueNX.on ('change', (v) => {
+      console.log('Cue ', v.index, v.value, v);
+      setCue(v.index);
+    });
 
+    cueNextNX.on ('change', (v) => {
+      if(v.state == true) {
+        nextCue();
+      }
+    });
+
+    function nextCue() {
+      currentCue += 1;
+      if (currentCue >= cues.length) {
+        currentCue = cues.length - 1;
+      }
+      setCue(currentCue);
+      cueNX.selectIndex = currentCue;
+    }
+
+    function setCue(cue, subcue=0) {
+      hub.send('cue', {
+        'val': cue,
+        'name': cues[cue],
+        'subcue': subcue 
+      });
+    }
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
@@ -414,7 +452,7 @@
 
     // ****** Player Communications ****** //
 
-    document.getElementsByTagName('body')[0].style.borderLeft = "15px solid" + hub.user.color;
+    // document.getElementsByTagName('body')[0].style.borderLeft = "15px solid" + hub.user.color;
 
     preMap.addEventListener('click', getClickPosition, false);
     seatMap.addEventListener('click', clickToFindNearbyUsers, false);

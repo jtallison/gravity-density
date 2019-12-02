@@ -16,7 +16,8 @@
 // Todo: create catch-all socket.on function that simply mirrors out any information received on the specified transmit channels.
 
 var Hub = function() {
-
+  this.environment = 'development';
+  this.logEnable = true;
   this.serverPort = 3000;
   this.ioClients = []; // list of clients who have logged in.
   this.currentSection = 0; // current section.
@@ -304,8 +305,10 @@ Hub.prototype.getSection = function(sect) {
   return title;
 };
 
-Hub.prototype.log = function(l) {
-  console.log('Hub Log: ' + l);
+Hub.prototype.log = function(title='Log:', ...l) {
+  if(this.logEnable) {
+    console.log('Hub', title, l);
+  }
 };
 
 // TODO: instantiate SocketIO here instead of node file. 

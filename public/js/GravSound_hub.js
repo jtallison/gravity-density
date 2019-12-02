@@ -500,10 +500,19 @@ class GravSound {
     if (user in this.userSamples) {
       let sampleNumber = this.userSamples[user].id;
       this.wavesurfers[sampleNumber].regions.list[0].loop = false;
+      this.wavesurfers[sampleNumber].play(this.wavesurfers[sampleNumber].regions.list[0].start, this.wavesurfers[sampleNumber].regions.list[0].end );
+    }
+  };
+
+  playSample(user) {
+    if (user in this.userSamples) {
+      let sampleNumber = this.userSamples[user].id;
+      this.wavesurfers[sampleNumber].regions.list[0].loop = false;
       this.wavesurfers[sampleNumber].play(0.);
     }
   };
 
+      // Set loop position for specific user base on normalized start/end values
   setLoop(user, begin, end) {
     if (begin >= 0. && end <= 1.0) {
       if (user in this.userSamples) {

@@ -36,12 +36,12 @@ hub.app.use(bodyParser.urlencoded({ extended: true }));
 
 // *** adding in audio file upload...
 hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
-  console.log(req.file); // see what got uploaded
+  hub.log('upload', req.file); // see what got uploaded
   let uploadLocation = __dirname + '/public/uploads/' + req.file.originalname + ".wav" // where to save the file to. make sure the incoming name has a .wav extension
 
   fs.writeFileSync(uploadLocation, Buffer.from(new Uint8Array(req.file.buffer))); // write the blob to the server as a file
   res.sendStatus(200); //send back that everything went ok
-  console.log("Seems to have uploaded...", req.body.id, req.body.user, req.file.originalname);
+  hub.log("Seems to have uploaded...", req.body.id, req.body.user, req.file.originalname);
 
   mp3(req.file.originalname);
   // Could transmit the load sample from here:
@@ -51,7 +51,7 @@ hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
 
 // Could spin off into it's own node app or spork a thread.
 function mp3(fileName) {
-  console.log('MP3: ', fileName);
+  hub.log('MP3: ', fileName);
   try {
     let process = new ffmpeg(__dirname + '/public/uploads/' + fileName + ".wav");
     // console.log('process: ', process);
@@ -61,17 +61,17 @@ function mp3(fileName) {
       // console.log('Audio', audio);
       audio.fnExtractSoundToMP3(__dirname + '/public/uploads/' + fileName + ".mp3", function(error, file) {
         if (!error) {
-          console.log('Audio file: ' + file);
+          hub.log('Audio file: ', file);
         } else {
-          console.log('Extraction Error: ', error);
+          hub.log('Extraction Error: ', error);
         }
       });
     }, function(err) {
-      console.log('Error encoding mp3: ' + err);
+      hub.log('Error encoding mp3: ', err);
     })
   } catch (e) {
-    console.log('Error: ' + e.code);
-    console.log(e.msg);
+    hub.log('Error: ', e.code);
+    hub.log(e.msg);
   }
   // console.log('done mp3');
 };
@@ -83,6 +83,10 @@ function mp3(fileName) {
 hub.sectionTitles = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
 hub.currentSection = 0;
 
+hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
+hub.currentCue = 0;
+hub.currentSubCue = 0;
+
 // global states
 gravity = {
   masterFader: 1.0,
@@ -93,14 +97,14 @@ gravity = {
   playEnable: false
 }
 
-console.log(hub.sectionTitles.length);
+hub.log('Number of sections', hub.sectionTitles.length);
 // *********************
 
 
 
 // Respond to web sockets with socket.on
 hub.io.sockets.on('connection', function(socket) {
-  console.log("When am I called?");
+  hub.log("When am I called?");
   var ioClientCounter = 0; // Can I move this outside into global vars?
   this.socket = socket;
   this.socketID = socket.id;
@@ -118,25 +122,25 @@ hub.io.sockets.on('connection', function(socket) {
     if (socket.username == "display") {
       hub.display.id = socket.id;
       hub.discreteClients.display.id = socket.id;
-      console.log("Hello display: " + hub.display.id);
+      hub.log("Hello display: ", hub.display.id);
     }
 
     if (socket.username == "gravityHub") {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
-      console.log("Hello Controller: " + hub.controller.id);
+      hub.log("Hello Controller: ", hub.controller.id);
     }
 
     if (socket.username == "audioController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
-      console.log("Hello Audio Controller: " + hub.audio.id);
+      hub.log("Hello Audio Controller: ", hub.audio.id);
     }
 
     if (socket.username == "maxController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
-      console.log("Hello MaxMSP Controller: " + hub.max.id);
+      hub.log("Hello MaxMSP Controller: ", hub.max.id);
     }
 
     if (socket.username == "a_user") {
@@ -162,20 +166,20 @@ hub.io.sockets.on('connection', function(socket) {
     socket.emit('gravityState', gravity);
     var title = hub.getSection(hub.currentSection);
     socket.emit('setSection', { section: hub.currentSection, title: title })
-
+    socket.emit('setCue', { val: hub.currentCue, name: hub.cues[hub.currentCue], subcue: hub.currentSubCue });
   });
 
   // Traditional socket assignments work just fine
   socket.on('disconnect', function() {
     // hub.ioClients.remove(socket.id);	// FIXME: Remove client if they leave
-    hub.log('SERVER: ' + socket.id + ' has left the building');
+    hub.log('SERVER: ', socket.id, ' has left the building');
   });
 
   hub.channel('sample', null, null, (data) => {
     // data.user = "name", .sample = "bang", .duration = "5000"
 
-    console.log('sample:', data);
-    hub.log(`sample ${data}`);
+    // console.log('sample:', data);
+    hub.log('sample', data);
     hub.transmit('sample', null, data);
 
     if (data.val === 'load') {
@@ -185,10 +189,19 @@ hub.io.sockets.on('connection', function(socket) {
 
   hub.channel('enable', null, null, (data) => {
     // data.user = "name", .val = record, .enabled = boolean
-    console.log('enable:', data);
-    hub.log(`enable ${data}`);
+    // console.log('enable:', data);
+    hub.log('enable:', data);
     gravity[data.val+'Enable'] = data.enabled;
     hub.transmit('enable', null, data);
+  });
+
+      // 'val': cue, 'name': cues(cue), 'subcue': subCue 
+  hub.channel('cue', null, null, (data) => {
+    // console.log('cue:', data);
+    hub.log('cue:', data);
+    hub.transmit('cue', null, data);
+    hub.currentCue = data.val;
+    hub.currentSubCue = data.subcue;
   });
 
 
@@ -196,9 +209,8 @@ hub.io.sockets.on('connection', function(socket) {
 
 
 
-
   hub.channel('tap', null, ["others", "display"], function(data) {
-    hub.log(`tap ${data}`);
+    hub.log('tap',data);
     hub.transmit('tap', null, data);
     //  socket.broadcast.emit('tap', data);  // just for others until a fix is made.
   });
@@ -208,13 +220,13 @@ hub.io.sockets.on('connection', function(socket) {
 
   // TODO: Should just demo this with tap ["others"] above.
   hub.channel('tapOthers', null, ["others"], function(data) {
-    hub.log(`tapOthers ${data}`);
+    hub.log('tapOthers', data);
     hub.transmit('tapOthers', null, data);
     // socket.broadcast.emit('tapOthers', data);
   });
 
   hub.channel('shareToggle', null, ["others"], function(data) {
-    hub.log(`shareToggle ${data}`);
+    hub.log('shareToggle', data);
     hub.transmit('shareToggle', null, data);
   });
 
@@ -225,22 +237,22 @@ hub.io.sockets.on('connection', function(socket) {
   });
 
   hub.channel('shareColor', null, ["others"], function(data) {
-    hub.log(`shareColor ${data}`);
+    hub.log('shareColor', data);
     hub.transmit('shareColor', null, data);
   });
 
   hub.channel('sendText', null, ["others", "display"], function(data) {
-    hub.log(`sendText ${data}`);
+    hub.log('sendText', data);
     hub.transmit('sendText', null, data);
   });
 
   hub.channel('triggerPitch', null, ["others", "display"], function(data) {
-    hub.log(`triggerPitch ${data}`);
+    hub.log('triggerPitch', data);
     hub.transmit('triggerPitch', null, data);
   });
 
   hub.channel('triggerMaxPitch', null, ["max"], function(data) {
-    hub.log(`triggerMaxPitch ${data}`);
+    hub.log('triggerMaxPitch', data);
     hub.transmit('triggerMaxPitch', null, data);
   });
 
@@ -252,11 +264,11 @@ hub.io.sockets.on('connection', function(socket) {
     }
 
     hub.setSection(hub.currentSection);
-    hub.log(`Section is now: ${data.section}`)
+    hub.log('Section is now:', data.section)
   });
 
   hub.channel('item', null, null, function(data) {
-    console.log(socket.id + " tapped item: " + data);
+    hub.log('Socket:', socket.id, " tapped item: ", data);
     // This could be done with the sendTypes array, but if you want to overwrite what is being sent, here you go:
     if (hub.discreteClientCheck('display')) {
       hub.io.to(hub.discreteClients['display'].id).emit('itemback', { phrase: data, color: "socket.userColor" }, 1);
@@ -269,7 +281,7 @@ hub.io.sockets.on('connection', function(socket) {
 
 
 
-  console.log("On Connect socket id: ", socket.id);
+  hub.log("On Connect socket id: ", socket.id);
   hub.onConnection(socket);
 
 });

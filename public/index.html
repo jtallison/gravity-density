@@ -43,8 +43,14 @@
           </svg>
       </div>
     </div>
-
-    <div id="coverBlur"></div>
+    <div id='starfield'>
+      <div class='star'>*</div>
+      <div class='star'>*</div>
+      <div class='star'>*</div>
+      <div class='star'>*</div>
+      <div class='star'>*</div>
+    </div>
+    <div id="coverBlur">Yo, am I blurry?</div>
 
     <div class="mainDisplay">
       <div id="header" class="header">
@@ -78,7 +84,7 @@
     </div>
 
     <div class="testingControls">
-      <button id="recordSample" onClick="sample()">Test Sample Some Audio</button>
+      <button id="recordSample" onClick="sampleCapture()">Test Sample Some Audio</button>
       <!-- <button class="btn-draw" onclick="draw();">Draw</button>
       <button class="btn-erase" onclick="erase();">Erase</button> -->
       <button onClick="gravSound.setLoop('self', 0.25, 0.75)">Test Set Loop Points</button>
@@ -95,9 +101,13 @@
   </div>
 
   <script>
-    window.addEventListener("contextmenu", function(e) { e.preventDefault(); e.stopPropagation(); return false;})
-    document.addEventListener("touchstart", function(){}, true);
+    // To stop window dragging -- only do this if you know what device everyone is using...
+    // window.addEventListener("contextmenu", function(e) { e.preventDefault(); e.stopPropagation(); return false;})
+    // document.addEventListener("touchstart", function(){}, true);
 
+    let coverBlur = document.getElementById('coverBlur');
+    let starfield = document.getElementById('starfield');
+    let stars = document.getElementsByClassName('star');
     let titleSpinner = document.getElementById('title-spinner');
     let recordOrbit = document.getElementById("recordOrbitSVG");
     // let playOrbit = document.getElementById('playOrbitSVG');
@@ -169,8 +179,85 @@
       x: 0.5,
       y: 0.5
     }
-    
+
     hub.init();
+
+    
+    hub.channel('cue', null, null, (data) => { cue(data); });
+
+    function cue(data) {
+      hub.log('Cue', data);
+      switch(data.name){
+        case 'preshow':
+          break;
+        case 'starfield':
+          revealStars(true)
+          break;
+        case 'begin': 
+          revealStars(false)
+          break;
+        case 'load': 
+          break;
+        case 'play': 
+          break;
+        case 'countdown':
+          break;
+        case 'launch':
+          break;
+        case 'play-launch': 
+          break;
+        case 'clear': 
+          break;
+        case 'capture': 
+          break;
+        case 'play2':
+          break;
+        case 'load2': 
+          break;
+        case 'clear2': 
+          break;
+        case 'magnificent': 
+          break;
+        case 'desolation': 
+          break;
+        case 'postshow': 
+          break;
+        case 'default':
+          console.log('Sample Command not recognized: ', data.val);
+      }
+    }
+
+
+
+
+      // Starfield & Stars
+    function setRandomAnimationDuration(star) {
+      star.style.animationDuration = Math.floor(Math.random() * 10 + 1) + "s";
+    }
+
+    Object.entries(stars).forEach (([number, star]) => {
+      star.addEventListener("transitionend", setRandomAnimationDuration(star));
+      star.addEventListener('ontouch', () => {
+
+      });
+    })
+
+    function revealStars(enable=true) {
+      if(enable) {
+        starfield.style.display = 'block';
+        starfield.classList.add('fade-in');
+        Object.entries(stars).forEach (([number, star]) => {
+          star.classList.add('star-slide');
+        })
+      } else {
+        starfield.classList.remove('fade-out');
+        Object.entries(stars).forEach (([number, star]) => {
+          star.classList.remove('star-slide');
+        })
+        starfield.style.display = 'none';
+      }
+    }
+
     
     let masterFaderNX = new Nexus.Slider('#slider1', {
       'mode': 'absolute'
@@ -254,21 +341,23 @@
       }
     });
 
-    function sample() {
+    function sampleCapture() {
       hub.transmit('sample', null, {
         'user': hub.user.name,
         'val': 'capture',
         'duration': '5'
       });
       recordEnable = false;
-      gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.77)');
+      // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.77)');
         // Now enabled through the loading of the recorded file
       // enableRecord(recordEnable);
       playEnable = true;
       // enablePlay(playEnable);
     };
 
-    hub.channel('enable', null, null, (data) => {
+    hub.channel('enable', null, null, (data) => {enable(data);});
+
+    function enable(data) {
       if (data.user === hub.user.name || data.user == 'all') {
         if (data.val == "record") {
           // enablePlay(!data.enabled);
@@ -293,7 +382,7 @@
           // will enable the PlayOnce set once the file loads.
         }
       }
-    });
+    }
 
 
     function hubPlay() {
@@ -319,9 +408,6 @@
         // or hub.send('sample', {val:'playLoop', user: hub.user.name});
     }
 
-    // hub.channel('loop', null, null, (data) => {
-    //   // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
-    // });
 
     function enableEdit(enabled) {
       if (enabled === false || enabled === true) {
@@ -376,13 +462,13 @@
         recordOrbit.classList.remove('blur');
         // recordOrbit.style.display = 'block';
         recordOrbit.classList.add('active');
-        gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
         setInstruction(instructionText.toSample);
         recordOrbit.onclick = () => {
           setInstruction(instructionText.sampling);
           gravSound.wavesurfer.stop();
           gravSound.wavesurfer.empty();
-          sample();
+          sampleCapture();
           recordOrbit.onclick = () => {};
           recordOrbit.classList.add('pulsate-fwd');
           recordOrbit.classList.add('blur');
@@ -401,7 +487,7 @@
         console.log('play')
         setInstruction(instructionText.playing);
         gravSound.playLoop();
-        hubPlay();
+        hubLoop();
       }
     };
     let _touchPlayEnd = (e) => {
@@ -444,7 +530,7 @@
         recordOrbit.classList.remove('blurry');
         recordOrbit.classList.add('rotate-center')
         recordOrbit.classList.add('active');
-        gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
         setInstruction(instructionText.toSample);
 
         recordOrbit.addEventListener('touchstart', _touchPlay, false);
