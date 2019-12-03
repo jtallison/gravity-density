@@ -38,6 +38,7 @@ class GravSound {
     this.wavesurferDiv = document.getElementById('waveform');
     this.waveBox = this.wavesurferDiv.getBoundingClientRect();  // .y, .width = 375
     this.duration = 0.001;
+    this.loopMoving = false;
 
     this.region;
     this.pastRegionDrag = {};
@@ -71,14 +72,14 @@ class GravSound {
       }
     }).connect(this.feedbackDelay);
 
-    this.synth.volume.value = -10;
+    this.synth.volume.value = -15;
 
     // Players
 
     this.player = [];
     this.player[0] = new Tone.Player("/data/mp3s/noisybeep-delay.mp3").toMaster();
     this.player[1] = new Tone.Player("/data/mp3s/beep.mp3").toMaster();
-    this.player[0].volume.value = -10;
+    this.player[0].volume.value = -18;
     this.player[1].volume.value = -10;
 
     Tone.Transport.start();
@@ -190,17 +191,23 @@ class GravSound {
     this.wavesurfer.on('ready', () => {this.wavesurferLoaded(toPlay)});
   
     this.wavesurfer.load(url);
+    controlBlurring(true);
   }
   
 
   wavesurferLoaded(toPlay=false) {
     console.log('Wave Loaded!')
+    controlBlurring(false);
     this.duration = this.wavesurfer.getDuration();
     let waveHeight = this.wavesurferDiv.clientHeight;
     this.wavesurfer.setHeight(waveHeight);
     this.wavesurfer.clearRegions();
     let regEnd = this.duration * 0.75;
     let regStart = this.duration * 0.25;
+    if(toPlay) {
+      regEnd = this.duration;
+      regStart = 0.;
+    }
     this.wavesurfer.addRegion({
       id: 1,
       start: regStart,
@@ -224,6 +231,8 @@ class GravSound {
     this.region = document.getElementsByClassName('wavesurfer-region')[0]
     this.waveBox = this.wavesurferDiv.getBoundingClientRect();  // .y, .width = 375
 
+    setInstruction(currentInstruction);
+
         // *** Replace Wavesurfer region drag controls
         // Grab original click location )verify that the finger is on the wavesurfer
     this.region.ontouchstart = (e) => {
@@ -236,46 +245,48 @@ class GravSound {
     }
         // Y drag sizes region, X drag moves it
     this.region.ontouchmove = (e)=> {
-      // console.log('ontouchmove', e);
-      let touchIndex = 0;
-      if(e.targetTouches.length > 1) {
-        // Figure out which touch is on the wavesurfer.
-      }
-      let regionDragScaler = 0.001;
-      let regionMin = 0.05;
-      let regionDragY = e.targetTouches[touchIndex].clientY;
-      let regionDragX = e.targetTouches[touchIndex].clientX;
+      if(touchEnable) {
 
-      console.log('');
-
-      let moveX = ((regionDragX / this.waveBox.width) - (this.pastRegionDrag.x / this.waveBox.width));  // x positions normalized 0.-1.0
-      let moveY = (this.pastRegionDrag.y - regionDragY) * regionDragScaler;  // this direction gets larger going upward, smaller downward
-      console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY, "move:X", moveX);
-      console.log("clientY:",regionDragY, "clientX", regionDragX);
-
-          // Normalized start and end times
-      let newStart = Math.max(0.,((this.wavesurfer.regions.list[1].start / this.duration) - moveY) + moveX);
-      let newEnd = Math.min(1.0,((this.wavesurfer.regions.list[1].end / this.duration) + moveY) + moveX);
-      
-        // Keep it from getting too small
-      if (newEnd - newStart < regionMin) {
-        if(newStart < (1.0-regionMin)) {
-          newEnd = newStart + regionMin;
-        } else {
-          newStart = newEnd + regionMin;
+        // console.log('ontouchmove', e);
+        let touchIndex = 0;
+        if(e.targetTouches.length > 1) {
+          // Figure out which touch is on the wavesurfer.
         }
+        let regionDragScaler = 0.001;
+        let regionMin = 0.05;
+        let regionDragY = e.targetTouches[touchIndex].clientY;
+        let regionDragX = e.targetTouches[touchIndex].clientX;
+        
+        // console.log('');
+        
+        let moveX = ((regionDragX / this.waveBox.width) - (this.pastRegionDrag.x / this.waveBox.width));  // x positions normalized 0.-1.0
+        let moveY = (this.pastRegionDrag.y - regionDragY) * regionDragScaler;  // this direction gets larger going upward, smaller downward
+        // console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY, "move:X", moveX);
+        // console.log("clientY:",regionDragY, "clientX", regionDragX);
+        
+        // Normalized start and end times
+        let newStart = Math.max(0.,((this.wavesurfer.regions.list[1].start / this.duration) - moveY) + moveX);
+        let newEnd = Math.min(1.0,((this.wavesurfer.regions.list[1].end / this.duration) + moveY) + moveX);
+        
+        // Keep it from getting too small
+        if (newEnd - newStart < regionMin) {
+          if(newStart < (1.0-regionMin)) {
+            newEnd = newStart + regionMin;
+          } else {
+            newStart = newEnd + regionMin;
+          }
+        }
+        
+        this.setLoop(hub.user.name, newStart, newEnd);
+        this.moveLoop(hub.user.name, newStart, newEnd);
+        // this.wavesurfer.regions.list[1].start = newStart * this.duration;
+        // this.wavesurfer.regions.list[1].end = newEnd * this.duration;
+        // this.wavesurfer.drawBuffer();
+
+        this.pastRegionDrag.y = regionDragY;
+        this.pastRegionDrag.x = regionDragX;
       }
-
-      this.setLoop(hub.user.name, newStart, newEnd);
-      this.moveLoop(hub.user.name, newStart, newEnd);
-      // this.wavesurfer.regions.list[1].start = newStart * this.duration;
-      // this.wavesurfer.regions.list[1].end = newEnd * this.duration;
-      // this.wavesurfer.drawBuffer();
-
-      this.pastRegionDrag.y = regionDragY;
-      this.pastRegionDrag.x = regionDragX;
     };
-
 
     if(playOnceEnable) {
       this.wavesurfer.regions.list[1].color = 'hsla(39, 100%, 38%, 0.25)';
@@ -305,6 +316,7 @@ class GravSound {
   
   playRegion(currentSample) {
     if (this.hasLoop()) {
+      this.wavesurfer.stop();
       this.wavesurfer.regions.list[1].loop = false;
       this.wavesurfer.regions.list[1].play(0.);
     }
@@ -320,7 +332,13 @@ class GravSound {
       if (this.hasLoop()) {
         this.wavesurfer.regions.list[1].start = begin * this.duration;
         this.wavesurfer.regions.list[1].end = end * this.duration;
-        this.wavesurfer.drawBuffer();
+        if(!this.loopMoving) {
+          setTimeout(() => {
+            this.wavesurfer.drawBuffer();
+            this.loopMoving = false;
+          }, 100);
+          this.loopMoving = true;
+        }
       }
     }
   }
@@ -337,6 +355,7 @@ class GravSound {
 
   playLoop() {
     if (this.hasLoop()) {
+      this.wavesurfer.stop();
       this.wavesurfer.regions.list[1].loop = true;
       this.wavesurfer.regions.list[1].playLoop();
     } else {

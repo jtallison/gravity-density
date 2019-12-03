@@ -267,6 +267,7 @@
             loadPlayFile(user.username, file);
             console.log('Countdown:' + countdownPosition + ' user ' + user.username);
           }
+          hub.send('countdown', {val:countdownPosition});
           countdownPosition--;
         }
       }
@@ -341,6 +342,7 @@
     cueNX.on ('change', (v) => {
       console.log('Cue ', v.index, v.value, v);
       setCue(v.index);
+      currentCue = v.index;
     });
 
     cueNextNX.on ('change', (v) => {
@@ -368,7 +370,7 @@
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
-      console.log("User? ", data.user in gravSound.userSamples);
+      // console.log("User? ", data.user in gravSound.userSamples);
 
       switch(data.val){
         case 'capture':

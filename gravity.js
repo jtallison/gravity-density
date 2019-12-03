@@ -180,10 +180,13 @@ hub.io.sockets.on('connection', function(socket) {
 
     // console.log('sample:', data);
     hub.log('sample', data);
-    hub.transmit('sample', null, data);
 
-    if (data.val === 'load') {
+    if (data.val == 'blah') {
       // hub.transmit('sample', null, data);
+    } else if (data.val == 'loop') {
+      hub.io.to(hub.controller.id).emit('sample', data);
+    } else {
+      hub.transmit('sample', null, data);
     }
   });
 
@@ -204,6 +207,11 @@ hub.io.sockets.on('connection', function(socket) {
     hub.currentSubCue = data.subcue;
   });
 
+  hub.channel('countdown', null, null, (data) => {
+    // console.log('cue:', data);
+    hub.log('countdown:', data);
+    hub.transmit('countdown', null, data);
+  });
 
 
 

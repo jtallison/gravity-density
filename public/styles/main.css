@@ -37,7 +37,7 @@ body {
 }
 
 .blur {
-  filter: blur(3px);
+  filter: blur(2px);
 }
 
 .blurBlur {
@@ -68,7 +68,7 @@ body {
     align-items: center;
 }
 
-#starfield {
+#star-field {
   display: none;
   position: absolute;
   width: 100%;
@@ -88,9 +88,9 @@ body {
   display: block;
 }
 
-#coverBlur {
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+#cover-blur {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: none;
   position: absolute;
   width: 100%;
@@ -100,6 +100,22 @@ body {
 }
 
 .coverOn {
+  display: block;
+}
+
+#control-blur {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 50%;
+  z-index: 9;
+  background-color: rgba(50,0,0,0.6);
+}
+
+.controlOn {
   display: block;
 }
 
