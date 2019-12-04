@@ -2,8 +2,9 @@
 # gravity.emdm.io
 
 #Image from Node 6.9-alpine
-FROM node:6.9-alpine
+# FROM node:6.9-alpine  # need polyfil for Object.entries in node 6.9
 # FROM gliderlabs/alpine:3.3
+FROM node:8.16-alpine
 
 # FFMPEG First
 ENV FFMPEG_VERSION=4.1.4

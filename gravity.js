@@ -23,6 +23,19 @@ var NexusHub = require('./js/hub');
 var hub = new NexusHub();
 let ffmpeg = require('ffmpeg');
 
+// Polyfill for Objects.entries
+if (!Object.entries) {
+  Object.entries = function( obj ){
+    var ownProps = Object.keys( obj ),
+        i = ownProps.length,
+        resArray = new Array(i); // preallocate the Array
+    while (i--)
+      resArray[i] = [ownProps[i], obj[ownProps[i]]];
+    
+    return resArray;
+  };
+}
+
 // update any server settings before initialization
 if (process.env.PORT) {
   hub.serverPort = process.env.PORT;
