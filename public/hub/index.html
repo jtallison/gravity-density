@@ -57,6 +57,7 @@
       <div class='controls'>
         <div id='cueSelector'></div><div id='cueNext'></div>
         <div id='sectionSelector'></div><div id='sectionNext'></div>
+        <div id='clearUsers'></div>
         <div id="slider"></div>
         <div class='controls'>
           <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
@@ -128,7 +129,7 @@
     let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
     
     let countdownPosition = 10;
-    let countdownNumber = 5;
+    let countdownNumber = 4;
     let nearbyRange = 0.2;
 
     // *** Nexus UI Elements ***
@@ -150,20 +151,30 @@
       'options': cues
     });
     let cueNextNX = new Nexus.Button('#cueNext');
+    cueNextNX.mode = 'button';
+    let clearUsersNX = new Nexus.Button("#clearUsers", {'size': [30,30]});
+    clearUsersNX.mode = 'button';
     
     let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
-    let triggerLaunch = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
+    loadLaunchNX.mode = 'button';
+    let triggerLaunchNX = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
+    triggerLaunchNX.mode = 'button';
     let enableCountdown = new Nexus.Toggle('#enableCountdown');
     let triggerCountdown = new Nexus.Button("#triggerCountdown", {'size': [30,30]});
+    triggerCountdown.mode = 'button';
     let loadSpeaking = new Nexus.Button("#loadSpeaking", {'size': [30,30]});
+    loadSpeaking.mode = 'button';
     let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
+    triggerSpeaking.mode = 'button';
     let enableRecord = new Nexus.Toggle('#enableRecord');
     let enableEdit = new Nexus.Toggle('#enableEdit');
     let enablePlay = new Nexus.Toggle('#enablePlay');
     let enableTouch = new Nexus.Toggle('#enableTouch');
     let enableLoop = new Nexus.Toggle('#enableLoop');
     let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
+    magnificentLaunch.mode = 'button';
     let silence = new Nexus.Button("#silence", {'size': [30,30]});
+    silence.mode = 'button';
     
 
     // let record_1 = new Nexus.Toggle("#record-1");
@@ -232,13 +243,13 @@
 
         // -------- LAUNCH CONTROLS
     loadLaunchNX.on('change', function (v) {
-      if(v.state==false) {
+      if(v==false) {
         loadFile('/data/mp3s/AtlasVLaunch.mp3');
       }
     });
 
-    triggerLaunch.on('change', function (v) {
-      if(v.state==true) {
+    triggerLaunchNX.on('change', function (v) {
+      if(v==true) {
         let data = {
           user : 'all',
           val : 'play'
@@ -258,10 +269,10 @@
     });
 
     triggerCountdown.on('change', function (v) {
-      if(v.state == true) {
+      if(v == true) {
         console.log("Countdown: " + countdownPosition);
         if(countdownPosition >=0) {
-          for(let i= 0;i<countdownNumber;i++) {
+          for(let i= 0;i<registeredUsers.length / countdownNumber;i++) {
             let file = countdownClips[countdownPosition]
             let user = randomItem(registeredUsers);
             loadPlayFile(user.username, file);
@@ -276,16 +287,16 @@
     loadSpeaking.on('change', function (v) {
       let user = randomItem(registeredUsers);
       let file = randomItem(speakingClips);
-      if(v.state==false) {
+      if(v==false) {
         loadPlayFile(user.username, file);
       }
     });
 
     triggerSpeaking.on('change', function (v) {
-      if(v.state==false) {
-        let user = randomItem(registeredUsers);
-        let file = randomItem(speakingClips);
-        loadPlayFile(user.username, file);
+      if(v==false) {
+        let user = 'all';
+        let file = speakingClips[3]; // randomItem(speakingClips);  // sp-ignitionSequence.mp3
+        loadPlayFile(user, file);
         // let data = {
         //   user : 'all',
         //   val : 'play'
@@ -295,14 +306,14 @@
     });
 
     magnificentLaunch.on('change', function (v) {
-      if(v.state==false) {
+      if(v==false) {
         let file = '/data/mp3s/MagnificentDesolation.mp3';
         loadFile(file, true); // file, playOnce?
       }
     });
 
     silence.on('change', function (v) {
-      if(v.state==false) {
+      if(v==false) {
         let file = '/data/mp3s/silence.mp3';
         loadFile(file);
       }
@@ -346,7 +357,7 @@
     });
 
     cueNextNX.on ('change', (v) => {
-      if(v.state == true) {
+      if(v == true) {
         nextCue();
       }
     });
@@ -366,6 +377,15 @@
         'name': cues[cue],
         'subcue': subcue 
       });
+      if(cues[cue] == 'magnificent') {
+        let file = '/data/mp3s/MagnificentDesolation.mp3';
+        loadFile(file, true); // file, playOnce?
+      } else if(cues[cue] == 'clear'){
+        let file = '/data/mp3s/silence.mp3';
+        loadFile(file);
+      } else if(cues[cue] == 'launch'){
+        loadFile('/data/mp3s/AtlasVLaunch.mp3');
+      }
     }
 
     hub.channel('sample', null, null, (data) => {
@@ -510,7 +530,7 @@
       let nearbyUsers = [];
       Object.entries(registeredUsers).forEach(([number, user])=>{
         let mag = Math.sqrt((((user.location.x-x)*aspect)*((user.location.x-x)*aspect))+((user.location.y-y)*(user.location.y-y)));
-        console.log("Magnitude ", mag, user.username);
+        // console.log("Magnitude ", mag, user.username);
         if (mag <= nRange) {
           nearbyUsers.push(user.username);
         }
@@ -572,6 +592,11 @@
         hub.transmit('sample',null, data);
     }
 
+    sectionNextNX.on ('change', (v) => {
+      if(v == true) {
+        hub.send('clearUsers', 'now');
+      }
+    });
 
 
       // ******* Sections *******
@@ -589,7 +614,7 @@
     });
 
     sectionNextNX.on ('change', (v) => {
-      if(v.state == true) {
+      if(v == true) {
         nextSection();
       }
     });

@@ -306,7 +306,9 @@ class GravSound {
   };
 
   play(){
-    this.wavesurfer.stop();
+    if(this.isPlaying()) {
+        this.wavesurfer.stop();
+      }
     this.wavesurfer.regions.list[1].start = 0.;
     this.wavesurfer.regions.list[1].end = this.duration;
     this.wavesurfer.drawBuffer();
@@ -316,7 +318,9 @@ class GravSound {
   
   playRegion(currentSample) {
     if (this.hasLoop()) {
-      this.wavesurfer.stop();
+      if(this.isPlaying()) {
+        this.wavesurfer.stop();
+      }
       this.wavesurfer.regions.list[1].loop = false;
       this.wavesurfer.regions.list[1].play(0.);
     }
@@ -355,7 +359,9 @@ class GravSound {
 
   playLoop() {
     if (this.hasLoop()) {
-      this.wavesurfer.stop();
+      if(this.isPlaying()) {
+        this.wavesurfer.stop();
+      }
       this.wavesurfer.regions.list[1].loop = true;
       this.wavesurfer.regions.list[1].playLoop();
     } else {

@@ -129,14 +129,14 @@
 
     let setMessage = (text) => {document.getElementById('message').innerText = text};
     let messageText = {
-      'preConcert': { default: 'Welcome Performer\ndensity loading...',
-                      1: 'Welcome Performer\ndensity loading...', 
+      'preConcert': { default: 'Welcome Performer\nloading density...',
+                      1: 'Welcome Performer\nloading density...', 
                       2: 'designing interstellar experience...', 
                       3: 'initiating gravity...',
                       4: 'Gravity|Density'
                     },
-      'spokenOpening':  { default: 'Awaiting transmission...',
-                          sputnik: 'With sputnik beeping from above\na single human object beyond earth\nthe pull of space is felt.'
+      'spokenOpening':  { default: 'Bent CDs engaged\nAwaiting transmission...',
+                          sputnik: 'sputnik beeping from above\na single human object beyond earth\nthe pull of space is felt.'
                         },
       'countdown':  { default: 'Prepare for Launch',
                       10: 'T-minus\n10', 9: '9', 8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1', 0: ''
@@ -161,7 +161,7 @@
       currentInstruction = instruction;
     };
     let instructionText = {
-      'preConcert': 'Control Zone Empty',
+      'preConcert': 'Control Zone\nnothing loaded',
       'spokenOpening': 'Play a Sound',
       'countdown': 'Counting Down',
       'launch': 'Process',
@@ -180,6 +180,7 @@
       'dragPlay': 'drag the loop\npress to play',
       'toLoop': 'Tap to Loop\nagain to pause',
       'looping': 'Looping',
+      'abyss': 'look into the abyss',
       'gravity': 'gravity\ndensity'
     }
 
@@ -219,9 +220,10 @@
           break;
         case 'load': 
           // start loading files to process
+          // randomLoading(true);
+          enablePlay(true);
           setMessage(messageText.spokenOpening.sputnik);
           setInstruction('firstLoad');
-          enablePlay(true);
           break;
         case 'play': 
           setMessage(messageText.spokenOpening.sputnik);
@@ -229,6 +231,7 @@
           enableEdit(true);
           break;
         case 'countdown':
+          // randomLoading(false);
           setMessage(messageText.countdown.default);
           setInstruction('toPlay');
           break;
@@ -251,7 +254,7 @@
           //clear, load silence
           break;
         case 'capture': 
-        enablePlay(true);
+          enableEdit(true);
           enableRecord(true);
           setMessage(messageText.space.space);
           setInstruction('space');
@@ -262,10 +265,14 @@
         case 'load2': 
           setMessage(messageText.gravity.default);
           setInstruction('toSample');
+          enableEdit(true);
+          enableRecord(true);
           break;
         case 'clear2': 
           setMessage(messageText.gravity[1]);
-          setInstruction('toSample');
+          setInstruction('abyss');
+          enableRecord(false);
+          enableEdit(false);
           break;
         case 'magnificent': 
           setMessage(messageText.gravity[2]);
@@ -374,16 +381,17 @@
               enableRecord(false);
               enablePlay(false);
               playOnceEnable = true;
-              enablePlayOnce(true)
+              enablePlayOnce(playOnceEnable)
               setInstruction('loading');
               setTimeout((url) => {
                 gravSound.loadSample(url)
               }, 500, data.url);
+            } else {
+              setInstruction('loading');
+              setTimeout((url, play=false) => {
+                gravSound.loadSample(url,play);
+              }, 500, data.url, data.play);
             }
-            setInstruction('loading');
-            setTimeout((url) => {
-              gravSound.loadSample(url)
-            }, 500, data.url);
           }
         } else {
           if (data.val == "load" && data.sample == true) {

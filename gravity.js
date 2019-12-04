@@ -87,6 +87,8 @@ hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launc
 hub.currentCue = 0;
 hub.currentSubCue = 0;
 
+hub.registeredUsers = [];
+
 // global states
 gravity = {
   masterFader: 1.0,
@@ -160,7 +162,18 @@ hub.io.sockets.on('connection', function(socket) {
     }
     
     if (hub.controller.id) {
-      hub.io.to(hub.controller.id).emit('welcome', {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation });
+      if(hub.controller.id != socket.id) {
+        let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
+        hub.io.to(hub.controller.id).emit('welcome', data);
+        hub.registeredUsers.push(data); 
+      } else {        // the controller just joined. do we have users already?
+        if(hub.registeredUsers.length > 0) {
+          Object.entries(hub.registeredUsers).forEach(([number, data])=>{
+            hub.io.to(hub.controller.id).emit('welcome', data);
+          });
+        }
+      }
+
     }
 
     socket.emit('gravityState', gravity);
@@ -183,7 +196,7 @@ hub.io.sockets.on('connection', function(socket) {
 
     if (data.val == 'blah') {
       // hub.transmit('sample', null, data);
-    } else if (data.val == 'loop') {
+    } else if (data.val == 'loop' || data.val == 'loopHub' || data.val == 'pauseHub' || data.val == 'playHub') {
       hub.io.to(hub.controller.id).emit('sample', data);
     } else {
       hub.transmit('sample', null, data);
@@ -213,6 +226,14 @@ hub.io.sockets.on('connection', function(socket) {
     hub.transmit('countdown', null, data);
   });
 
+
+  hub.channel('clearUsers', null, null, (data) => {
+    // data.user = "name", .val = record, .enabled = boolean
+    // console.log('enable:', data);
+    hub.log('clearUsers:', hub.registeredUsers.length);
+    hub.registeredUsers = [];
+    hub.log('Users', hub.registeredUsers);
+  });
 
 
 
