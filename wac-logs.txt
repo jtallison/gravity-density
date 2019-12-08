@@ -1,0 +1,1500 @@
+2019-12-04T20:05:36.450287+00:00 app[web.1]: Hub sample [ { user: 'a_user_97068',
+2019-12-04T20:05:36.450290+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.450292+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.450294+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.450385+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.452369+00:00 app[web.1]: Hub sample [ { user: 'a_user_26215',
+2019-12-04T20:05:36.452373+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.452375+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.452377+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.452469+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.454529+00:00 app[web.1]: Hub sample [ { user: 'a_user_50495',
+2019-12-04T20:05:36.454532+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.454534+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.454536+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.454638+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.457926+00:00 app[web.1]: Hub sample [ { user: 'a_user_88697',
+2019-12-04T20:05:36.457930+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.457931+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.457933+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.458040+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.460026+00:00 app[web.1]: Hub sample [ { user: 'a_user_79193',
+2019-12-04T20:05:36.460029+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.460031+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.460033+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.460112+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.461975+00:00 app[web.1]: Hub sample [ { user: 'a_user_68718',
+2019-12-04T20:05:36.461978+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.461980+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.461982+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.462072+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.464025+00:00 app[web.1]: Hub sample [ { user: 'a_user_79291',
+2019-12-04T20:05:36.464029+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.464031+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.464033+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.464118+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.465980+00:00 app[web.1]: Hub sample [ { user: 'a_user_5498',
+2019-12-04T20:05:36.465984+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.465986+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.465988+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.466088+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:36.467995+00:00 app[web.1]: Hub sample [ { user: 'a_user_80221',
+2019-12-04T20:05:36.467998+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:36.468000+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:36.468002+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:36.468061+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.415120+00:00 app[web.1]: Hub sample [ { user: 'a_user_600',
+2019-12-04T20:05:38.415146+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.415148+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.415151+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.415159+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.430231+00:00 app[web.1]: Hub sample [ { user: 'a_user_57331',
+2019-12-04T20:05:38.430235+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.430237+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.430239+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.430277+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.434316+00:00 app[web.1]: Hub sample [ { user: 'a_user_26147',
+2019-12-04T20:05:38.434320+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.434322+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.434323+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.434381+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.435761+00:00 app[web.1]: Hub sample [ { user: 'a_user_42060',
+2019-12-04T20:05:38.435764+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.435766+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.435768+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.435820+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.437191+00:00 app[web.1]: Hub sample [ { user: 'a_user_47458',
+2019-12-04T20:05:38.437194+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.437196+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.437198+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.437263+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.438581+00:00 app[web.1]: Hub sample [ { user: 'a_user_23886',
+2019-12-04T20:05:38.438584+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.438586+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.438588+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.438648+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.439969+00:00 app[web.1]: Hub sample [ { user: 'a_user_18323',
+2019-12-04T20:05:38.439972+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.439974+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.439976+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.440025+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.441354+00:00 app[web.1]: Hub sample [ { user: 'a_user_51756',
+2019-12-04T20:05:38.441357+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.441359+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.441361+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.441413+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.444426+00:00 app[web.1]: Hub sample [ { user: 'a_user_25751',
+2019-12-04T20:05:38.444429+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.444431+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.444433+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.444487+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.447196+00:00 app[web.1]: Hub sample [ { user: 'a_user_96635',
+2019-12-04T20:05:38.447199+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.447201+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.447203+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.447256+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.448603+00:00 app[web.1]: Hub sample [ { user: 'a_user_74207',
+2019-12-04T20:05:38.448606+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.448608+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.448610+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.448672+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.452244+00:00 app[web.1]: Hub sample [ { user: 'a_user_33564',
+2019-12-04T20:05:38.452247+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.452249+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.452251+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.452297+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.460868+00:00 app[web.1]: Hub sample [ { user: 'a_user_14592',
+2019-12-04T20:05:38.460872+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.460876+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.460879+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.460974+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.465189+00:00 app[web.1]: Hub sample [ { user: 'a_user_22971',
+2019-12-04T20:05:38.465193+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.465195+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.465197+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.465281+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.467636+00:00 app[web.1]: Hub sample [ { user: 'a_user_90337',
+2019-12-04T20:05:38.467639+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.467641+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.467643+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.467715+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.471580+00:00 app[web.1]: Hub sample [ { user: 'a_user_25064',
+2019-12-04T20:05:38.471583+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.471585+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.471587+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.471803+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:38.473320+00:00 app[web.1]: Hub sample [ { user: 'a_user_19073',
+2019-12-04T20:05:38.473324+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:38.473326+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:38.473328+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:38.473403+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.276047+00:00 app[web.1]: Hub sample [ { user: 'a_user_58020',
+2019-12-04T20:05:40.276060+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.276062+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.276064+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.276149+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.278999+00:00 app[web.1]: Hub sample [ { user: 'a_user_81545',
+2019-12-04T20:05:40.279003+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.279005+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.279007+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.279138+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.281356+00:00 app[web.1]: Hub sample [ { user: 'a_user_26147',
+2019-12-04T20:05:40.281359+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.281361+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.281363+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.281448+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.305495+00:00 app[web.1]: Hub sample [ { user: 'a_user_63004',
+2019-12-04T20:05:40.305500+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.305503+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.305505+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.305625+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.308052+00:00 app[web.1]: Hub sample [ { user: 'a_user_20587',
+2019-12-04T20:05:40.308055+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.308057+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.308059+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.308169+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.312499+00:00 app[web.1]: Hub sample [ { user: 'a_user_51756',
+2019-12-04T20:05:40.312503+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.312505+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.312507+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.312837+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.317198+00:00 app[web.1]: Hub sample [ { user: 'a_user_11065',
+2019-12-04T20:05:40.317202+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.317204+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.317206+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.317943+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.319821+00:00 app[web.1]: Hub sample [ { user: 'a_user_74579',
+2019-12-04T20:05:40.319824+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.319826+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.319828+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.320156+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.321996+00:00 app[web.1]: Hub sample [ { user: 'a_user_29071',
+2019-12-04T20:05:40.321999+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.322001+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.322004+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.328872+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.331232+00:00 app[web.1]: Hub sample [ { user: 'a_user_215',
+2019-12-04T20:05:40.331236+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.331238+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.331240+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.332646+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.335147+00:00 app[web.1]: Hub sample [ { user: 'a_user_53413',
+2019-12-04T20:05:40.335151+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.335153+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.335155+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.335434+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:40.341109+00:00 app[web.1]: Hub sample [ { user: 'a_user_19073',
+2019-12-04T20:05:40.341113+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:40.341115+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:40.341117+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:40.341223+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.231362+00:00 app[web.1]: Hub sample [ { user: 'a_user_39744',
+2019-12-04T20:05:42.231379+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.231381+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.231383+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.231392+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.253326+00:00 app[web.1]: Hub sample [ { user: 'a_user_35637',
+2019-12-04T20:05:42.253331+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.253335+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.253337+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.253461+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.258956+00:00 app[web.1]: Hub sample [ { user: 'a_user_49846',
+2019-12-04T20:05:42.258960+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.258962+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.258964+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.259074+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.261809+00:00 app[web.1]: Hub sample [ { user: 'a_user_5832',
+2019-12-04T20:05:42.261813+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.261814+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.261817+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.262112+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.263722+00:00 app[web.1]: Hub sample [ { user: 'a_user_44136',
+2019-12-04T20:05:42.263726+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.263728+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.263730+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.263830+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:42.265766+00:00 app[web.1]: Hub sample [ { user: 'a_user_82053',
+2019-12-04T20:05:42.265769+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:42.265771+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:42.265773+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:42.265870+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.132010+00:00 app[web.1]: Hub sample [ { user: 'a_user_42060',
+2019-12-04T20:05:44.132026+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.132028+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.132030+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.132109+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.136957+00:00 app[web.1]: Hub sample [ { user: 'a_user_76630',
+2019-12-04T20:05:44.136960+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.136962+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.136964+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.137053+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.138695+00:00 app[web.1]: Hub sample [ { user: 'a_user_39744',
+2019-12-04T20:05:44.138699+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.138701+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.138703+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.138806+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.144671+00:00 app[web.1]: Hub sample [ { user: 'a_user_23886',
+2019-12-04T20:05:44.144675+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.144677+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.144679+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.144743+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.146265+00:00 app[web.1]: Hub sample [ { user: 'a_user_3931',
+2019-12-04T20:05:44.146268+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.146270+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.146273+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.146370+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.147952+00:00 app[web.1]: Hub sample [ { user: 'a_user_74207',
+2019-12-04T20:05:44.147956+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.147958+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.147960+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.148022+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.149621+00:00 app[web.1]: Hub sample [ { user: 'a_user_84718',
+2019-12-04T20:05:44.149624+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.149626+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.149628+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.149681+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.150924+00:00 app[web.1]: Hub sample [ { user: 'a_user_5832',
+2019-12-04T20:05:44.150927+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.150930+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.150932+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.150984+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.155280+00:00 app[web.1]: Hub sample [ { user: 'a_user_14592',
+2019-12-04T20:05:44.155284+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.155286+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.155288+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.155347+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:44.164870+00:00 app[web.1]: Hub sample [ { user: 'a_user_82053',
+2019-12-04T20:05:44.164873+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:44.164876+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:44.164878+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:44.164961+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.216746+00:00 app[web.1]: Hub sample [ { user: 'a_user_600',
+2019-12-04T20:05:46.216771+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.216774+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.216776+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.216868+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.226222+00:00 app[web.1]: Hub sample [ { user: 'a_user_57331',
+2019-12-04T20:05:46.226227+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.226229+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.226231+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.226370+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.228292+00:00 app[web.1]: Hub sample [ { user: 'a_user_1885',
+2019-12-04T20:05:46.228295+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.228297+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.228300+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.228589+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.230688+00:00 app[web.1]: Hub sample [ { user: 'a_user_47458',
+2019-12-04T20:05:46.230692+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.230694+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.230696+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.230792+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.235000+00:00 app[web.1]: Hub sample [ { user: 'a_user_49012',
+2019-12-04T20:05:46.235004+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.235006+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.235009+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.235100+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.237011+00:00 app[web.1]: Hub sample [ { user: 'a_user_10369',
+2019-12-04T20:05:46.237015+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.237017+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.237019+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.237264+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.239092+00:00 app[web.1]: Hub sample [ { user: 'a_user_99478',
+2019-12-04T20:05:46.239096+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.239098+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.239100+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.239281+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.241108+00:00 app[web.1]: Hub sample [ { user: 'a_user_18323',
+2019-12-04T20:05:46.241116+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.241118+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.241120+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.241269+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.243050+00:00 app[web.1]: Hub sample [ { user: 'a_user_25751',
+2019-12-04T20:05:46.243054+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.243056+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.243058+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.243170+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.245094+00:00 app[web.1]: Hub sample [ { user: 'a_user_96635',
+2019-12-04T20:05:46.245098+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.245100+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.245102+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.245196+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.246966+00:00 app[web.1]: Hub sample [ { user: 'a_user_33564',
+2019-12-04T20:05:46.246970+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.246972+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.246973+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.247118+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.248835+00:00 app[web.1]: Hub sample [ { user: 'a_user_80357',
+2019-12-04T20:05:46.248839+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.248841+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.248843+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.249066+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.250808+00:00 app[web.1]: Hub sample [ { user: 'a_user_22971',
+2019-12-04T20:05:46.250816+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.250818+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.250820+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.250916+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.252747+00:00 app[web.1]: Hub sample [ { user: 'a_user_90337',
+2019-12-04T20:05:46.252751+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.252753+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.252755+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.252851+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.254684+00:00 app[web.1]: Hub sample [ { user: 'a_user_25064',
+2019-12-04T20:05:46.254688+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.254690+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.254692+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.254853+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:46.256613+00:00 app[web.1]: Hub sample [ { user: 'a_user_80221',
+2019-12-04T20:05:46.256616+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:46.256618+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:46.256620+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:46.260754+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.675476+00:00 app[web.1]: Hub sample [ { user: 'a_user_92915',
+2019-12-04T20:05:47.675489+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.675491+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.675494+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.675915+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.685083+00:00 app[web.1]: Hub sample [ { user: 'a_user_10611',
+2019-12-04T20:05:47.685088+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.685091+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.685093+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.686251+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.688244+00:00 app[web.1]: Hub sample [ { user: 'a_user_16531',
+2019-12-04T20:05:47.688248+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.688250+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.688252+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.688803+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.690653+00:00 app[web.1]: Hub sample [ { user: 'a_user_97068',
+2019-12-04T20:05:47.690656+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.690659+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.690661+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.701703+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.703744+00:00 app[web.1]: Hub sample [ { user: 'a_user_50495',
+2019-12-04T20:05:47.703748+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.703750+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.703752+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.704352+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.715325+00:00 app[web.1]: Hub sample [ { user: 'a_user_88697',
+2019-12-04T20:05:47.715330+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.715332+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.715334+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.725005+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.727237+00:00 app[web.1]: Hub sample [ { user: 'a_user_79193',
+2019-12-04T20:05:47.727242+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.727244+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.727246+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.736559+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.742435+00:00 app[web.1]: Hub sample [ { user: 'a_user_49213',
+2019-12-04T20:05:47.742440+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.742442+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.742444+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.743341+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.745420+00:00 app[web.1]: Hub sample [ { user: 'a_user_68718',
+2019-12-04T20:05:47.745443+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.745447+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.745449+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.748627+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.750631+00:00 app[web.1]: Hub sample [ { user: 'a_user_5498',
+2019-12-04T20:05:47.750635+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.750638+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.750640+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.751075+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:47.753087+00:00 app[web.1]: Hub sample [ { user: 'a_user_80221',
+2019-12-04T20:05:47.753091+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:47.753093+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:47.753095+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:47.761096+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.617643+00:00 app[web.1]: Hub sample [ { user: 'a_user_19173',
+2019-12-04T20:05:50.617676+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.617679+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.617681+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.617689+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.625105+00:00 app[web.1]: Hub sample [ { user: 'a_user_97521',
+2019-12-04T20:05:50.625109+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.625111+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.625113+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.625267+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.628027+00:00 app[web.1]: Hub sample [ { user: 'a_user_79079',
+2019-12-04T20:05:50.628030+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.628032+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.628035+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.628243+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.631669+00:00 app[web.1]: Hub sample [ { user: 'a_user_18274',
+2019-12-04T20:05:50.631672+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.631675+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.631677+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.631997+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.638447+00:00 app[web.1]: Hub sample [ { user: 'a_user_40936',
+2019-12-04T20:05:50.638451+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.638453+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.638455+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.638553+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.648307+00:00 app[web.1]: Hub sample [ { user: 'a_user_5092',
+2019-12-04T20:05:50.648312+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.648314+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.648316+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.648388+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.650449+00:00 app[web.1]: Hub sample [ { user: 'a_user_4800',
+2019-12-04T20:05:50.650453+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.650455+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.650457+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.658339+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.665050+00:00 app[web.1]: Hub sample [ { user: 'a_user_84339',
+2019-12-04T20:05:50.665054+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.665056+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.665058+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.665239+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.667182+00:00 app[web.1]: Hub sample [ { user: 'a_user_11365',
+2019-12-04T20:05:50.667185+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.667187+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.667189+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.667675+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.669280+00:00 app[web.1]: Hub sample [ { user: 'a_user_5480',
+2019-12-04T20:05:50.669283+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.669285+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.669287+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.669375+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.670857+00:00 app[web.1]: Hub sample [ { user: 'a_user_76082',
+2019-12-04T20:05:50.670860+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.670862+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.670864+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.670961+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.673083+00:00 app[web.1]: Hub sample [ { user: 'a_user_23744',
+2019-12-04T20:05:50.673086+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.673088+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.673090+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.673182+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.688996+00:00 app[web.1]: Hub sample [ { user: 'a_user_97406',
+2019-12-04T20:05:50.689001+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.689002+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.689005+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.689092+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.691598+00:00 app[web.1]: Hub sample [ { user: 'a_user_15200',
+2019-12-04T20:05:50.691601+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.691603+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.691605+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.691752+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.694363+00:00 app[web.1]: Hub sample [ { user: 'a_user_76712',
+2019-12-04T20:05:50.694366+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.694368+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.694370+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.700645+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:50.708853+00:00 app[web.1]: Hub sample [ { user: 'a_user_76895',
+2019-12-04T20:05:50.708858+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:50.708860+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:50.708862+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:50.708968+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.479476+00:00 app[web.1]: Hub sample [ { user: 'a_user_79079',
+2019-12-04T20:05:51.479489+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.479491+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.479493+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.479540+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.482837+00:00 app[web.1]: Hub sample [ { user: 'a_user_57576',
+2019-12-04T20:05:51.482841+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.482843+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.482845+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.483146+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.487211+00:00 app[web.1]: Hub sample [ { user: 'a_user_37246',
+2019-12-04T20:05:51.487215+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.487217+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.487219+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.487359+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.491050+00:00 app[web.1]: Hub sample [ { user: 'a_user_11365',
+2019-12-04T20:05:51.491054+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.491057+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.491059+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.491118+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.494749+00:00 app[web.1]: Hub sample [ { user: 'a_user_23744',
+2019-12-04T20:05:51.494752+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.494754+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.494756+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.494829+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.498185+00:00 app[web.1]: Hub sample [ { user: 'a_user_97406',
+2019-12-04T20:05:51.498189+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.498191+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.498193+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.498275+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:05:51.500564+00:00 app[web.1]: Hub sample [ { user: 'a_user_4547',
+2019-12-04T20:05:51.500568+00:00 app[web.1]: val: 'play',
+2019-12-04T20:05:51.500570+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:05:51.500572+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:05:51.500632+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:00.096056+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=0c35e7f5-ae81-4c95-bd8e-c4ca2c9eed36 fwd="80.215.14.64,108.162.229.95" dyno=web.1 connect=2ms service=1315798ms status=101 bytes=175 protocol=http
+2019-12-04T20:06:00.098017+00:00 app[web.1]: Hub SERVER:  [ 'xFdeVgn90VfX0lpnAABV', ' has left the building' ]
+2019-12-04T20:06:03.731328+00:00 app[web.1]: Hub sample [ { user: 'a_user_13785',
+2019-12-04T20:06:03.731342+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.731344+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.731346+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.731388+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.736501+00:00 app[web.1]: Hub sample [ { user: 'a_user_19173',
+2019-12-04T20:06:03.736506+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.736508+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.736510+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.736664+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.742833+00:00 app[web.1]: Hub sample [ { user: 'a_user_97521',
+2019-12-04T20:06:03.742837+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.742840+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.742842+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.751654+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.753800+00:00 app[web.1]: Hub sample [ { user: 'a_user_79079',
+2019-12-04T20:06:03.753804+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.753806+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.753808+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.760693+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.794946+00:00 app[web.1]: Hub sample [ { user: 'a_user_18274',
+2019-12-04T20:06:03.794951+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.794954+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.794956+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.795069+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.802789+00:00 app[web.1]: Hub sample [ { user: 'a_user_40936',
+2019-12-04T20:06:03.802792+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.802795+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.802797+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.803007+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.812911+00:00 app[web.1]: Hub sample [ { user: 'a_user_5092',
+2019-12-04T20:06:03.812915+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.812917+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.812919+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.813132+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.814636+00:00 app[web.1]: Hub sample [ { user: 'a_user_4800',
+2019-12-04T20:06:03.814639+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.814641+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.814643+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.825539+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.828045+00:00 app[web.1]: Hub sample [ { user: 'a_user_32700',
+2019-12-04T20:06:03.828049+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.828051+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.828053+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.828158+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.830709+00:00 app[web.1]: Hub sample [ { user: 'a_user_84339',
+2019-12-04T20:06:03.830713+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.830715+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.830717+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.830823+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.836260+00:00 app[web.1]: Hub sample [ { user: 'a_user_11365',
+2019-12-04T20:06:03.836264+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.836266+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.836268+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.836634+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.846521+00:00 app[web.1]: Hub sample [ { user: 'a_user_5480',
+2019-12-04T20:06:03.846525+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.846527+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.846529+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.846662+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.858105+00:00 app[web.1]: Hub sample [ { user: 'a_user_76082',
+2019-12-04T20:06:03.858109+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.858111+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.858113+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.858959+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.874386+00:00 app[web.1]: Hub sample [ { user: 'a_user_23744',
+2019-12-04T20:06:03.874391+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.874393+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.874395+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.874496+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.876247+00:00 app[web.1]: Hub sample [ { user: 'a_user_97406',
+2019-12-04T20:06:03.876250+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.876252+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.876254+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.877005+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.878682+00:00 app[web.1]: Hub sample [ { user: 'a_user_15200',
+2019-12-04T20:06:03.878685+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.878687+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.878689+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.878853+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.880343+00:00 app[web.1]: Hub sample [ { user: 'a_user_76712',
+2019-12-04T20:06:03.880347+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.880349+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.880351+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.883064+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:03.884550+00:00 app[web.1]: Hub sample [ { user: 'a_user_76895',
+2019-12-04T20:06:03.884553+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:03.884555+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:03.884557+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:03.886794+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.302284+00:00 app[web.1]: Hub sample [ { user: 'a_user_600',
+2019-12-04T20:06:15.302298+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.302301+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.302303+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.302346+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.310512+00:00 app[web.1]: Hub sample [ { user: 'a_user_57331',
+2019-12-04T20:06:15.310517+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.310519+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.310521+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.310614+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.317310+00:00 app[web.1]: Hub sample [ { user: 'a_user_1885',
+2019-12-04T20:06:15.317314+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.317317+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.317319+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.317421+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.319167+00:00 app[web.1]: Hub sample [ { user: 'a_user_47458',
+2019-12-04T20:06:15.319171+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.319173+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.319175+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.324610+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.326522+00:00 app[web.1]: Hub sample [ { user: 'a_user_49012',
+2019-12-04T20:06:15.326526+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.326528+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.326530+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.332698+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.334555+00:00 app[web.1]: Hub sample [ { user: 'a_user_10369',
+2019-12-04T20:06:15.334559+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.334561+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.334563+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.340243+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.344186+00:00 app[web.1]: Hub sample [ { user: 'a_user_99478',
+2019-12-04T20:06:15.344190+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.344192+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.344194+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.344282+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.360161+00:00 app[web.1]: Hub sample [ { user: 'a_user_18323',
+2019-12-04T20:06:15.360166+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.360168+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.360170+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.362287+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.363951+00:00 app[web.1]: Hub sample [ { user: 'a_user_25751',
+2019-12-04T20:06:15.363955+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.363957+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.363959+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.364881+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.366406+00:00 app[web.1]: Hub sample [ { user: 'a_user_96635',
+2019-12-04T20:06:15.366409+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.366412+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.366413+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.366498+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.372828+00:00 app[web.1]: Hub sample [ { user: 'a_user_26215',
+2019-12-04T20:06:15.372832+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.372835+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.372837+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.373354+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.387789+00:00 app[web.1]: Hub sample [ { user: 'a_user_33564',
+2019-12-04T20:06:15.387793+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.387795+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.387797+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.387878+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.390895+00:00 app[web.1]: Hub sample [ { user: 'a_user_80357',
+2019-12-04T20:06:15.390899+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.390902+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.390904+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.390997+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.392699+00:00 app[web.1]: Hub sample [ { user: 'a_user_22971',
+2019-12-04T20:06:15.392702+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.392704+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.392706+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.392799+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.394368+00:00 app[web.1]: Hub sample [ { user: 'a_user_90337',
+2019-12-04T20:06:15.394372+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.394374+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.394376+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.394460+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.415809+00:00 app[web.1]: Hub sample [ { user: 'a_user_25064',
+2019-12-04T20:06:15.415817+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.415820+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.415822+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.416030+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:15.422731+00:00 app[web.1]: Hub sample [ { user: 'a_user_80221',
+2019-12-04T20:06:15.422735+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:15.422737+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:15.422740+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:15.422935+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.501046+00:00 app[web.1]: Hub sample [ { user: 'a_user_19173',
+2019-12-04T20:06:21.501059+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.501061+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.501063+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.501324+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.512661+00:00 app[web.1]: Hub sample [ { user: 'a_user_97521',
+2019-12-04T20:06:21.512665+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.512667+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.512669+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.512786+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.515565+00:00 app[web.1]: Hub sample [ { user: 'a_user_79079',
+2019-12-04T20:06:21.515585+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.515588+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.515590+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.515884+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.520106+00:00 app[web.1]: Hub sample [ { user: 'a_user_18274',
+2019-12-04T20:06:21.520109+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.520112+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.520114+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.520313+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.527335+00:00 app[web.1]: Hub sample [ { user: 'a_user_40936',
+2019-12-04T20:06:21.527338+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.527340+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.527342+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.527446+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.535468+00:00 app[web.1]: Hub sample [ { user: 'a_user_5092',
+2019-12-04T20:06:21.535471+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.535474+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.535476+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.540109+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.544274+00:00 app[web.1]: Hub sample [ { user: 'a_user_4800',
+2019-12-04T20:06:21.544277+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.544279+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.544281+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.545761+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.547444+00:00 app[web.1]: Hub sample [ { user: 'a_user_84339',
+2019-12-04T20:06:21.547448+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.547449+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.547451+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.547528+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.553818+00:00 app[web.1]: Hub sample [ { user: 'a_user_11365',
+2019-12-04T20:06:21.553822+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.553824+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.553826+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.554773+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.556524+00:00 app[web.1]: Hub sample [ { user: 'a_user_5480',
+2019-12-04T20:06:21.556528+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.556530+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.556532+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.557643+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.559855+00:00 app[web.1]: Hub sample [ { user: 'a_user_76082',
+2019-12-04T20:06:21.559859+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.559861+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.559863+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.560253+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.562967+00:00 app[web.1]: Hub sample [ { user: 'a_user_23744',
+2019-12-04T20:06:21.562970+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.562973+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.562975+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.563060+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.565575+00:00 app[web.1]: Hub sample [ { user: 'a_user_97406',
+2019-12-04T20:06:21.565578+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.565580+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.565582+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.565888+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.568270+00:00 app[web.1]: Hub sample [ { user: 'a_user_15200',
+2019-12-04T20:06:21.568273+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.568275+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.568277+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.568368+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.597566+00:00 app[web.1]: Hub sample [ { user: 'a_user_76712',
+2019-12-04T20:06:21.597570+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.597572+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.597574+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.597791+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:21.605826+00:00 app[web.1]: Hub sample [ { user: 'a_user_76895',
+2019-12-04T20:06:21.605829+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:21.605831+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:21.605833+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:21.605909+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.194711+00:00 app[web.1]: Hub sample [ { user: 'a_user_92915',
+2019-12-04T20:06:23.194728+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.194730+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.194732+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.194871+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.207834+00:00 app[web.1]: Hub sample [ { user: 'a_user_10611',
+2019-12-04T20:06:23.207838+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.207840+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.207842+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.208175+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.211829+00:00 app[web.1]: Hub sample [ { user: 'a_user_1885',
+2019-12-04T20:06:23.211833+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.211834+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.211837+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.212307+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.218652+00:00 app[web.1]: Hub sample [ { user: 'a_user_16531',
+2019-12-04T20:06:23.218656+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.218658+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.218660+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.218769+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.224716+00:00 app[web.1]: Hub sample [ { user: 'a_user_49012',
+2019-12-04T20:06:23.224720+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.224722+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.224724+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.224824+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.229118+00:00 app[web.1]: Hub sample [ { user: 'a_user_99478',
+2019-12-04T20:06:23.229121+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.229124+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.229126+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.232649+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.240654+00:00 app[web.1]: Hub sample [ { user: 'a_user_97068',
+2019-12-04T20:06:23.240674+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.240676+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.240678+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.240973+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.248691+00:00 app[web.1]: Hub sample [ { user: 'a_user_26215',
+2019-12-04T20:06:23.248695+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.248697+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.248699+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.249016+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.253441+00:00 app[web.1]: Hub sample [ { user: 'a_user_50495',
+2019-12-04T20:06:23.253445+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.253447+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.253449+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.253752+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.259859+00:00 app[web.1]: Hub sample [ { user: 'a_user_88697',
+2019-12-04T20:06:23.259863+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.259865+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.259867+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.264673+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.266578+00:00 app[web.1]: Hub sample [ { user: 'a_user_79193',
+2019-12-04T20:06:23.266581+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.266583+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.266585+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.266677+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.268243+00:00 app[web.1]: Hub sample [ { user: 'a_user_49213',
+2019-12-04T20:06:23.268246+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.268249+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.268251+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.268380+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.269876+00:00 app[web.1]: Hub sample [ { user: 'a_user_68718',
+2019-12-04T20:06:23.269879+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.269881+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.269883+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.271393+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.278534+00:00 app[web.1]: Hub sample [ { user: 'a_user_79291',
+2019-12-04T20:06:23.278538+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.278540+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.278542+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.278729+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.284229+00:00 app[web.1]: Hub sample [ { user: 'a_user_5498',
+2019-12-04T20:06:23.284233+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.284235+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.284237+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.285706+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:23.288943+00:00 app[web.1]: Hub sample [ { user: 'a_user_80221',
+2019-12-04T20:06:23.288946+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:23.288948+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:23.288950+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:23.289127+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.880752+00:00 app[web.1]: Hub sample [ { user: 'a_user_42060',
+2019-12-04T20:06:24.880762+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.880764+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.880766+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.881219+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.891109+00:00 app[web.1]: Hub sample [ { user: 'a_user_76630',
+2019-12-04T20:06:24.891113+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.891116+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.891118+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.893517+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.898684+00:00 app[web.1]: Hub sample [ { user: 'a_user_39744',
+2019-12-04T20:06:24.898688+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.898690+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.898692+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.898972+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.906504+00:00 app[web.1]: Hub sample [ { user: 'a_user_35637',
+2019-12-04T20:06:24.906509+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.906511+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.906513+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.908125+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.909788+00:00 app[web.1]: Hub sample [ { user: 'a_user_3931',
+2019-12-04T20:06:24.909791+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.909793+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.909795+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.910571+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.912103+00:00 app[web.1]: Hub sample [ { user: 'a_user_49846',
+2019-12-04T20:06:24.912107+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.912109+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.912111+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.915285+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.917535+00:00 app[web.1]: Hub sample [ { user: 'a_user_5832',
+2019-12-04T20:06:24.917538+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.917540+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.917542+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.917679+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.920081+00:00 app[web.1]: Hub sample [ { user: 'a_user_44136',
+2019-12-04T20:06:24.920085+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.920087+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.920089+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.920244+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.924571+00:00 app[web.1]: Hub sample [ { user: 'a_user_33564',
+2019-12-04T20:06:24.924575+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.924578+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.924580+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.924674+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.926339+00:00 app[web.1]: Hub sample [ { user: 'a_user_79193',
+2019-12-04T20:06:24.926343+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.926345+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.926347+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.926490+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.928090+00:00 app[web.1]: Hub sample [ { user: 'a_user_79291',
+2019-12-04T20:06:24.928093+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.928096+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.928098+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.928185+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:24.929719+00:00 app[web.1]: Hub sample [ { user: 'a_user_82053',
+2019-12-04T20:06:24.929722+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:24.929724+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:24.929726+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:24.929813+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.425289+00:00 app[web.1]: Hub sample [ { user: 'a_user_58020',
+2019-12-04T20:06:26.425307+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.425309+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.425311+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.425322+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.437080+00:00 app[web.1]: Hub sample [ { user: 'a_user_81545',
+2019-12-04T20:06:26.437084+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.437089+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.437092+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.440654+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.442451+00:00 app[web.1]: Hub sample [ { user: 'a_user_26147',
+2019-12-04T20:06:26.442455+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.442457+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.442459+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.448708+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.450715+00:00 app[web.1]: Hub sample [ { user: 'a_user_63004',
+2019-12-04T20:06:26.450719+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.450721+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.450723+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.450934+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.452642+00:00 app[web.1]: Hub sample [ { user: 'a_user_20587',
+2019-12-04T20:06:26.452645+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.452648+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.452649+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.456662+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.458406+00:00 app[web.1]: Hub sample [ { user: 'a_user_51756',
+2019-12-04T20:06:26.458410+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.458412+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.458413+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.464760+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.466512+00:00 app[web.1]: Hub sample [ { user: 'a_user_11065',
+2019-12-04T20:06:26.466516+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.466518+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.466520+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.472953+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.474744+00:00 app[web.1]: Hub sample [ { user: 'a_user_74207',
+2019-12-04T20:06:26.474748+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.474750+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.474752+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.474844+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.476436+00:00 app[web.1]: Hub sample [ { user: 'a_user_74579',
+2019-12-04T20:06:26.476440+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.476442+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.476444+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.480678+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.482480+00:00 app[web.1]: Hub sample [ { user: 'a_user_29071',
+2019-12-04T20:06:26.482485+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.482488+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.482490+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.488804+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.490789+00:00 app[web.1]: Hub sample [ { user: 'a_user_215',
+2019-12-04T20:06:26.490792+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.490794+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.490796+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.490913+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.493180+00:00 app[web.1]: Hub sample [ { user: 'a_user_53413',
+2019-12-04T20:06:26.493184+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.493186+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.493187+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.500688+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:26.502423+00:00 app[web.1]: Hub sample [ { user: 'a_user_19073',
+2019-12-04T20:06:26.502427+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:26.502429+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:26.502431+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:26.502525+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.076955+00:00 app[web.1]: Hub sample [ { user: 'a_user_600',
+2019-12-04T20:06:28.076976+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.076979+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.076981+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.077610+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.084091+00:00 app[web.1]: Hub sample [ { user: 'a_user_57331',
+2019-12-04T20:06:28.084096+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.084098+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.084099+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.084198+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.089987+00:00 app[web.1]: Hub sample [ { user: 'a_user_42060',
+2019-12-04T20:06:28.089990+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.089992+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.089994+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.090109+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.092340+00:00 app[web.1]: Hub sample [ { user: 'a_user_76630',
+2019-12-04T20:06:28.092344+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.092346+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.092348+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.092461+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.097260+00:00 app[web.1]: Hub sample [ { user: 'a_user_47458',
+2019-12-04T20:06:28.097265+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.097267+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.097269+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.097504+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.105901+00:00 app[web.1]: Hub sample [ { user: 'a_user_10369',
+2019-12-04T20:06:28.105907+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.105909+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.105910+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.106004+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.107797+00:00 app[web.1]: Hub sample [ { user: 'a_user_23886',
+2019-12-04T20:06:28.107801+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.107802+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.107805+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.107869+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.109396+00:00 app[web.1]: Hub sample [ { user: 'a_user_18323',
+2019-12-04T20:06:28.109399+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.109401+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.109403+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.109410+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.117063+00:00 app[web.1]: Hub sample [ { user: 'a_user_25751',
+2019-12-04T20:06:28.117067+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.117069+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.117071+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.117176+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.124953+00:00 app[web.1]: Hub sample [ { user: 'a_user_3931',
+2019-12-04T20:06:28.124957+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.124965+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.124967+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.125074+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.126807+00:00 app[web.1]: Hub sample [ { user: 'a_user_96635',
+2019-12-04T20:06:28.126811+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.126813+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.126814+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.134877+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.136729+00:00 app[web.1]: Hub sample [ { user: 'a_user_74207',
+2019-12-04T20:06:28.136733+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.136736+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.136738+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.137218+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.138866+00:00 app[web.1]: Hub sample [ { user: 'a_user_5832',
+2019-12-04T20:06:28.138869+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.138871+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.138873+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.138965+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.140603+00:00 app[web.1]: Hub sample [ { user: 'a_user_33564',
+2019-12-04T20:06:28.140606+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.140608+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.140610+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.140699+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.147901+00:00 app[web.1]: Hub sample [ { user: 'a_user_14592',
+2019-12-04T20:06:28.147905+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.147907+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.147909+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.148005+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.149615+00:00 app[web.1]: Hub sample [ { user: 'a_user_82053',
+2019-12-04T20:06:28.149618+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.149620+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.149622+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.151515+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.153221+00:00 app[web.1]: Hub sample [ { user: 'a_user_22971',
+2019-12-04T20:06:28.153225+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.153227+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.153229+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.153324+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.154912+00:00 app[web.1]: Hub sample [ { user: 'a_user_90337',
+2019-12-04T20:06:28.154915+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.154917+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.154919+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.160664+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.162440+00:00 app[web.1]: Hub sample [ { user: 'a_user_25064',
+2019-12-04T20:06:28.162444+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.162447+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.162448+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.162543+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:28.164051+00:00 app[web.1]: Hub sample [ { user: 'a_user_19073',
+2019-12-04T20:06:28.164054+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:28.164056+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:28.164057+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:28.164147+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:39.947234+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=3e99594f-02de-44a7-aa87-ed485c93908f fwd="188.29.164.145,162.158.158.115" dyno=web.1 connect=1ms service=1635084ms status=101 bytes=234092 protocol=http
+2019-12-04T20:06:39.952385+00:00 app[web.1]: Hub SERVER:  [ '-8kLc26G7RDkaFAmAAAj', ' has left the building' ]
+2019-12-04T20:06:53.155692+00:00 app[web.1]: Hub sample [ { user: 'a_user_13785',
+2019-12-04T20:06:53.155705+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.155708+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.155710+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.159556+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.163918+00:00 app[web.1]: Hub sample [ { user: 'a_user_97521',
+2019-12-04T20:06:53.163922+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.163925+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.163926+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.164022+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.166789+00:00 app[web.1]: Hub sample [ { user: 'a_user_57331',
+2019-12-04T20:06:53.166793+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.166795+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.166797+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.166881+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.183472+00:00 app[web.1]: Hub sample [ { user: 'a_user_18274',
+2019-12-04T20:06:53.183477+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.183479+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.183481+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.185447+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.194730+00:00 app[web.1]: Hub sample [ { user: 'a_user_18323',
+2019-12-04T20:06:53.194735+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.194737+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.194739+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.194783+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.200923+00:00 app[web.1]: Hub sample [ { user: 'a_user_5092',
+2019-12-04T20:06:53.200927+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.200929+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.200931+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.200969+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.204403+00:00 app[web.1]: Hub sample [ { user: 'a_user_32700',
+2019-12-04T20:06:53.204406+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.204409+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.204411+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.204532+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.206288+00:00 app[web.1]: Hub sample [ { user: 'a_user_76082',
+2019-12-04T20:06:53.206292+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.206294+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.206296+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.206416+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.208049+00:00 app[web.1]: Hub sample [ { user: 'a_user_80357',
+2019-12-04T20:06:53.208053+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.208055+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.208057+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.208130+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:53.209737+00:00 app[web.1]: Hub sample [ { user: 'a_user_76712',
+2019-12-04T20:06:53.209740+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:53.209742+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:53.209744+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:53.209809+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.761715+00:00 app[web.1]: Hub sample [ { user: 'a_user_13785',
+2019-12-04T20:06:54.761734+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.761737+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.761739+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.761747+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.763268+00:00 app[web.1]: Hub sample [ { user: 'a_user_19173',
+2019-12-04T20:06:54.763271+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.763274+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.763275+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.763340+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.764827+00:00 app[web.1]: Hub sample [ { user: 'a_user_97521',
+2019-12-04T20:06:54.764831+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.764833+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.764835+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.764904+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.766588+00:00 app[web.1]: Hub sample [ { user: 'a_user_79079',
+2019-12-04T20:06:54.766592+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.766594+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.766596+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.766665+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.768156+00:00 app[web.1]: Hub sample [ { user: 'a_user_18274',
+2019-12-04T20:06:54.768159+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.768161+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.768163+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.771039+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.772686+00:00 app[web.1]: Hub sample [ { user: 'a_user_40936',
+2019-12-04T20:06:54.772690+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.772692+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.772694+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.772764+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.774395+00:00 app[web.1]: Hub sample [ { user: 'a_user_5092',
+2019-12-04T20:06:54.774399+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.774401+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.774403+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.774472+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.775972+00:00 app[web.1]: Hub sample [ { user: 'a_user_4800',
+2019-12-04T20:06:54.775975+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.775977+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.775979+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.776048+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.779051+00:00 app[web.1]: Hub sample [ { user: 'a_user_32700',
+2019-12-04T20:06:54.779054+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.779057+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.779059+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.779119+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.780675+00:00 app[web.1]: Hub sample [ { user: 'a_user_84339',
+2019-12-04T20:06:54.780679+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.780681+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.780682+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.780745+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.782236+00:00 app[web.1]: Hub sample [ { user: 'a_user_11365',
+2019-12-04T20:06:54.782239+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.782241+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.782243+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.782307+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.783799+00:00 app[web.1]: Hub sample [ { user: 'a_user_5480',
+2019-12-04T20:06:54.783803+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.783806+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.783808+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.783867+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.823100+00:00 app[web.1]: Hub sample [ { user: 'a_user_76082',
+2019-12-04T20:06:54.823104+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.823106+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.823108+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.823158+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.824747+00:00 app[web.1]: Hub sample [ { user: 'a_user_23744',
+2019-12-04T20:06:54.824751+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.824753+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.824755+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.824910+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.826377+00:00 app[web.1]: Hub sample [ { user: 'a_user_97406',
+2019-12-04T20:06:54.826381+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.826383+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.826385+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.832289+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.835880+00:00 app[web.1]: Hub sample [ { user: 'a_user_15200',
+2019-12-04T20:06:54.835884+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.835886+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.835888+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.835984+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.837678+00:00 app[web.1]: Hub sample [ { user: 'a_user_76712',
+2019-12-04T20:06:54.837681+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.837683+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.837685+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.837812+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:06:54.841754+00:00 app[web.1]: Hub sample [ { user: 'a_user_76895',
+2019-12-04T20:06:54.841757+00:00 app[web.1]: val: 'play',
+2019-12-04T20:06:54.841762+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:06:54.841764+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:06:54.842117+00:00 app[web.1]: Channel:  sample  Destinations:  [ 'others' ]
+2019-12-04T20:07:18.636378+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=1a122164-c370-4f3e-adb8-efc37c66a195 fwd="87.196.72.137,172.68.102.100" dyno=web.1 connect=1ms service=118530ms status=101 bytes=29053 protocol=http
+2019-12-04T20:07:18.641007+00:00 app[web.1]: Hub SERVER:  [ '4dubcxsO05Q-ZwS3AAB9', ' has left the building' ]
+2019-12-04T20:07:52.940372+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:07:52.944671+00:00 app[web.1]: Hub On Connect socket id:  [ 'aVpRH3sAORP3x8AyAAB-' ]
+2019-12-04T20:07:52.944736+00:00 app[web.1]: onConnection
+2019-12-04T20:07:52.944807+00:00 app[web.1]: socket id:  aVpRH3sAORP3x8AyAAB-
+2019-12-04T20:07:52.949286+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:07:52.949363+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:07:52.949437+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:07:52.949513+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:07:52.949582+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:07:52.949651+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:07:52.949718+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:07:52.949791+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:07:52.949860+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:07:52.949928+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:07:52.950074+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:07:52.950150+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:07:52.950218+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:07:52.950284+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:07:52.950350+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:07:52.950415+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:08:07.691347+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:08:07.691415+00:00 app[web.1]: Hub On Connect socket id:  [ 'AosxC75u_jwkA547AAB_' ]
+2019-12-04T20:08:07.691447+00:00 app[web.1]: onConnection
+2019-12-04T20:08:07.691505+00:00 app[web.1]: socket id:  AosxC75u_jwkA547AAB_
+2019-12-04T20:08:07.691598+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:08:07.691646+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:08:07.691697+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:08:07.691759+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:08:07.691802+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:08:07.691861+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:08:07.691911+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:08:07.691968+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:08:07.692015+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:08:07.692357+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:08:07.692428+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:08:07.692540+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:08:07.697337+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:08:07.697671+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:08:07.698177+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:08:07.698348+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:08:42.810497+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:08:42.810571+00:00 app[web.1]: Hub On Connect socket id:  [ 'spNKZXj6QUASeR3gAACA' ]
+2019-12-04T20:08:42.810611+00:00 app[web.1]: onConnection
+2019-12-04T20:08:42.814520+00:00 app[web.1]: socket id:  spNKZXj6QUASeR3gAACA
+2019-12-04T20:08:42.814578+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:08:42.814642+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:08:42.814706+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:08:42.814762+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:08:42.814821+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:08:42.814884+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:08:42.816484+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:08:42.816589+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:08:42.816646+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:08:42.816699+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:08:42.816764+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:08:42.816820+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:08:42.816873+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:08:42.816933+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:08:42.816986+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:08:42.817038+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:08:43.005369+00:00 app[web.1]: Hub sample [ { user: 'a_user_90337',
+2019-12-04T20:08:43.005374+00:00 app[web.1]: val: 'playHub',
+2019-12-04T20:08:43.005376+00:00 app[web.1]: destinationPrecedence: 0,
+2019-12-04T20:08:43.005383+00:00 app[web.1]: destinations: [ 'others' ] } ]
+2019-12-04T20:08:50.338491+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=7d6b8f29-194f-4a61-8163-aa71bb13186b fwd="158.38.8.36,162.158.134.6" dyno=web.1 connect=0ms service=57402ms status=101 bytes=224 protocol=http
+2019-12-04T20:08:50.340909+00:00 app[web.1]: Hub SERVER:  [ 'aVpRH3sAORP3x8AyAAB-', ' has left the building' ]
+2019-12-04T20:08:59.016129+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:08:59.016221+00:00 app[web.1]: Hub On Connect socket id:  [ 'OofNcS-rPfJd-rerAACB' ]
+2019-12-04T20:08:59.016321+00:00 app[web.1]: onConnection
+2019-12-04T20:08:59.016364+00:00 app[web.1]: socket id:  OofNcS-rPfJd-rerAACB
+2019-12-04T20:08:59.016452+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:08:59.016512+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:08:59.016645+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:08:59.016714+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:08:59.016829+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:08:59.016899+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:08:59.017017+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:08:59.017082+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:08:59.017191+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:08:59.017256+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:08:59.017369+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:08:59.017481+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:08:59.017547+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:08:59.017655+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:08:59.017744+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:08:59.017802+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:09:54.018900+00:00 heroku[router]: at=error code=H15 desc="Idle connection" method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=85ad63e5-5b60-487e-bf35-f3b79eae5723 fwd="158.38.8.36,162.158.134.5" dyno=web.1 connect=1ms service=55004ms status=503 bytes= protocol=http
+2019-12-04T20:09:54.018184+00:00 app[web.1]: Hub SERVER:  [ 'OofNcS-rPfJd-rerAACB', ' has left the building' ]
+2019-12-04T20:10:03.397901+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:10:03.398012+00:00 app[web.1]: Hub On Connect socket id:  [ 'jpUSE6Qfb4zBUARCAACC' ]
+2019-12-04T20:10:03.398074+00:00 app[web.1]: onConnection
+2019-12-04T20:10:03.398156+00:00 app[web.1]: socket id:  jpUSE6Qfb4zBUARCAACC
+2019-12-04T20:10:03.398221+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:10:03.398327+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:10:03.398394+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:10:03.398510+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:10:03.398578+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:10:03.398683+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:10:03.398750+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:10:03.398848+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:10:03.398915+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:10:03.399054+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:10:03.399131+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:10:03.399220+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:10:03.399286+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:10:03.399384+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:10:03.399455+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:10:03.399563+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:10:56.128201+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:10:56.128219+00:00 app[web.1]: Hub On Connect socket id:  [ 'CjSwgs33LMGUl_C8AACD' ]
+2019-12-04T20:10:56.128222+00:00 app[web.1]: onConnection
+2019-12-04T20:10:56.128224+00:00 app[web.1]: socket id:  CjSwgs33LMGUl_C8AACD
+2019-12-04T20:10:56.128226+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:10:56.128228+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:10:56.128230+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:10:56.128232+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:10:56.128234+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:10:56.128237+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:10:56.128239+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:10:56.128241+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:10:56.128243+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:10:56.128245+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:10:56.128247+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:10:56.132754+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:10:56.132813+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:10:56.132864+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:10:56.132915+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:10:56.132973+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:10:57.306836+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=2445249d-0f24-4b5a-a3f0-4d0a2e3b9d2b fwd="158.38.8.36,162.158.134.5" dyno=web.1 connect=0ms service=1184ms status=101 bytes=267 protocol=http
+2019-12-04T20:10:57.309667+00:00 app[web.1]: Hub SERVER:  [ 'CjSwgs33LMGUl_C8AACD', ' has left the building' ]
+2019-12-04T20:11:43.648626+00:00 heroku[router]: at=error code=H15 desc="Idle connection" method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=8262d3c8-f03b-4649-84ea-60dd5662eb1f fwd="158.38.8.36,162.158.134.6" dyno=web.1 connect=2ms service=100253ms status=503 bytes= protocol=http
+2019-12-04T20:11:43.654425+00:00 app[web.1]: Hub SERVER:  [ 'jpUSE6Qfb4zBUARCAACC', ' has left the building' ]
+2019-12-04T20:11:47.666477+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:11:47.666635+00:00 app[web.1]: Hub On Connect socket id:  [ 'kISD36xuaDK-TYoxAACE' ]
+2019-12-04T20:11:47.666700+00:00 app[web.1]: onConnection
+2019-12-04T20:11:47.666776+00:00 app[web.1]: socket id:  kISD36xuaDK-TYoxAACE
+2019-12-04T20:11:47.666855+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:11:47.666924+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:11:47.666993+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:11:47.667064+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:11:47.667142+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:11:47.667212+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:11:47.667278+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:11:47.667346+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:11:47.667423+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:11:47.667490+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:11:47.667555+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:11:47.667625+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:11:47.667705+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:11:47.667769+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:11:47.667837+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:11:47.667903+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:12:56.007199+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=c18e1436-d3a3-4289-8d1f-4181d259e4b5 fwd="158.38.8.36,162.158.134.8" dyno=web.1 connect=0ms service=253199ms status=101 bytes=297 protocol=http
+2019-12-04T20:12:56.008860+00:00 app[web.1]: Hub SERVER:  [ 'spNKZXj6QUASeR3gAACA', ' has left the building' ]
+2019-12-04T20:13:05.201451+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=ddda908e-85bb-4302-8186-8fc24d6c9cd3 fwd="158.38.8.36,162.158.134.6" dyno=web.1 connect=1ms service=77541ms status=101 bytes=270 protocol=http
+2019-12-04T20:13:05.202593+00:00 app[web.1]: Hub SERVER:  [ 'kISD36xuaDK-TYoxAACE', ' has left the building' ]
+2019-12-04T20:13:31.973163+00:00 heroku[router]: at=error code=H15 desc="Idle connection" method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=9d6a2579-e2a1-42e2-82c7-affd11601821 fwd="87.196.72.137,172.68.102.100" dyno=web.1 connect=0ms service=324290ms status=503 bytes= protocol=http
+2019-12-04T20:13:31.977694+00:00 app[web.1]: Hub SERVER:  [ 'AosxC75u_jwkA547AAB_', ' has left the building' ]
+2019-12-04T20:13:34.308554+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:13:34.310152+00:00 app[web.1]: Hub On Connect socket id:  [ '518xRb3vqVJOAEcSAACF' ]
+2019-12-04T20:13:34.310748+00:00 app[web.1]: onConnection
+2019-12-04T20:13:34.311201+00:00 app[web.1]: socket id:  518xRb3vqVJOAEcSAACF
+2019-12-04T20:13:34.311400+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:13:34.311955+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:13:34.312089+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:13:34.312474+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:13:34.313019+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:13:34.313360+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:13:34.313858+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:13:34.313935+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:13:34.314243+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:13:34.314378+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:13:34.314471+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:13:34.314645+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:13:34.314996+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:13:34.315108+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:13:34.315350+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:13:34.315507+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:13:53.230923+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=5a7b81b5-a2c3-4035-ba15-762f1c3a7493 fwd="158.38.8.36,162.158.134.6" dyno=web.1 connect=0ms service=2049288ms status=101 bytes=235600 protocol=http
+2019-12-04T20:13:53.234943+00:00 app[web.1]: Hub SERVER:  [ 'GL7IY1214Cxi5lYnAAAw', ' has left the building' ]
+2019-12-04T20:14:29.467097+00:00 app[web.1]: Hub SERVER:  [ '518xRb3vqVJOAEcSAACF', ' has left the building' ]
+2019-12-04T20:14:29.483693+00:00 heroku[router]: at=error code=H15 desc="Idle connection" method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=3d7873c3-a784-41a2-9d70-01351339553e fwd="87.196.72.137,172.68.102.100" dyno=web.1 connect=2ms service=55164ms status=503 bytes= protocol=http
+2019-12-04T20:14:57.683308+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:14:57.683386+00:00 app[web.1]: Hub On Connect socket id:  [ 'gKyocxEQB-4mby-WAACG' ]
+2019-12-04T20:14:57.683435+00:00 app[web.1]: onConnection
+2019-12-04T20:14:57.683511+00:00 app[web.1]: socket id:  gKyocxEQB-4mby-WAACG
+2019-12-04T20:14:57.683542+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:14:57.683602+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:14:57.683660+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:14:57.683724+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:14:57.683778+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:14:57.683855+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:14:57.683892+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:14:57.683978+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:14:57.684052+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:14:57.684120+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:14:57.684194+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:14:57.684273+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:14:57.684342+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:14:57.684417+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:14:57.684484+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:14:57.684597+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:15:24.408669+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:15:24.408778+00:00 app[web.1]: Hub On Connect socket id:  [ 't0mN2CCo8NkerNDlAACH' ]
+2019-12-04T20:15:24.408899+00:00 app[web.1]: onConnection
+2019-12-04T20:15:24.410944+00:00 app[web.1]: socket id:  t0mN2CCo8NkerNDlAACH
+2019-12-04T20:15:24.411985+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:15:24.412077+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:15:24.412143+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:15:24.412346+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:15:24.425186+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:15:24.436818+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:15:24.436921+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:15:24.437597+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:15:24.437665+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:15:24.437723+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:15:24.437925+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:15:24.438040+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:15:24.438510+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:15:24.438577+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:15:24.438650+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:15:24.438728+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:15:25.933406+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=1a83710f-039a-468c-bf7f-5d62b8f64778 fwd="87.196.72.137,172.68.102.100" dyno=web.1 connect=0ms service=28249ms status=101 bytes=267 protocol=http
+2019-12-04T20:15:25.932614+00:00 app[web.1]: Hub SERVER:  [ 'gKyocxEQB-4mby-WAACG', ' has left the building' ]
+2019-12-04T20:16:19.408424+00:00 heroku[router]: at=error code=H15 desc="Idle connection" method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=64803478-9983-46f7-8516-955e9f3031ea fwd="158.38.8.36,162.158.134.6" dyno=web.1 connect=1ms service=55009ms status=503 bytes= protocol=http
+2019-12-04T20:16:19.411431+00:00 app[web.1]: Hub SERVER:  [ 't0mN2CCo8NkerNDlAACH', ' has left the building' ]
+2019-12-04T20:16:35.717288+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:16:35.717465+00:00 app[web.1]: Hub On Connect socket id:  [ '63nA8Pr3_N5Rq_oZAACI' ]
+2019-12-04T20:16:35.717548+00:00 app[web.1]: onConnection
+2019-12-04T20:16:35.717594+00:00 app[web.1]: socket id:  63nA8Pr3_N5Rq_oZAACI
+2019-12-04T20:16:35.717647+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:16:35.717722+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:16:35.717772+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:16:35.717911+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:16:35.717969+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:16:35.718052+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:16:35.718100+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:16:35.718148+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:16:35.718233+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:16:35.718281+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:16:35.718328+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:16:35.718472+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:16:35.718534+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:16:35.718600+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:16:35.718648+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:16:35.718708+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:17:22.898252+00:00 app[web.1]: Hub SERVER:  [ 'R1vUoz30apObLPNvAAA_', ' has left the building' ]
+2019-12-04T20:17:22.890932+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=c748a45c-5e71-4fde-9e18-832ccf9fc61f fwd="158.38.8.36,162.158.134.8" dyno=web.1 connect=2ms service=2235729ms status=101 bytes=233276 protocol=http
+2019-12-04T20:21:27.503706+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=dc95fa1f-4ccd-49c0-b7be-34bf4ca0778c fwd="158.38.8.36,162.158.134.5" dyno=web.1 connect=0ms service=291799ms status=101 bytes=300 protocol=http
+2019-12-04T20:21:27.508985+00:00 app[web.1]: Hub SERVER:  [ '63nA8Pr3_N5Rq_oZAACI', ' has left the building' ]
+2019-12-04T20:22:15.257857+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:22:15.293314+00:00 app[web.1]: Hub On Connect socket id:  [ 'YubGZ46KlBn_CPudAACJ' ]
+2019-12-04T20:22:15.293810+00:00 app[web.1]: onConnection
+2019-12-04T20:22:15.293970+00:00 app[web.1]: socket id:  YubGZ46KlBn_CPudAACJ
+2019-12-04T20:22:15.295323+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:22:15.295399+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:22:15.295553+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:22:15.296505+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:22:15.297488+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:22:15.298569+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:22:15.298926+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:22:15.299088+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:22:15.299443+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:22:15.300089+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:22:15.301394+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:22:15.304839+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:22:15.304956+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:22:15.305030+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:22:15.305335+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:22:15.305466+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:22:22.451588+00:00 app[web.1]: Hub SERVER:  [ 'YubGZ46KlBn_CPudAACJ', ' has left the building' ]
+2019-12-04T20:22:22.445134+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=96fb610a-55d9-417c-8508-01daac2b505c fwd="158.38.8.36,162.158.134.5" dyno=web.1 connect=0ms service=7193ms status=101 bytes=267 protocol=http
+2019-12-04T20:22:28.558971+00:00 heroku[router]: at=info method=GET path="/socket.io/?EIO=3&transport=websocket" host=emdm.io request_id=661c54c7-09f0-4351-ba01-1ca4fd1e93ca fwd="109.40.0.69,172.69.54.85" dyno=web.1 connect=0ms service=1185121ms status=101 bytes=29136 protocol=http
+2019-12-04T20:22:28.567558+00:00 app[web.1]: Hub SERVER:  [ 'iUuDCOKMTvBp3224AAB3', ' has left the building' ]

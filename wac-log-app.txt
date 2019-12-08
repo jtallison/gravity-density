@@ -1,0 +1,93 @@
+2019-12-04T20:13:34.314645+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:13:34.314996+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:13:34.315108+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:13:34.315350+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:13:34.315507+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:13:53.234943+00:00 app[web.1]: Hub SERVER:  [ 'GL7IY1214Cxi5lYnAAAw', ' has left the building' ]
+2019-12-04T20:14:29.467097+00:00 app[web.1]: Hub SERVER:  [ '518xRb3vqVJOAEcSAACF', ' has left the building' ]
+2019-12-04T20:14:57.683308+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:14:57.683386+00:00 app[web.1]: Hub On Connect socket id:  [ 'gKyocxEQB-4mby-WAACG' ]
+2019-12-04T20:14:57.683435+00:00 app[web.1]: onConnection
+2019-12-04T20:14:57.683511+00:00 app[web.1]: socket id:  gKyocxEQB-4mby-WAACG
+2019-12-04T20:14:57.683542+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:14:57.683602+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:14:57.683660+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:14:57.683724+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:14:57.683778+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:14:57.683855+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:14:57.683892+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:14:57.683978+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:14:57.684052+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:14:57.684120+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:14:57.684194+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:14:57.684273+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:14:57.684342+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:14:57.684417+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:14:57.684484+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:14:57.684597+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:15:24.408669+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:15:24.408778+00:00 app[web.1]: Hub On Connect socket id:  [ 't0mN2CCo8NkerNDlAACH' ]
+2019-12-04T20:15:24.408899+00:00 app[web.1]: onConnection
+2019-12-04T20:15:24.410944+00:00 app[web.1]: socket id:  t0mN2CCo8NkerNDlAACH
+2019-12-04T20:15:24.411985+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:15:24.412077+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:15:24.412143+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:15:24.412346+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:15:24.425186+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:15:24.436818+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:15:24.436921+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:15:24.437597+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:15:24.437665+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:15:24.437723+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:15:24.437925+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:15:24.438040+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:15:24.438510+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:15:24.438577+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:15:24.438650+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:15:24.438728+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:15:25.932614+00:00 app[web.1]: Hub SERVER:  [ 'gKyocxEQB-4mby-WAACG', ' has left the building' ]
+2019-12-04T20:16:19.411431+00:00 app[web.1]: Hub SERVER:  [ 't0mN2CCo8NkerNDlAACH', ' has left the building' ]
+2019-12-04T20:16:35.717288+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:16:35.717465+00:00 app[web.1]: Hub On Connect socket id:  [ '63nA8Pr3_N5Rq_oZAACI' ]
+2019-12-04T20:16:35.717548+00:00 app[web.1]: onConnection
+2019-12-04T20:16:35.717594+00:00 app[web.1]: socket id:  63nA8Pr3_N5Rq_oZAACI
+2019-12-04T20:16:35.717647+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:16:35.717722+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:16:35.717772+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:16:35.717911+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:16:35.717969+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:16:35.718052+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:16:35.718100+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:16:35.718148+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:16:35.718233+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:16:35.718281+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:16:35.718328+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:16:35.718472+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:16:35.718534+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:16:35.718600+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:16:35.718648+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:16:35.718708+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:17:22.898252+00:00 app[web.1]: Hub SERVER:  [ 'R1vUoz30apObLPNvAAA_', ' has left the building' ]
+2019-12-04T20:21:27.508985+00:00 app[web.1]: Hub SERVER:  [ '63nA8Pr3_N5Rq_oZAACI', ' has left the building' ]
+2019-12-04T20:22:15.257857+00:00 app[web.1]: Hub When am I called? []
+2019-12-04T20:22:15.293314+00:00 app[web.1]: Hub On Connect socket id:  [ 'YubGZ46KlBn_CPudAACJ' ]
+2019-12-04T20:22:15.293810+00:00 app[web.1]: onConnection
+2019-12-04T20:22:15.293970+00:00 app[web.1]: socket id:  YubGZ46KlBn_CPudAACJ
+2019-12-04T20:22:15.295323+00:00 app[web.1]: adding callback:  register
+2019-12-04T20:22:15.295399+00:00 app[web.1]: adding callback:  sample
+2019-12-04T20:22:15.295553+00:00 app[web.1]: adding callback:  enable
+2019-12-04T20:22:15.296505+00:00 app[web.1]: adding callback:  cue
+2019-12-04T20:22:15.297488+00:00 app[web.1]: adding callback:  countdown
+2019-12-04T20:22:15.298569+00:00 app[web.1]: adding callback:  clearUsers
+2019-12-04T20:22:15.298926+00:00 app[web.1]: adding callback:  tap
+2019-12-04T20:22:15.299088+00:00 app[web.1]: adding callback:  tapOthers
+2019-12-04T20:22:15.299443+00:00 app[web.1]: adding callback:  shareToggle
+2019-12-04T20:22:15.300089+00:00 app[web.1]: adding callback:  masterFader
+2019-12-04T20:22:15.301394+00:00 app[web.1]: adding callback:  shareColor
+2019-12-04T20:22:15.304839+00:00 app[web.1]: adding callback:  sendText
+2019-12-04T20:22:15.304956+00:00 app[web.1]: adding callback:  triggerPitch
+2019-12-04T20:22:15.305030+00:00 app[web.1]: adding callback:  triggerMaxPitch
+2019-12-04T20:22:15.305335+00:00 app[web.1]: adding callback:  section
+2019-12-04T20:22:15.305466+00:00 app[web.1]: adding callback:  item
+2019-12-04T20:22:22.451588+00:00 app[web.1]: Hub SERVER:  [ 'YubGZ46KlBn_CPudAACJ', ' has left the building' ]
+2019-12-04T20:22:28.567558+00:00 app[web.1]: Hub SERVER:  [ 'iUuDCOKMTvBp3224AAB3', ' has left the building' ]

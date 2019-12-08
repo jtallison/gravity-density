@@ -3,12 +3,23 @@
 
 What needs to be done, should be done, could be done.
 
+## To Move to NexusHub
+
+- [ ] Map position select (add image replacement) 
+- [ ] hub.js storing of users able to be recalled upon restart (storage outside of container based on restart)
+- [ ] module to upload audio file (w/ possible compression)
+- [ ] module to read all files in a folder (hub.files?)
+- [ ] module to load and play audio files on command
+- [ ] module for control of defined synth/processor and insertion into the webAudio chain.
+- [ ] 
 
 ## TO REPAIR:
 
-- [ ] Must setup https cert to be able to use getUserMedia when served not locally
-- [ ] 
+- [ ] Verification of loading audio file (client respond back to server)
+- [ ] Audio reset if stuck and not getting audio file (client side)
+- [ ] Update the docker container to use recent node (12?)
 
+- [x] Must setup https cert to be able to use getUserMedia when served not locally
 - [x] Audio files can be saved easily as .ogg and used on laptops and Android, but not on iOS devices. They can be saved as .wav and used on all 3, but it has a large file size -- also, right now the .wav file headers are not formatted properly and still won't load on iOS devices... simply opening them in an audio app and re-saving them allows them to be loaded -- Ergo, either fix the wav file corruption, or set up a service on the server that takes the blobs and compresses them using ffmpg to create mp3 files.
 One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
@@ -23,10 +34,11 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 ## Audience UI
 
-- [x] find font/text style that is NASA friendly
-- [x] Orbital Logo to interact with (via gravitdesigner)
 - [ ] Loop when held (for some reason onmousedown & onmouseup are not functioning)
 - [ ] 
+
+- [x] find font/text style that is NASA friendly
+- [x] Orbital Logo to interact with (via gravitdesigner)
 
 ## Hub UI
 
