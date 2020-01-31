@@ -8,6 +8,7 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
 
 ----
 
+### Performance Video
 
 <!-- [nexusHub](https://github.com/nexus-js/nexusHub) -->
 
@@ -15,33 +16,43 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
 
 ----
 
-### Development Video
+### Recording
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/s-NFcPHNAzY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Gravity \| Density in development
+[Gravity \| Density recording](/gravWAC.mp3 "recording of a live performance")
 
 ---- 
 
 ## Images
 
 ![gd-performance-far-small](/images/gd-performance-far-small.png "Gravity \| Density in performance")
+
 Gravity \| Density in performance
 
 ![gd-sputnik-looping-small](/images/gd-sputnik-looping-small.png "Gravity \| Density mobile UI")
+
 Gravity \| Density mobile UI
 
 
 ![gravHub console display](/images/gd-control-ends.png "gravHub with audience members")
+
 gravHub with audience members - lots of audience members
+
+----
+
+## Project Development
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s-NFcPHNAzY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Gravity \| Density in development
 
 
 ![gravHub development display](/images/gravHub.png "gravHub development display of audience samples")
+
 gravHub development display of audience samples
 
 ---- 
 
-## Video Demonstration
+### Video Demonstration
 
 <!-- [Gravity\|Density Demo](GravityDensity.mp4 "Gravity\|Density Demo video") -->
 
