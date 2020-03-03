@@ -15,63 +15,57 @@
 
 // Todo: create catch-all socket.on function that simply mirrors out any information received on the specified transmit channels.
 
-class Hub {
-  constructor() {
-    this.freq = this.freq.bind(this);
+var Hub = function() {
+  this.app;
+  this.logEnable = true;    // 
+  this.environment = 'development';   
+  this.serverPort = 3000;
+  this.registeredUsers = [];     // List of registeredUsers {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
+  this.ioClients = []; // list of clients who have logged in.
+  this.currentSection = 0; // current section.
+  this.sectionTitles = ['g|d-preConcert', 'g|d-spokenOpening', 'g|d-countdown', 'g|d-launch', 'g|d-space', 'g|d-gravity', 'g|d-postConcert'];
+  this.maxActiveTimeout = 15;   // Number of seconds a client can not checkin before considered gone.
+  this.intervalTimers = {};   // Used for anything you want to tranmit regularly. Useful for testing
 
-
-
-    this.app;
-    this.logEnable = true;    // 
-    this.environment = 'development';   
-    this.serverPort = 3000;
-    this.registeredUsers = [];     // List of registeredUsers {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
-    this.ioClients = []; // list of clients who have logged in.
-    this.currentSection = 0; // current section.
-    this.sectionTitles = ['g|d-preConcert', 'g|d-spokenOpening', 'g|d-countdown', 'g|d-launch', 'g|d-space', 'g|d-gravity', 'g|d-postConcert'];
-    this.maxActiveTimeout = 15;   // Number of seconds a client can not checkin before considered gone.
-    this.intervalTimers = {};   // Used for anything you want to tranmit regularly. Useful for testing
-  
-    // Specific clients who we only want one instance of
-    this.discreteClients = {
-      display: {
-        id: null
-      },
-      controller: {
-        id: null
-      },
-      audio: {
-        id: null
-      },
-      max: {
-        id: null
-      }
+  // Specific clients who we only want one instance of
+  this.discreteClients = {
+    display: {
+      id: null
+    },
+    controller: {
+      id: null
+    },
+    audio: {
+      id: null
+    },
+    max: {
+      id: null
     }
-  
-    this.display = {
-      id: ""
-    };
-    // conrollerID,
-    this.controller = {
-      id: ""
-    };
-    // audioID
-    this.audio = {
-      id: ""
-    };
-    // maxID
-    this.max = {
-      id: ""
-    };
-  
-    this.channels = {};
-  
-    this.io;
   }
 
+  this.display = {
+    id: ""
+  };
+  // conrollerID,
+  this.controller = {
+    id: ""
+  };
+  // audioID
+  this.audio = {
+    id: ""
+  };
+  // maxID
+  this.max = {
+    id: ""
+  };
+
+  this.channels = {};
+
+  this.io;
+}
 
 // TODO: Look into .bind to possibly retain socket... Wouldn't that be nice.
-channel(channel, channelNickname, destinations, callback) {
+Hub.prototype.channel = function(channel, channelNickname, destinations, callback) {
   if (!channelNickname) {
     channelNickname = channel;
   }
@@ -123,7 +117,7 @@ channel(channel, channelNickname, destinations, callback) {
 
 // onConnection – run at the end of the channel declarations, collects all channels 
 //   and creates socket.on callbacks 
-onConnection(sock) {
+Hub.prototype.onConnection = function(sock) {
   console.log("onConnection");
   console.log("socket id: ", sock.id);
   for (var key in this.channels) {
@@ -141,19 +135,19 @@ onConnection(sock) {
     // Check in, add to user socket if you want to handle the checkin. Also add Check in to client
     // hub.enableUserTimeout();
     // usage let activeUsers = hub.getListOfUsers();
-checkIn(data) {
+Hub.prototype.checkIn = (data) => {
   // Constant contact Is the user still connected?  Update to new checkIn time
   // socket.on('checkIn', function (data) {
   timeLapse = (Date.now() - socket.userActive.getTime())/1000. ;    // Switch to registeredUsers?
   hub.log("Now: "+ Date.now() + " - last time: " + socket.userActive.getTime() + " = " + timeLapse + " Seconds");
   socket.userActive = new Date();
 }
-enableUserTimeout() {
+Hub.prototype.enableUserTimeout = function() {
     // 
   this.channel('checkIn', null, null, this.checkIn);
 }
       
-isStillActive (lastActive) {
+Hub.prototype.isStillActive = (lastActive) => {
   let timeLapse = (Date.now() - lastActive.getTime())/1000. ;
   hub.log(timeLapse + " Seconds");
   if(timeLapse < this.maxActiveTimeout) {
@@ -163,7 +157,7 @@ isStillActive (lastActive) {
   }
 }
 
-getListOfUsers() {
+Hub.prototype.getListOfUsers = function() {
   let userArray = [];
   if(this.registeredUsers.length>0){
     let users = this.registeredUsers;
@@ -186,7 +180,7 @@ getListOfUsers() {
   // Can be used for testing or whatevs
   // usage: hub.intervalTransmit('chan-or-nickname', ['display'] ,{data: 5}, interval)
 
-intervalTransmit = (channel, toWhom, data, interval) => {
+Hub.prototype.intervalTransmit = (channel, toWhom, data, interval) => {
     console.log("Interval: ", channel, interval);
     let intervalTimer = setInterval( () => { 
       hub.transmit(channel, toWhom, data);
@@ -198,7 +192,7 @@ intervalTransmit = (channel, toWhom, data, interval) => {
 
 // Utilities:
 
-randomItem = (list) => {
+Hub.prototype.randomItem = (list) => {
   return list[Math.floor(Math.random() * list.length)];
 }
 
@@ -223,12 +217,12 @@ randomItem = (list) => {
 
 //default ['others'], Server channel, browser client channel, server transmit, browser client transmit
 
-send(channelNickname, data) {
+Hub.prototype.send = function(channelNickname, data) {
   // this.log('Logging a send ', channelNickname, data);
   this.transmit(channelNickname, null, data);
 };
 
-transmit(channelNickname, destinations, data) {
+Hub.prototype.transmit = function(channelNickname, destinations, data) {
   // Does this channel exist?
   let channel;
   if (this.channels.hasOwnProperty(channelNickname)) {
@@ -312,7 +306,7 @@ transmit(channelNickname, destinations, data) {
   };
 };
 
-discreteClientCheck(whom) {
+Hub.prototype.discreteClientCheck = function(whom) {
   if (this.discreteClients.hasOwnProperty(whom)) {
     this.log(`discreteClientCheck for: ${whom} :: ${this.discreteClients[whom].id ? 1 : 0}`);
     return this.discreteClients[whom].id ? 1 : 0;
@@ -326,7 +320,7 @@ discreteClientCheck(whom) {
 // **** SECTIONS ****
 
 // to set everyone's section to the same thing
-setSection(sect, destinations) {
+Hub.prototype.setSection = function(sect, destinations) {
   if (sect === 'undefined') {
     sect = this.currentSection;
   }
@@ -342,7 +336,7 @@ setSection(sect, destinations) {
 
 // TODO: Do I still need this?
 // hub.sendSection(currentSection);	 // Sets everyone's section
-sendSection(sect, destinations) {
+Hub.prototype.sendSection = function(sect, destinations) {
   // console.log("sendSection:", socket.id);
   if (sect === 'undefined') {
     sect = this.currentSection;
@@ -362,12 +356,12 @@ sendSection(sect, destinations) {
 };
 
 // Section shared from Max to UIs
-shareSection(sect) {
+Hub.prototype.shareSection = function(sect) {
   var title = this.getSection(sect);
   this.io.sockets.emit('setSection', sect, title);
 };
 
-getSection(sect) {
+Hub.prototype.getSection = function(sect) {
   var title = "none";
 
   if (sect !== 'undefined') {
@@ -379,14 +373,14 @@ getSection(sect) {
   return title;
 };
 
-log(title='Log:', ...l) {
+Hub.prototype.log = function(title='Log:', ...l) {
   if(this.logEnable) {
     console.log('Hub', title, l);
   }
 };
 
 // TODO: instantiate SocketIO here instead of node file. 
-init(sio, publicFolder) {
+Hub.prototype.init = function(sio, publicFolder) {
   // Setup web app - using express to serve pages
   // var express = require('../../nexusNode/node_modules/express');
   var express = require('../node_modules/express');
@@ -412,11 +406,9 @@ init(sio, publicFolder) {
 
   // start socket.io listening on the server
   this.io = sio.listen(server);
-}
-  //console.log("Hub Helper Initialized!");
 
+  console.log("Hub Helper Initialized!");
 }
-
 
 
 module.exports = Hub;

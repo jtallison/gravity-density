@@ -24,6 +24,7 @@ var hub = new NexusHub();
 let ffmpeg = require('ffmpeg');
 
 // Polyfill for Objects.entries
+// FIXME: didn't seem to work on the Heroku server. 
 if (!Object.entries) {
   Object.entries = function( obj ){
     var ownProps = Object.keys( obj ),
@@ -37,9 +38,12 @@ if (!Object.entries) {
 }
 
 // update any server settings before initialization
+// Allowes automatic usage on Heroku -- can call npm start with --PORT flag... (find the actual command..:)
 if (process.env.PORT) {
   hub.serverPort = process.env.PORT;
 }
+
+// var serverPort = process.env.PORT || SERVER_PORT;
 
 hub.init(sio, publicFolder);
 
@@ -100,8 +104,6 @@ hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launc
 hub.currentCue = 0;
 hub.currentSubCue = 0;
 
-hub.registeredUsers = [];
-
 // global states
 gravity = {
   masterFader: 1.0,
@@ -138,27 +140,19 @@ hub.io.sockets.on('connection', function(socket) {
       hub.display.id = socket.id;
       hub.discreteClients.display.id = socket.id;
       hub.log("Hello display: ", hub.display.id);
-    }
-
-    if (socket.username == "gravityHub") {
+    } else if (socket.username == "gravityHub") {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
       hub.log("Hello Controller: ", hub.controller.id);
-    }
-
-    if (socket.username == "audioController") {
+    } else if (socket.username == "audioController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
       hub.log("Hello Audio Controller: ", hub.audio.id);
-    }
-
-    if (socket.username == "maxController") {
+    } else if (socket.username == "maxController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
       hub.log("Hello MaxMSP Controller: ", hub.max.id);
-    }
-
-    if (socket.username == "a_user") {
+    } else {
       hub.ioClients.push(socket.id);
     }
 
@@ -177,7 +171,7 @@ hub.io.sockets.on('connection', function(socket) {
     if (hub.controller.id) {
       if(hub.controller.id != socket.id) {
         let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
-        hub.io.to(hub.controller.id).emit('welcome', data);
+        hub.io.to(hub.controller.id).emit('welcome', data); 
         hub.registeredUsers.push(data); 
       } else {        // the controller just joined. do we have users already?
         if(hub.registeredUsers.length > 0) {
@@ -200,6 +194,10 @@ hub.io.sockets.on('connection', function(socket) {
     // hub.ioClients.remove(socket.id);	// FIXME: Remove client if they leave
     hub.log('SERVER: ', socket.id, ' has left the building');
   });
+
+   hub.enableUserTimeout();  // Adds 'checkin' channel
+  //  let userList = hub.getListOfUsers();
+   hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
 
   hub.channel('sample', null, null, (data) => {
     // data.user = "name", .sample = "bang", .duration = "5000"
