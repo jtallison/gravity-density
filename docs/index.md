@@ -4,9 +4,11 @@
 
 # Gravity \| Density
 
-Jesse Allison & Anthony Marasco
+_Jesse Allison & Anthony Marasco_
 
 For cyber-hacked devices and mobile devices, and intrepid explorers
+
+[For more information about the work including a video performance, click here.](https://gravity.emdm.io/about)
 
 ----
 
@@ -44,7 +46,7 @@ __Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
     let textDiv = document.getElementById('text');
     // textDiv.innerHTML = `Player Volume is ${vol}`
     // textDiv.innerHTML = `The performance begins at 23:15 UTC+1 (5:15 CDT, 3:15 PDT)`
-    textDiv.innerHTML = `Unfortunately, due to technical issues, the performance today is must be cancelled.`
+    textDiv.innerHTML = `Unfortunately, due to technical issues, the performance today is cancelled.`
   });
 
 </script>
