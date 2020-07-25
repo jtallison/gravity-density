@@ -104,6 +104,19 @@ hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launc
 hub.currentCue = 0;
 hub.currentSubCue = 0;
 
+hub.hub = {
+  id: ""
+};
+hub.sampler = {
+  id: ""
+};
+hub.discreteClients.hub = {
+  id: null
+};
+hub.discreteClients.sampler = {
+  id: null
+};
+
 // global states
 gravity = {
   masterFader: 1.0,
@@ -141,13 +154,17 @@ hub.io.sockets.on('connection', function(socket) {
       hub.discreteClients.display.id = socket.id;
       hub.log("Hello display: ", hub.display.id);
     } else if (socket.username == "gravityHub") {
-      hub.controller.id = socket.id;
-      hub.discreteClients.controller.id = socket.id;
-      hub.log("Hello Controller: ", hub.controller.id);
-    } else if (socket.username == "gravitySampler") {
+      hub.hub.id = socket.id;
+      hub.discreteClients.hub.id = socket.id;
+      hub.log("Hello Hub: ", hub.hub.id);
+    } else if (socket.username == "gravityController") {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
       hub.log("Hello Sampler: ", hub.controller.id);
+    } else if (socket.username == "gravitySampler") {
+      hub.sampler.id = socket.id;
+      hub.discreteClients.sampler.id = socket.id;
+      hub.log("Hello Sampler: ", hub.sampler.id);
     } else if (socket.username == "audioController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
@@ -172,19 +189,42 @@ hub.io.sockets.on('connection', function(socket) {
       }
     }
     
-    if (hub.controller.id) {
-      if(hub.controller.id != socket.id) {
-        let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
-        hub.io.to(hub.controller.id).emit('welcome', data); 
-        hub.registeredUsers.push(data); 
-      } else {        // the controller just joined. do we have users already?
+    if (hub.controller.id || hub.hub.id || hub.sampler.id ) {
+      if (hub.controller.id == socket.id ) {   // the controller just joined. do we have users already?
         if(hub.registeredUsers.length > 0) {
           Object.entries(hub.registeredUsers).forEach(([number, data])=>{
             hub.io.to(hub.controller.id).emit('welcome', data);
+            hub.io.to(hub.hub.id).emit('welcome', data);
+            hub.io.to(hub.sampler.id).emit('welcome', data);
           });
         }
+      } else if (hub.sampler.id == socket.id) {  // the sampler just joined. do we have users already?
+        if(hub.registeredUsers.length > 0) {
+          Object.entries(hub.registeredUsers).forEach(([number, data])=>{
+            hub.io.to(hub.controller.id).emit('welcome', data);
+            hub.io.to(hub.hub.id).emit('welcome', data);
+            hub.io.to(hub.sampler.id).emit('welcome', data);
+          });
+        }
+        // Check the userList every 30 seconds
+        hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
+      } else if (hub.hub.id == socket.id ){        // the hub just joined. do we have users already?
+        if(hub.registeredUsers.length > 0) {
+          Object.entries(hub.registeredUsers).forEach(([number, data])=>{
+            hub.io.to(hub.controller.id).emit('welcome', data);
+            hub.io.to(hub.hub.id).emit('welcome', data);
+            hub.io.to(hub.sampler.id).emit('welcome', data);
+          });
+        }
+        // Check the userList every 30 seconds
+        hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
+      } else if(hub.controller.id != socket.id) {
+        let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
+        hub.io.to(hub.controller.id).emit('welcome', data); 
+        hub.io.to(hub.hub.id).emit('welcome', data);
+        hub.io.to(hub.sampler.id).emit('welcome', data);
+        hub.registeredUsers.push(data); 
       }
-
     }
 
     socket.emit('gravityState', gravity);
@@ -201,7 +241,7 @@ hub.io.sockets.on('connection', function(socket) {
 
    hub.enableUserTimeout();  // Adds 'checkin' channel
   //  let userList = hub.getListOfUsers();
-   hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
+  //  hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
 
   hub.channel('sample', null, null, (data) => {
     // data.user = "name", .sample = "bang", .duration = "5000"
@@ -212,7 +252,8 @@ hub.io.sockets.on('connection', function(socket) {
     if (data.val == 'blah') {
       // hub.transmit('sample', null, data);
     } else if (data.val == 'loop' || data.val == 'loopHub' || data.val == 'pauseHub' || data.val == 'playHub') {
-      hub.io.to(hub.controller.id).emit('sample', data);
+      hub.io.to(hub.sampler.id).emit('sample', data);
+      hub.io.to(hub.hub.id).emit('sample', data);
     } else {
       hub.transmit('sample', null, data);
     }

@@ -170,11 +170,17 @@ body {
   /* position: absolute; */
   display: block;
   padding-top: 1.0em;
-  padding-bottom: 0.4em;
+  /* padding-bottom: 0.2em; */
   left: 0px;
   right: 0px;
   /* top: 0px;
   bottom: 0px; */
+}
+
+#cueDisplay {
+  display: block;
+  font-size: 0.6em;
+  color: gray;
 }
 
 .title-spinner {
@@ -314,6 +320,17 @@ body {
     display: none;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+#masterFader {
+  display: block;
+  float: left;
+  height: 437px;
+  width: 20px;
+}
+
+#map {
+  display: block;
 }
 
 #sectionSelector,#slider,#loadLaunch,#enableRecord,#enableTouch,#enableLoop {

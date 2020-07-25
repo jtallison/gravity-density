@@ -26,10 +26,10 @@
 
 <body>
   <div class="display">
-    <div id="header"><span class="title">Gravity|Density Sampler</span></div>
+    <div id="header"><span class="title">Gravity|Density</span> <span id="cueDisplay"></span></div>
 
     <div class="nexusOverlay">
-      <p>Sampler | <strong>Testing</strong></p>
+      <p>Sampler | <strong>Initialization</strong></p>
       <p>Start by tapping your approximate location in the space.</p>
       <svg version="1.1" id="preMap" x="0px" y="0px" viewbox="0 0 640 445"
         style="max-width: 70vh; enable-background:new 0 0 640 445;">
@@ -43,6 +43,7 @@
     </div>
 
     <div class="mainDisplay">
+      <div id="masterFader"></div>
       <div id="map">
         <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
           style="max-width: 70vh; enable-background:new 0 0 640 445;">
@@ -54,11 +55,10 @@
             y2="40" />
         </svg>
       </div>
-      <div class='controls'>
+      <!-- <div class='controls'>
         <div id='cueSelector'></div><div id='cueNext'></div>
         <div id='sectionSelector'></div><div id='sectionNext'></div>
         <div id='clearUsers'></div>
-        <div id="slider"></div>
         <div class='controls'>
           <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
           <div id="enableCountdown"></div>Enable Countdown <div id="triggerCountdown"></div>Trigger Countdown
@@ -75,7 +75,7 @@
           <div id="enableTouch"></div>Enable Touch
           <div id="enableLoop"></div>Enable Loop
         </div>
-      </div>
+      </div> -->
       <div id="samples">
         <!-- <div id="player-1">
           <div id="record-1"></div>
@@ -84,8 +84,8 @@
           <div id="loopEnd-1"></div>
         </div> -->
       </div>
-      <br><br>
-      <button onClick="tapEnd()">Tap To End Session</button>
+      <!-- <br><br>
+      <button onClick="tapEnd()">Tap To End Session</button> -->
     </div>
 
   </div>
@@ -95,7 +95,7 @@
   <div class="endDisplay" style="display: none;">
     <p>
       <br>
-      <br><em>Nice Set<br>
+      <br><em>Thank you for participating!<br>
         Please visit <a href="http://gravity.emdm.io">gravity.emdm.io</a> for documentation.</em>
     </p>
   </div>
@@ -133,6 +133,7 @@
     let nearbyRange = 0.2;
 
     // *** Nexus UI Elements ***
+    Nexus.colors.accent = "#C37F00"
 
     let record = [];
     let play = [];
@@ -140,6 +141,26 @@
     let loopEnd = [];
     let clear = [];
 
+        // Shared slider... possibly a good volume control?
+    let masterFaderNX = new Nexus.Slider('#masterFader', {
+      'mode': 'absolute',
+      'value': 1.0
+    });
+    hub.channel('masterFader', null, null, function (data) {
+      masterFaderNX.value = data.val;
+    });
+    masterFaderNX.on('change', function (v) {
+      // do not send along if not changed from a user interaction.
+      if (masterFaderNX.clicked) {
+        hub.send('masterFader', {
+          val: v
+        });
+        // console.log(v);
+        gravSound.masterGain(v);
+      };
+    });
+
+    /*
     let sectionNX = new Nexus.Select('#sectionSelector',{
       'size': [100,30],
       'options': sections
@@ -176,6 +197,7 @@
     let silence = new Nexus.Button("#silence", {'size': [30,30]});
     silence.mode = 'button';
     
+*/
 
     // let record_1 = new Nexus.Toggle("#record-1");
     // let play_1 = new Nexus.Toggle("#play-1");
@@ -186,6 +208,7 @@
     //   v ? gravSound.recorder.start() : gravSound.recorder.stop();
     // });
 
+/*
     enableRecord.on ('change', (v) => {
       let data = {};
       data.user ="all";
@@ -260,10 +283,6 @@
 
     // enableCountdown triggerCountdown loadSpeaking triggerSpeaking
 
-    function randomItem(list) {
-      return list[Math.floor(Math.random() * list.length)];
-    }
-    
     enableCountdown.on ('change', (v) => {
       countdownPosition = 10;
     });
@@ -319,64 +338,63 @@
       }
     });
 
+*/
+
+
+    function randomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
     
 
-
-    // Shared slider... possibly a good volume control?
-    let masterFaderNX = new Nexus.Slider('#slider', {
-      'mode': 'absolute',
-      'value': 1.0
-    });
-    hub.channel('masterFader', null, null, function (data) {
-      masterFaderNX.value = data.val;
-    });
-    masterFaderNX.on('change', function (v) {
-      // do not send along if not changed from a user interaction.
-      if (masterFaderNX.clicked) {
-        hub.send('masterFader', {
-          val: v
-        });
-        // console.log(v);
-        gravSound.masterGain(v);
-      };
-    });
-
         // ******* Cues *******
+    let cueDisplay = document.getElementById('cueDisplay');
     hub.channel('setCue', null, null, function (data) {
       console.log(data);
-      console.log("the section is now: " + cues[data.val]);
-
       currentCue = data.val;
-      cueNX.selectIndex = currentCue;
-    });
+      console.log("the section is now: " + cues[currentCue]);
 
-    cueNX.on ('change', (v) => {
-      console.log('Cue ', v.index, v.value, v);
-      setCue(v.index);
-      currentCue = v.index;
-    });
-
-    cueNextNX.on ('change', (v) => {
-      if(v == true) {
-        nextCue();
-      }
-    });
-
-    function nextCue() {
-      currentCue += 1;
-      if (currentCue >= cues.length) {
-        currentCue = cues.length - 1;
-      }
+      cueDisplay.innerText = cues[currentCue];
       setCue(currentCue);
-      cueNX.selectIndex = currentCue;
-    }
+      // cueNX.selectIndex = currentCue;
+    });
+    hub.channel('cue', null, null, function (data) {
+      console.log(data);
+      currentCue = data.val;
+      console.log("the section is now: " + cues[currentCue]);
+
+      cueDisplay.innerText = cues[currentCue];
+      setCue(currentCue);
+      // cueNX.selectIndex = currentCue;
+    });
+
+
+    // cueNX.on ('change', (v) => {
+    //   console.log('Cue ', v.index, v.value, v);
+    //   setCue(v.index);
+    //   currentCue = v.index;
+    // });
+
+    // cueNextNX.on ('change', (v) => {
+    //   if(v == true) {
+    //     nextCue();
+    //   }
+    // });
+
+    // function nextCue() {
+    //   currentCue += 1;
+    //   if (currentCue >= cues.length) {
+    //     currentCue = cues.length - 1;
+    //   }
+    //   setCue(currentCue);
+    //   cueNX.selectIndex = currentCue;
+    // }
 
     function setCue(cue, subcue=0) {
-      hub.send('cue', {
-        'val': cue,
-        'name': cues[cue],
-        'subcue': subcue 
-      });
+      // hub.send('cue', {
+      //   'val': cue,
+      //   'name': cues[cue],
+      //   'subcue': subcue 
+      // });
       if(cues[cue] == 'magnificent') {
         let file = '/data/mp3s/MagnificentDesolation.mp3';
         loadFile(file, true); // file, playOnce?
@@ -592,11 +610,11 @@
         hub.transmit('sample',null, data);
     }
 
-    sectionNextNX.on ('change', (v) => {
-      if(v == true) {
-        hub.send('clearUsers', 'now');
-      }
-    });
+    // sectionNextNX.on ('change', (v) => {
+    //   if(v == true) {
+    //     hub.send('clearUsers', 'now');
+    //   }
+    // });
 
 
       // ******* Sections *******
@@ -605,45 +623,32 @@
       console.log("the section is now: " + sections[data.section]);
 
       currentSection = data.section;
-      sectionNX.selectIndex = currentSection;
+      // sectionNX.selectIndex = currentSection;
     });
 
-    sectionNX.on ('change', (v) => {
-      console.log('Section ', v.index, v.value, v);
-      setSection(v.index);
-    });
+    // sectionNX.on ('change', (v) => {
+    //   console.log('Section ', v.index, v.value, v);
+    //   setSection(v.index);
+    // });
 
-    sectionNextNX.on ('change', (v) => {
-      if(v == true) {
-        nextSection();
-      }
-    });
+    // sectionNextNX.on ('change', (v) => {
+    //   if(v == true) {
+    //     nextSection();
+    //   }
+    // });
 
-    function nextSection() {
-      hub.send('section', {
-        'section': 'next'
-      });
-    }
-
-    function setSection(sect) {
-      hub.send('section', {
-        'section': sect
-      });
-    }
-
-    // hub.channel('tap', null, null, function (data) {
-    //   hub.log(`tap received: $ { data }`);
-    // })
-
-    // function tapButton() {
-    //   hub.send('tap', {
-    //     'tap': 1
+    // function nextSection() {
+    //   hub.send('section', {
+    //     'section': 'next'
     //   });
     // }
 
-    // hub.channel('itemback', null, 'about', function (data) {
-    //   console.log("itemback: ", data);
-    // });
+    // function setSection(sect) {
+    //   hub.send('section', {
+    //     'section': sect
+    //   });
+    // }
+
 
 
     function tapEnd() {

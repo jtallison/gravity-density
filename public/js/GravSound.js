@@ -235,7 +235,12 @@ class GravSound {
 
         // *** Replace Wavesurfer region drag controls
         // Grab original click location )verify that the finger is on the wavesurfer
+    // this.onmousedown = (e) => {
+    //   this.regionDragX = e.clientY;
+    //   this.region.moving(regionDragX, this.pastRegionDrag.y);
+    // }
     this.region.ontouchstart = (e) => {
+      e.preventDefault();
       let touchIndex = 0;
       if(e.targetTouches.length > 1) {
         // Figure out which touch is on the wavesurfer.
@@ -243,8 +248,13 @@ class GravSound {
       this.pastRegionDrag.y = e.targetTouches[touchIndex].clientY;
       this.pastRegionDrag.x = e.targetTouches[touchIndex].clientX;
     }
+    this.region.onmousedown = (e) => {
+      this.pastRegionDrag.y = e.clientY;
+      this.pastRegionDrag.x = e.clientX;
+    }
         // Y drag sizes region, X drag moves it
     this.region.ontouchmove = (e)=> {
+      e.preventDefault();
       if(touchEnable) {
 
         // console.log('ontouchmove', e);
@@ -252,41 +262,51 @@ class GravSound {
         if(e.targetTouches.length > 1) {
           // Figure out which touch is on the wavesurfer.
         }
-        let regionDragScaler = 0.001;
-        let regionMin = 0.05;
         let regionDragY = e.targetTouches[touchIndex].clientY;
         let regionDragX = e.targetTouches[touchIndex].clientX;
-        
-        // console.log('');
-        
-        let moveX = ((regionDragX / this.waveBox.width) - (this.pastRegionDrag.x / this.waveBox.width));  // x positions normalized 0.-1.0
-        let moveY = (this.pastRegionDrag.y - regionDragY) * regionDragScaler;  // this direction gets larger going upward, smaller downward
-        // console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY, "move:X", moveX);
-        // console.log("clientY:",regionDragY, "clientX", regionDragX);
-        
-        // Normalized start and end times
-        let newStart = Math.max(0.,((this.wavesurfer.regions.list[1].start / this.duration) - moveY) + moveX);
-        let newEnd = Math.min(1.0,((this.wavesurfer.regions.list[1].end / this.duration) + moveY) + moveX);
-        
-        // Keep it from getting too small
-        if (newEnd - newStart < regionMin) {
-          if(newStart < (1.0-regionMin)) {
-            newEnd = newStart + regionMin;
-          } else {
-            newStart = newEnd + regionMin;
-          }
-        }
-        
-        this.setLoop(hub.user.name, newStart, newEnd);
-        this.moveLoop(hub.user.name, newStart, newEnd);
-        // this.wavesurfer.regions.list[1].start = newStart * this.duration;
-        // this.wavesurfer.regions.list[1].end = newEnd * this.duration;
-        // this.wavesurfer.drawBuffer();
-
-        this.pastRegionDrag.y = regionDragY;
-        this.pastRegionDrag.x = regionDragX;
+        this.region.moving(regionDragX, regionDragY);
       }
     };
+    this.region.onmousemove = (e)=> {
+      if(touchEnable) {
+        let regionDragY = e.clientY;
+        let regionDragX = e.clientX;
+        this.region.moving(regionDragX, regionDragY);
+      }
+    };
+
+    this.region.moving = (regionDragX, regionDragY) => {
+      let regionDragScaler = 0.001;
+      let regionMin = 0.05;
+        // console.log('');
+      
+      let moveX = ((regionDragX / this.waveBox.width) - (this.pastRegionDrag.x / this.waveBox.width));  // x positions normalized 0.-1.0
+      let moveY = (this.pastRegionDrag.y - regionDragY) * regionDragScaler;  // this direction gets larger going upward, smaller downward
+      // console.log("start:",this.wavesurfer.regions.list[1].start,"moveY:",moveY, "move:X", moveX);
+      // console.log("clientY:",regionDragY, "clientX", regionDragX);
+      
+      // Normalized start and end times
+      let newStart = Math.max(0.,((this.wavesurfer.regions.list[1].start / this.duration) - moveY) + moveX);
+      let newEnd = Math.min(1.0,((this.wavesurfer.regions.list[1].end / this.duration) + moveY) + moveX);
+      
+      // Keep it from getting too small
+      if (newEnd - newStart < regionMin) {
+        if(newStart < (1.0-regionMin)) {
+          newEnd = newStart + regionMin;
+        } else {
+          newStart = newEnd + regionMin;
+        }
+      }
+      
+      this.setLoop(hub.user.name, newStart, newEnd);
+      this.moveLoop(hub.user.name, newStart, newEnd);
+      // this.wavesurfer.regions.list[1].start = newStart * this.duration;
+      // this.wavesurfer.regions.list[1].end = newEnd * this.duration;
+      // this.wavesurfer.drawBuffer();
+
+      this.pastRegionDrag.y = regionDragY;
+      this.pastRegionDrag.x = regionDragX;
+    }
 
     if(playOnceEnable) {
       this.wavesurfer.regions.list[1].color = 'hsla(39, 100%, 38%, 0.25)';

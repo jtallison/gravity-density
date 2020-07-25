@@ -181,15 +181,17 @@ getListOfUsers() {
   let userArray = [];
   if(this.registeredUsers.length>0){
     let users = this.registeredUsers;
-    Object.users.forEach(([number, data])=>{
-      let userSocket = this.ioClients[data.id];
-      if(userSocket.userActive) {
-        if(this.isStillActive(userSocket.userActive)) {
-          console.log("active ID: " + data.id);
-          userArray.push(data.id);
+    if (users != undefined) {
+      Object.users.forEach(([number, data])=>{
+        let userSocket = this.ioClients[data.id];
+        if(userSocket.userActive) {
+          if(this.isStillActive(userSocket.userActive)) {
+            console.log("active ID: " + data.id);
+            userArray.push(data.id);
+          }
         }
-      }
-    })
+      })
+    }
   }
   console.log("Current UserArray: " + userArray.length + userArray);
   // var noULDuplicates = _.uniqBy(userList, "id");
