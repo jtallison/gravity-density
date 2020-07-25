@@ -13,11 +13,6 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
 
 <div id="streamDiv"></div>
 
-### NIME Performance Live Stream
-
-This performance is intended to be viewed through the live stream above _and_ participated in on one or more mobile devices. An ideal setup would be a computer with the live stream full screen and decent speakers + a few mobile phones or tablets to participate in the interactive parts.
-__Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
-
 <div id="text">...</div>
 
 <script type="text/javascript">
@@ -36,8 +31,7 @@ __Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
     let vol = player.getVolume();
     console.log("volume = ", vol);
     let textDiv = document.getElementById('text');
-    // textDiv.innerHTML = `Player Volume is ${vol}`
-    textDiv.innerHTML = `The performance begins at 23:15 UTC+1 (5:15 CDT, 3:15 PDT)`
+    textDiv.innerHTML = `Player Volume is ${vol}`
   });
 
 </script>
