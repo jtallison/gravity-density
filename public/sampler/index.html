@@ -431,6 +431,17 @@
         case 'pauseHub': 
           gravSound.pause(data.user);
           break;
+        case 'load':
+          if (data.user == 'all') {
+            if(data.playOnce){
+              loadFile(data.url, true)
+            } else {
+              loadFile(data.url, false)
+            }
+          } else {
+            loadPlayFile(data.user, data.url);
+          }
+          break;
         case 'default':
           console.log('Sample Command not recognized: ', data.val);
       }
@@ -443,12 +454,13 @@
         playOnce: playOnce,
         url : file
       }
-      hub.transmit('sample', null, data);
+        // no need to send as this is controllered
+      // hub.transmit('sample', null, data);
       // gravSound.loadAllSamples(file);
 
         // Doing this here allows for us to add in users who had not recorded anything yet.
       Object.entries(registeredUsers).forEach(([number, user])=>{
-        gravSound.loadSample(user.username, file)
+        gravSound.loadSample(user.username, file, playOnce)
         // let sampleNumber = user.id;
         // this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
         // this.wavesurfers[sampleNumber].load(url);
@@ -462,7 +474,8 @@
         url: file,
         play: true
       }
-      hub.transmit('sample', null, data);
+        // No need to transmit
+      // hub.transmit('sample', null, data);
       gravSound.loadSample(user, file);
     }
 
@@ -522,6 +535,29 @@
       document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
       // wavesurfer.load('data/mbira_em.mp3');
       preMap.removeEventListener('click', getClickPosition, false);
+    }
+
+    hub.channel('nearbyLocation', null, null, (data) => {
+      hub.log('nearbyLocation', data)
+      nearbyUserCheck(data.x,data.y);
+    })
+
+    function nearbyUserCheck(mx,my){
+      var m = seatMap.getScreenCTM();
+      var p = document.getElementById('seatMap').createSVGPoint();
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      p.x = mx * tx;
+      p.y = my * ty;
+      // p = p.matrixTransform(m.inverse());   // point clicked in svg coords
+      nearbyRegionCircle.setAttribute("cx", p.x);
+      nearbyRegionCircle.setAttribute("cy", p.y);
+      console.log("Client",p.x,p.y, " t ", tx, ty, " m ", mx, my)
+      let aspect = tx/ty;
+      let nearbyUsers = findNearbyUsers(mx,my, nearbyRange, aspect)
+      nearbyUsers.forEach((user) => {
+        playRemote(user);
+      });
     }
 
     function clickToFindNearbyUsers(e) {

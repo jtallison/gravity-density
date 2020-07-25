@@ -394,8 +394,8 @@
 
       switch(data.val){
         case 'capture':
-          gravSound.createSample(data.user, gravSound.sampleLength);
-          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
+          // gravSound.createSample(data.user, gravSound.sampleLength);
+          // console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
           break;
         case 'loop':
           gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
@@ -497,7 +497,7 @@
       hub.user.location.y = my;
       console.log(hub.user.location);
 
-      gravSound.triggerPitch();
+      // gravSound.triggerPitch();
       hub.register();
       // FIXME: move default overlay into Hub
       document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
@@ -519,11 +519,13 @@
       nearbyRegionCircle.setAttribute("cx", p.x);
       nearbyRegionCircle.setAttribute("cy", p.y);
       console.log("Client",e.clientX,e.clientY, " t ", tx, ty, " m ", mx, my)
+      hub.send('nearbyLocation', {'x':mx,'y':my})
       let aspect = tx/ty;
       let nearbyUsers = findNearbyUsers(mx,my, nearbyRange, aspect)
-      nearbyUsers.forEach((user) => {
-        playRemote(user);
-      });
+      hub.log(nearbyUsers);
+      // nearbyUsers.forEach((user) => {
+      //   playRemote(user);
+      // });
     }
 
     function findNearbyUsers(x,y, nRange=nearbyRange, aspect=1.0) {

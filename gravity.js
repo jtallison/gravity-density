@@ -243,6 +243,10 @@ hub.io.sockets.on('connection', function(socket) {
   //  let userList = hub.getListOfUsers();
   //  hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
 
+  hub.channel('nearbyLocation', null, null, (data) => {
+    hub.transmit('nearbyLocation', ['sampler'], data);
+  })
+
   hub.channel('sample', null, null, (data) => {
     // data.user = "name", .sample = "bang", .duration = "5000"
 
