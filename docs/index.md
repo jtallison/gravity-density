@@ -16,6 +16,8 @@ For cyber-hacked devices and mobile devices, and intrepid explorers
 
 Thank you to everyone who watched the recorded performance at the concert yesterday. Unfortunately, due to technical unreliability, we must cancel today's live performance for the NIME Conference. 
 
+__If you are curious about the distributed mobile interface, you can explore its basic functionality on your mobile device at:__ [emdm.io](https://emdm.io)
+
 
 <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
 
