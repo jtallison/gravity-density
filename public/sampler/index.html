@@ -1,0 +1,673 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>gravity | density sampler</title>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+  <link rel="stylesheet" href="/styles/main.css">
+
+  <!-- <link href="http://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet" type="text/css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/js/Tone.js"></script>
+  <script type="text/javascript" src="/js/nexusUI.js"></script>
+  <script type="text/javascript" src="/js/GravSound_hub.js"></script>
+  <script type="text/javascript" src="/js/browserHub.js"></script>
+  <script type="text/javascript" src="/js/StartAudioContext.js"></script>
+  <script src="/js/wavesurfer.min.js"></script>
+  <script src="/js/wavesurfer.regions.min.js"></script>
+
+</head>
+
+<body>
+  <div class="display">
+    <div id="header"><span class="title">Gravity|Density Sampler</span></div>
+
+    <div class="nexusOverlay">
+      <p>Sampler | <strong>Testing</strong></p>
+      <p>Start by tapping your approximate location in the space.</p>
+      <svg version="1.1" id="preMap" x="0px" y="0px" viewbox="0 0 640 445"
+        style="max-width: 70vh; enable-background:new 0 0 640 445;">
+        <rect x="4" y="4" style="fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
+          height="437" />
+        <rect x="77.5" y="70" style="fill:none;stroke:#4D4D4D;stroke-width:8;stroke-miterlimit:10;" width="485.1"
+          height="350" />
+        <line style="fill:none;stroke:#4D4D4D;stroke-width:18;stroke-miterlimit:10;" x1="30" y1="40" x2="610"
+          y2="40" />
+      </svg>
+    </div>
+
+    <div class="mainDisplay">
+      <div id="map">
+        <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
+          style="max-width: 70vh; enable-background:new 0 0 640 445;">
+          <rect x="4" y="4" style="fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
+            height="437" />
+          <rect x="77.5" y="70" style="fill:none;stroke:#4D4D4D;stroke-width:8;stroke-miterlimit:10;" width="485.1"
+            height="350" />
+          <line style="fill:none;stroke:#4D4D4D;stroke-width:18;stroke-miterlimit:10;" x1="30" y1="40" x2="610"
+            y2="40" />
+        </svg>
+      </div>
+      <div class='controls'>
+        <div id='cueSelector'></div><div id='cueNext'></div>
+        <div id='sectionSelector'></div><div id='sectionNext'></div>
+        <div id='clearUsers'></div>
+        <div id="slider"></div>
+        <div class='controls'>
+          <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
+          <div id="enableCountdown"></div>Enable Countdown <div id="triggerCountdown"></div>Trigger Countdown
+        </div>
+        <div class='controls'>
+          <div id="loadSpeaking"></div>Load Speaking <div id="triggerSpeaking"></div>Trigger Speaking
+          <div id="magnificentLaunch"></div>Magnificent <div id="silence"></div>silence
+        </div>
+        
+        <div class='controls'>
+          <div id="enableRecord"></div>Enable Record
+          <div id="enableEdit"></div>Enable Edit
+          <div id="enablePlay"></div>Enable Play
+          <div id="enableTouch"></div>Enable Touch
+          <div id="enableLoop"></div>Enable Loop
+        </div>
+      </div>
+      <div id="samples">
+        <!-- <div id="player-1">
+          <div id="record-1"></div>
+          <div id="play-1"></div>
+          <div id="loopBegin-1"></div>
+          <div id="loopEnd-1"></div>
+        </div> -->
+      </div>
+      <br><br>
+      <button onClick="tapEnd()">Tap To End Session</button>
+    </div>
+
+  </div>
+
+  <div id="typed-text">...</div>
+
+  <div class="endDisplay" style="display: none;">
+    <p>
+      <br>
+      <br><em>Nice Set<br>
+        Please visit <a href="http://gravity.emdm.io">gravity.emdm.io</a> for documentation.</em>
+    </p>
+  </div>
+
+  <script>
+    document.addEventListener("touchstart", function(){}, true);
+
+    var Hub = require('hub');
+    var hub = new Hub();
+
+    hub.user.name ="gravitySampler";
+    hub.user.color = getRandomColor();
+    hub.user.location = {
+      x: 0.5,
+      y: 0.5
+    }
+
+    hub.init();
+
+    let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
+    let currentSection = 0;
+    // let playerSampleCount = 0;
+    // let sampleLength = 5000;
+    let cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
+    let currentCue = 0;
+    let currentSubCue = 0;
+    
+    let registeredUsers = [];
+
+    let countdownClips = ['/data/mp3s/cd-0.mp3', '/data/mp3s/cd-1.mp3', '/data/mp3s/cd-2.mp3', '/data/mp3s/cd-3.mp3', '/data/mp3s/cd-4.mp3', '/data/mp3s/cd-5.mp3', '/data/mp3s/cd-6.mp3', '/data/mp3s/cd-7.mp3', '/data/mp3s/cd-8.mp3', '/data/mp3s/cd-9.mp3', '/data/mp3s/cd-10.mp3'];
+    let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
+    
+    let countdownPosition = 10;
+    let countdownNumber = 4;
+    let nearbyRange = 0.2;
+
+    // *** Nexus UI Elements ***
+
+    let record = [];
+    let play = [];
+    let loopBegin = [];
+    let loopEnd = [];
+    let clear = [];
+
+    let sectionNX = new Nexus.Select('#sectionSelector',{
+      'size': [100,30],
+      'options': sections
+    });
+    let sectionNextNX = new Nexus.Button('#sectionNext');
+
+    let cueNX = new Nexus.Select('#cueSelector',{
+      'size': [100,30],
+      'options': cues
+    });
+    let cueNextNX = new Nexus.Button('#cueNext');
+    cueNextNX.mode = 'button';
+    let clearUsersNX = new Nexus.Button("#clearUsers", {'size': [30,30]});
+    clearUsersNX.mode = 'button';
+    
+    let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
+    loadLaunchNX.mode = 'button';
+    let triggerLaunchNX = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
+    triggerLaunchNX.mode = 'button';
+    let enableCountdown = new Nexus.Toggle('#enableCountdown');
+    let triggerCountdown = new Nexus.Button("#triggerCountdown", {'size': [30,30]});
+    triggerCountdown.mode = 'button';
+    let loadSpeaking = new Nexus.Button("#loadSpeaking", {'size': [30,30]});
+    loadSpeaking.mode = 'button';
+    let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
+    triggerSpeaking.mode = 'button';
+    let enableRecord = new Nexus.Toggle('#enableRecord');
+    let enableEdit = new Nexus.Toggle('#enableEdit');
+    let enablePlay = new Nexus.Toggle('#enablePlay');
+    let enableTouch = new Nexus.Toggle('#enableTouch');
+    let enableLoop = new Nexus.Toggle('#enableLoop');
+    let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
+    magnificentLaunch.mode = 'button';
+    let silence = new Nexus.Button("#silence", {'size': [30,30]});
+    silence.mode = 'button';
+    
+
+    // let record_1 = new Nexus.Toggle("#record-1");
+    // let play_1 = new Nexus.Toggle("#play-1");
+    // let loopBegin_1 = new Nexus.Number("#loopBegin-1");
+    // let loopEnd_1 = new Nexus.Number("#loopEnd-1");
+
+    // record_1.on('change', function (v) {
+    //   v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    // });
+
+    enableRecord.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="record";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enableEdit.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="edit";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enablePlay.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="play";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+      // If you want to set this outside of a sample load command do it here
+    function enablePlayOnce() {
+      let data = {};
+      data.user ="all";
+      data.val ="playOnce";
+      data.enabled = true;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    };
+
+    enableTouch.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="touch";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+    enableLoop.on ('change', (v) => {
+      let data = {};
+      data.user ="all";
+      data.val ="loop";
+      data.enabled = v;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    });
+
+        // -------- LAUNCH CONTROLS
+    loadLaunchNX.on('change', function (v) {
+      if(v==false) {
+        loadFile('/data/mp3s/AtlasVLaunch.mp3');
+      }
+    });
+
+    triggerLaunchNX.on('change', function (v) {
+      if(v==true) {
+        let data = {
+          user : 'all',
+          val : 'play'
+        }
+        hub.transmit('sample',null, data);
+      }
+    });
+
+    // enableCountdown triggerCountdown loadSpeaking triggerSpeaking
+
+    function randomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    
+    enableCountdown.on ('change', (v) => {
+      countdownPosition = 10;
+    });
+
+    triggerCountdown.on('change', function (v) {
+      if(v == true) {
+        console.log("Countdown: " + countdownPosition);
+        if(countdownPosition >=0) {
+          for(let i= 0;i<registeredUsers.length / countdownNumber;i++) {
+            let file = countdownClips[countdownPosition]
+            let user = randomItem(registeredUsers);
+            loadPlayFile(user.username, file);
+            console.log('Countdown:' + countdownPosition + ' user ' + user.username);
+          }
+          hub.send('countdown', {val:countdownPosition});
+          countdownPosition--;
+        }
+      }
+    });
+
+    loadSpeaking.on('change', function (v) {
+      let user = randomItem(registeredUsers);
+      let file = randomItem(speakingClips);
+      if(v==false) {
+        loadPlayFile(user.username, file);
+      }
+    });
+
+    triggerSpeaking.on('change', function (v) {
+      if(v==false) {
+        let user = 'all';
+        let file = speakingClips[3]; // randomItem(speakingClips);  // sp-ignitionSequence.mp3
+        loadPlayFile(user, file);
+        // let data = {
+        //   user : 'all',
+        //   val : 'play'
+        // }
+        // hub.transmit('sample',null, data);
+      }
+    });
+
+    magnificentLaunch.on('change', function (v) {
+      if(v==false) {
+        let file = '/data/mp3s/MagnificentDesolation.mp3';
+        loadFile(file, true); // file, playOnce?
+      }
+    });
+
+    silence.on('change', function (v) {
+      if(v==false) {
+        let file = '/data/mp3s/silence.mp3';
+        loadFile(file);
+      }
+    });
+
+    
+
+
+    // Shared slider... possibly a good volume control?
+    let masterFaderNX = new Nexus.Slider('#slider', {
+      'mode': 'absolute',
+      'value': 1.0
+    });
+    hub.channel('masterFader', null, null, function (data) {
+      masterFaderNX.value = data.val;
+    });
+    masterFaderNX.on('change', function (v) {
+      // do not send along if not changed from a user interaction.
+      if (masterFaderNX.clicked) {
+        hub.send('masterFader', {
+          val: v
+        });
+        // console.log(v);
+        gravSound.masterGain(v);
+      };
+    });
+
+        // ******* Cues *******
+    hub.channel('setCue', null, null, function (data) {
+      console.log(data);
+      console.log("the section is now: " + cues[data.val]);
+
+      currentCue = data.val;
+      cueNX.selectIndex = currentCue;
+    });
+
+    cueNX.on ('change', (v) => {
+      console.log('Cue ', v.index, v.value, v);
+      setCue(v.index);
+      currentCue = v.index;
+    });
+
+    cueNextNX.on ('change', (v) => {
+      if(v == true) {
+        nextCue();
+      }
+    });
+
+    function nextCue() {
+      currentCue += 1;
+      if (currentCue >= cues.length) {
+        currentCue = cues.length - 1;
+      }
+      setCue(currentCue);
+      cueNX.selectIndex = currentCue;
+    }
+
+    function setCue(cue, subcue=0) {
+      hub.send('cue', {
+        'val': cue,
+        'name': cues[cue],
+        'subcue': subcue 
+      });
+      if(cues[cue] == 'magnificent') {
+        let file = '/data/mp3s/MagnificentDesolation.mp3';
+        loadFile(file, true); // file, playOnce?
+      } else if(cues[cue] == 'clear'){
+        let file = '/data/mp3s/silence.mp3';
+        loadFile(file);
+      } else if(cues[cue] == 'launch'){
+        loadFile('/data/mp3s/AtlasVLaunch.mp3');
+      }
+    }
+
+    hub.channel('sample', null, null, (data) => {
+      // data.user = "name", .val = "capture", .duration = "5"
+      // console.log("User? ", data.user in gravSound.userSamples);
+
+      switch(data.val){
+        case 'capture':
+          gravSound.createSample(data.user, gravSound.sampleLength);
+          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
+          break;
+        case 'loop':
+          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
+          if(data.play) {
+            gravSound.playLoop(data.user);
+          }
+          console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+          break;
+        case 'playHub': 
+          gravSound.playRegion(data.user);
+          break;
+        case 'loopHub': 
+          gravSound.playLoop(data.user);
+          break;
+        case 'pauseHub': 
+          gravSound.pause(data.user);
+          break;
+        case 'default':
+          console.log('Sample Command not recognized: ', data.val);
+      }
+    });
+
+    function loadFile(file, playOnce=false) {
+      let data = {
+        user : 'all',
+        val : 'load',
+        playOnce: playOnce,
+        url : file
+      }
+      hub.transmit('sample', null, data);
+      // gravSound.loadAllSamples(file);
+
+        // Doing this here allows for us to add in users who had not recorded anything yet.
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        gravSound.loadSample(user.username, file)
+        // let sampleNumber = user.id;
+        // this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
+        // this.wavesurfers[sampleNumber].load(url);
+      });
+    };
+
+    function loadPlayFile(user, file) {
+      let data = {
+        user: user,
+        val: 'load',
+        url: file,
+        play: true
+      }
+      hub.transmit('sample', null, data);
+      gravSound.loadSample(user, file);
+    }
+
+    hub.channel('loop', null, null, (data) => {
+      // data.user = "name", .loopBegin = 0., .loopEnd = 1.0
+      if (data.loopBegin >= 0.) {
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].start = data.loopBegin *
+          gravSound.sampleLength;
+      }
+      if (data.loopEnd <= 1.0) {
+        gravSound.wavesurfers[gravSound.userSamples[data.user].id].regions.list[0].end = data.loopEnd * gravSound
+          .sampleLength;
+      }
+
+      console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+    });
+
+
+
+
+
+
+
+    // *********************************** //
+
+    //      Sections, and other boilerplate //
+
+    // ****** Player Communications ****** //
+
+    // document.getElementsByTagName('body')[0].style.borderLeft = "15px solid" + hub.user.color;
+
+    preMap.addEventListener('click', getClickPosition, false);
+    seatMap.addEventListener('click', clickToFindNearbyUsers, false);
+    StartAudioContext(Tone.context, '#preMap').then(function () {
+      console.log("AudioStarted");
+    })
+
+    function getClickPosition(e) {
+      var m = preMap.getScreenCTM();
+      var p = document.getElementById('preMap').createSVGPoint();
+      p.x = e.clientX;
+      p.y = e.clientY;
+      p = p.matrixTransform(m.inverse());
+      var tx = document.getElementById('preMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('preMap').getAttribute('viewBox').split(" ")[3];
+      var mx = p.x / tx;
+      var my = p.y / ty;
+
+      hub.user.location.x = mx;
+      hub.user.location.y = my;
+      console.log(hub.user.location);
+
+      gravSound.triggerPitch();
+      hub.register();
+      // FIXME: move default overlay into Hub
+      document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
+      document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
+      // wavesurfer.load('data/mbira_em.mp3');
+      preMap.removeEventListener('click', getClickPosition, false);
+    }
+
+    function clickToFindNearbyUsers(e) {
+      var m = seatMap.getScreenCTM();
+      var p = document.getElementById('seatMap').createSVGPoint();
+      p.x = e.clientX;
+      p.y = e.clientY;
+      p = p.matrixTransform(m.inverse());   // point clicked in svg coords
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      var mx = p.x / tx;
+      var my = p.y / ty;
+      nearbyRegionCircle.setAttribute("cx", p.x);
+      nearbyRegionCircle.setAttribute("cy", p.y);
+      console.log("Client",e.clientX,e.clientY, " t ", tx, ty, " m ", mx, my)
+      let aspect = tx/ty;
+      let nearbyUsers = findNearbyUsers(mx,my, nearbyRange, aspect)
+      nearbyUsers.forEach((user) => {
+        playRemote(user);
+      });
+    }
+
+    function findNearbyUsers(x,y, nRange=nearbyRange, aspect=1.0) {
+      let nearbyUsers = [];
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        let mag = Math.sqrt((((user.location.x-x)*aspect)*((user.location.x-x)*aspect))+((user.location.y-y)*(user.location.y-y)));
+        // console.log("Magnitude ", mag, user.username);
+        if (mag <= nRange) {
+          nearbyUsers.push(user.username);
+        }
+      });
+      return nearbyUsers;
+    }
+
+    function createNearbyRegion(){
+      let sv = document.getElementById('seatMap');
+      let svgns = "http://www.w3.org/2000/svg";
+      let circle = document.createElementNS(svgns, 'circle');
+
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      circle.setAttributeNS(null, 'cx', (0.5 * tx)); // 640
+      circle.setAttributeNS(null, 'cy', (0.5 * ty)); // 445
+      circle.setAttributeNS(null, 'r', nearbyRange*ty);
+      circle.setAttributeNS(null, 'style', 'fill: none; stroke: red; stroke-width: 2px;' );
+      circle.setAttributeNS(null, 'id', "nearbyRegion-seatmap");
+      sv.appendChild(circle);
+    }
+    createNearbyRegion();
+    let nearbyRegionCircle = document.getElementById('nearbyRegion-seatmap');
+
+
+    hub.channel('welcome', null, null, (data) => {
+      console.log('welcome', data);
+      registeredUsers.push(data); 
+      // {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation }
+      let sv = document.getElementById('seatMap');
+      let svgns = "http://www.w3.org/2000/svg";
+      let circle = document.createElementNS(svgns, 'circle');
+
+      // actual coordinates of the inner box
+      // circle.setAttributeNS(null, 'cx', 77.5 + (data.location.x * 485.1));
+      // circle.setAttributeNS(null, 'cy', 70 + (data.location.y * 350));
+      circle.setAttributeNS(null, 'cx', (data.location.x * 640));
+      circle.setAttributeNS(null, 'cy', (data.location.y * 445));
+      circle.setAttributeNS(null, 'r', 5);
+      circle.setAttributeNS(null, 'style', 'fill: orange; stroke: red; stroke-width: 1px;' );
+      circle.setAttributeNS(null, 'id', data.username + "-seatmap");
+      sv.appendChild(circle);
+      let c = document.getElementById(data.username + "-seatmap");
+      c.onclick = (e) => {
+        let seatID = e.target.id;
+        console.log('seatID', seatID);
+        let name = seatID.split('-seatmap')[0];
+        playRemote(name);
+        e.stopPropagation();
+      };
+    });
+
+    function playRemote(user) {
+      console.log('Play: ', user)
+      let data = {
+          user : user,
+          val : 'play'
+        }
+        hub.transmit('sample',null, data);
+    }
+
+    sectionNextNX.on ('change', (v) => {
+      if(v == true) {
+        hub.send('clearUsers', 'now');
+      }
+    });
+
+
+      // ******* Sections *******
+    hub.channel('setSection', null, null, function (data) {
+      console.log(data);
+      console.log("the section is now: " + sections[data.section]);
+
+      currentSection = data.section;
+      sectionNX.selectIndex = currentSection;
+    });
+
+    sectionNX.on ('change', (v) => {
+      console.log('Section ', v.index, v.value, v);
+      setSection(v.index);
+    });
+
+    sectionNextNX.on ('change', (v) => {
+      if(v == true) {
+        nextSection();
+      }
+    });
+
+    function nextSection() {
+      hub.send('section', {
+        'section': 'next'
+      });
+    }
+
+    function setSection(sect) {
+      hub.send('section', {
+        'section': sect
+      });
+    }
+
+    // hub.channel('tap', null, null, function (data) {
+    //   hub.log(`tap received: $ { data }`);
+    // })
+
+    // function tapButton() {
+    //   hub.send('tap', {
+    //     'tap': 1
+    //   });
+    // }
+
+    // hub.channel('itemback', null, 'about', function (data) {
+    //   console.log("itemback: ", data);
+    // });
+
+
+    function tapEnd() {
+      document.getElementsByClassName("mainDisplay")[0].style.display = 'none';
+      document.getElementsByClassName("endDisplay")[0].style.display = 'block';
+    }
+
+
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+
+    var gravSound = new GravSound();
+    hub.user.pitch = gravSound.pitch;
+
+  </script>
+
+</body>
+
+</html>

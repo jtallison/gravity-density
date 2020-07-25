@@ -144,6 +144,10 @@ hub.io.sockets.on('connection', function(socket) {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
       hub.log("Hello Controller: ", hub.controller.id);
+    } else if (socket.username == "gravitySampler") {
+      hub.controller.id = socket.id;
+      hub.discreteClients.controller.id = socket.id;
+      hub.log("Hello Sampler: ", hub.controller.id);
     } else if (socket.username == "audioController") {
       hub.audio.id = socket.id;
       hub.discreteClients.audio.id = socket.id;
