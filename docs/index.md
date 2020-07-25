@@ -8,29 +8,34 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
 
 ----
 
-<script src= "https://player.twitch.tv/js/embed/v1.js"></script>
-    <div id="streamDiv"></div>
-    <div id="text">...</div>
-    <script type="text/javascript">
-      let options = {
-        width: 720,
-        height: 480,
-        channel: "allisonification",
-        // video: "",
-        // collection: "",
-        // only needed if your site is also embedded on embed.example.com and othersite.example.com 
-        parent: ["emdm.io", "gravity.emdm.io"]
-      };
-      let player = new Twitch.Player("streamDiv", options);
-      player.addEventListener(Twitch.Player.READY, ()=>{
-        player.setVolume(0.8);
-        let vol = player.getVolume();
-        console.log("volume = ", vol);
-        let textDiv = document.getElementById('text');
-        textDiv.innerHTML = `Player Volume is ${vol}`
-      });
 
-    </script>
+<script src= "https://player.twitch.tv/js/embed/v1.js"></script>
+
+<div id="streamDiv"></div>
+
+<div id="text">...</div>
+
+<script type="text/javascript">
+  let options = {
+    width: 720,
+    height: 480,
+    channel: "allisonification",
+    // video: "",
+    // collection: "",
+    // only needed if your site is also embedded on embed.example.com and othersite.example.com 
+    parent: ["emdm.io", "gravity.emdm.io"]
+  };
+  let player = new Twitch.Player("streamDiv", options);
+  player.addEventListener(Twitch.Player.READY, ()=>{
+    player.setVolume(0.8);
+    let vol = player.getVolume();
+    console.log("volume = ", vol);
+    let textDiv = document.getElementById('text');
+    textDiv.innerHTML = `Player Volume is ${vol}`
+  });
+
+</script>
+
 
 ----
 
