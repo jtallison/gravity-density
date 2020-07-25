@@ -129,7 +129,7 @@
 
     let setMessage = (text) => {document.getElementById('message').innerText = text};
     let messageText = {
-      'preConcert': { default: 'Welcome\nexplore interface...',
+      'preConcert': { default: 'Welcome Performer\nloading density...',
                       1: 'Welcome Performer\nloading density...', 
                       2: 'designing interstellar experience...', 
                       3: 'initiating gravity...',
@@ -199,20 +199,6 @@
 
     hub.init();
 
-    let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
-
-    hub.channel('demo',null,null, (data) => {
-      demoSetup();
-    })
-    function demoSetup(){
-      setMessage(messageText.spokenOpening.sputnik);
-      let file = randomItem(speakingClips);
-        gravSound.loadSample(file,true);
-      enableEdit(true);
-    }
-    function randomItem(list) {
-      return list[Math.floor(Math.random() * list.length)];
-    }
     
     hub.channel('cue', null, null, (data) => { cue(data); });
 
@@ -300,10 +286,6 @@
           setMessage(messageText.postConcert.default);
           setInstruction('gravity');
           break;
-        case 'demo':
-          demoSetup();
-          setInstruction('gravity');
-          break;
         case 'default':
           console.log('Sample Command not recognized: ', data.val, data.name);
       }
@@ -384,7 +366,6 @@
       titleSpinner.addEventListener( "animationend",  function() {
         titleSpinner.classList.remove("spinner-center");
       });
-      demoSetup();
     };
 
 
@@ -759,7 +740,6 @@
       document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
       document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
       // wavesurfer.load('data/mbira_em.mp3');
-      demoSetup();
     }
 
     hub.channel('chat', null, null, function(data) {
@@ -879,6 +859,7 @@
     gravSound.wavesurfer.on('region-click', function (e) {
       console.log('Clicked-region ', e);
     });
+
 
   </script>
 

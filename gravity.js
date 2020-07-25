@@ -100,7 +100,7 @@ function mp3(fileName) {
 hub.sectionTitles = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
 hub.currentSection = 0;
 
-hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
+hub.cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow', 'demo'];
 hub.currentCue = 0;
 hub.currentSubCue = 0;
 
