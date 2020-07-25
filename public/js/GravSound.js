@@ -58,7 +58,7 @@ class GravSound {
       //"wet": 0.8
     }).connect(this.gain).start();
 
-    this.feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).connect(this.tremolo);
+    this.feedbackDelay = new Tone.FeedbackDelay("8n", 0.3).connect(this.tremolo);
 
     this.synth = new Tone.Synth({
       "oscillator": {

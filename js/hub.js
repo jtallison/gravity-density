@@ -17,10 +17,24 @@
 
 class Hub {
   constructor() {
-    this.freq = this.freq.bind(this);
-
-
-
+    this.channel = this.channel.bind(this);
+    this.onConnection = this.onConnection.bind(this);
+    this.checkIn = this.checkIn.bind(this);
+    this.enableUserTimeout = this.enableUserTimeout.bind(this);
+    this.isStillActive = this.isStillActive.bind(this);
+    this.getListOfUsers = this.getListOfUsers.bind(this);
+    this.intervalTransmit = this.intervalTransmit.bind(this);
+    this.randomItem = this.randomItem.bind(this);
+    this.send = this.send.bind(this);
+    this.transmit = this.transmit.bind(this);
+    this.discreteClientCheck = this.discreteClientCheck.bind(this);
+    this.setSection = this.setSection.bind(this);
+    this.sendSection = this.sendSection.bind(this);
+    this.shareSection = this.shareSection.bind(this);
+    this.getSection = this.getSection.bind(this);
+    this.log = this.log.bind(this);
+    this.init = this.init.bind(this);
+    
     this.app;
     this.logEnable = true;    // 
     this.environment = 'development';   
@@ -189,7 +203,7 @@ getListOfUsers() {
 intervalTransmit = (channel, toWhom, data, interval) => {
     console.log("Interval: ", channel, interval);
     let intervalTimer = setInterval( () => { 
-      hub.transmit(channel, toWhom, data);
+      this.transmit(channel, toWhom, data);
     }, interval);
     let intervalTimerName = channel+interval;
     this.intervalTimers[intervalTimerName] = intervalTimer;
@@ -419,4 +433,4 @@ init(sio, publicFolder) {
 
 
 
-module.exports = Hub;
+module.exports = new Hub();

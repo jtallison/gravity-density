@@ -19,8 +19,8 @@ const fs = require('fs'); //use the file system so we can save files
 var sio = require('socket.io');
 var publicFolder = __dirname + '/public';
 
-var NexusHub = require('./js/hub');
-var hub = new NexusHub();
+var hub = require('./js/hub');
+//var hub = new NexusHub();
 let ffmpeg = require('ffmpeg');
 
 // Polyfill for Objects.entries

@@ -3,7 +3,7 @@
 
 What needs to be done, should be done, could be done.
 
-## To Move to NexusHub
+### To Move to NexusHub
 
 - [ ] Map position select (add image replacement) 
 - [ ] hub.js storing of users able to be recalled upon restart (storage outside of container based on restart)
@@ -25,14 +25,20 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 ## TODO:
 
-- [ ] Deploy - tried now, but they've disabled docker and node.js deployment (shoot) moving to Heroku
+- [ ] Mox: Fix the intro overlay screen to pop stars and make space sounds
+- [ ] Mox: Add the overlay to the end with fading out of sound
+- [ ] Mox: Update words for each section/control make sure it makes sense.
+- [ ] Mox: Record the words for instructional playback on the phones
+- [ ] Mox: Create module for any set of files for transfer randomly, individual random, collective loading
+
+- [x] Deploy - tried now, but they've disabled docker and node.js deployment (shoot) moving to Heroku
 - [ ] battle test wavesurfer usage. Make loop points fully functional  https://www.gettoby.com/p/sf4gx56916kf
 - [ ] Create UI for me as an ensemble sample performer (see list below)
 - [ ] Implement audience - mute, reset/clear, instruction layer, sample playback w/ illumination, receiving and loading samples.
 - [ ] Add event emitter to: all the things   https://www.gettoby.com/p/dtklyqd75qs1 add node eventemitter package  https://medium.com/technoetics/node-js-event-emitter-explained-d4f7fd141a1a  https://www.npmjs.com/package/events  
 
 
-## Audience UI
+### Audience UI
 
 - [ ] Loop when held (for some reason onmousedown & onmouseup are not functioning)
 - [ ] 
@@ -40,7 +46,7 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 - [x] find font/text style that is NASA friendly
 - [x] Orbital Logo to interact with (via gravitdesigner)
 
-## Hub UI
+### Hub UI
 
 - [ ] Clear Audio at once
 - [ ] Clear Audio by individual over time
