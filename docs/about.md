@@ -13,7 +13,9 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
 
 <div id="streamDiv"></div>
 
-<div id="text">...</div>
+[__To Participate in the live performance join us here:__](gravity.emdm.io)
+
+<div id="text"></div>
 
 <script type="text/javascript">
   let options = {
@@ -31,7 +33,7 @@ In _Gravity \| Density_, we begin by manipulating fixed-audio sources through th
     let vol = player.getVolume();
     console.log("volume = ", vol);
     let textDiv = document.getElementById('text');
-    textDiv.innerHTML = `Player Volume is ${vol}`
+    // textDiv.innerHTML = `Player Volume is ${vol}`
   });
 
 </script>
