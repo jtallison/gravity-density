@@ -200,7 +200,7 @@ getListOfUsers() {
   // Can be used for testing or whatevs
   // usage: hub.intervalTransmit('chan-or-nickname', ['display'] ,{data: 5}, interval)
 
-intervalTransmit = (channel, toWhom, data, interval) => {
+intervalTransmit(channel, toWhom, data, interval) {
     console.log("Interval: ", channel, interval);
     let intervalTimer = setInterval( () => { 
       this.transmit(channel, toWhom, data);
@@ -212,7 +212,7 @@ intervalTransmit = (channel, toWhom, data, interval) => {
 
 // Utilities:
 
-randomItem = (list) => {
+randomItem(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
