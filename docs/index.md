@@ -10,6 +10,10 @@ For cyber-hacked devices and mobile devices, and intrepid explorers
 
 ----
 
+<h2 style="color:red;">2020/07/25 NIME Performance Cancellation</h2>
+
+Thank you to everyone who watched the recorded performance at the concert yesterday. Unfortunately, due to technical unreliability, we must cancel today's live performance for the NIME Conference. 
+
 
 <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
 
@@ -39,7 +43,8 @@ __Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
     console.log("volume = ", vol);
     let textDiv = document.getElementById('text');
     // textDiv.innerHTML = `Player Volume is ${vol}`
-    textDiv.innerHTML = `The performance begins at 23:15 UTC+1 (5:15 CDT, 3:15 PDT)`
+    // textDiv.innerHTML = `The performance begins at 23:15 UTC+1 (5:15 CDT, 3:15 PDT)`
+    textDiv.innerHTML = `Unfortunately, due to technical issues, the performance today is must be cancelled.`
   });
 
 </script>
@@ -52,3 +57,4 @@ _Gravity \| Density_ is a work for cyber-hacked devices and Web Audio applicatio
 In _Gravity \| Density_, we begin by manipulating fixed-audio sources through the performance of hacked CD players. The sonic results of this mangled audio is sampled and then distributed to the audience’s mobile devices in both passive and interactive manners. Passive distributions allow us to create intricately-spatialized rhythmic interplay between the glitching CD players and the blanket of overlapping samples dispersed throughout the networked audience.  Active distributions allow the audience to join in our performance; by sampling small portions of the audio, processing and looping these sounds and sending them back to the performers, we string this audio together and feed it into a cyber-controlled distortion pedal before sending it back to the audience for more manipulation. This results in overlapping cycles of control and audio generation between performer, audience, network, and machine.
 
 [Click here for more information about the work.](https://gravity.emdm.io/about)
+
