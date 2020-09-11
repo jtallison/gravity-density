@@ -12,9 +12,7 @@ For cyber-hacked devices and mobile devices, and intrepid explorers
 
 ----
 
-<h2 style="color:red;">2020/07/25 NIME Performance Cancellation</h2>
-
-Thank you to everyone who watched the recorded performance at the concert yesterday. Unfortunately, due to technical issues, we must cancel today's live performance for the NIME Conference. 
+<h2 style="color:red;">Live Streamed Performance Coming Again Soon</h2>
 
 __If you are curious about the distributed mobile interface, you can explore its basic functionality on your mobile device at:__ [emdm.io](https://emdm.io)
 
@@ -34,7 +32,7 @@ __Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
   let options = {
     width: 720,
     height: 480,
-    channel: "allisonification",
+    channel: "lsuemdm",
     // video: "",
     // collection: "",
     // only needed if your site is also embedded on embed.example.com and othersite.example.com 
@@ -48,7 +46,7 @@ __Please Join with your mobile devices at:__ [emdm.io](https://emdm.io)
     let textDiv = document.getElementById('text');
     // textDiv.innerHTML = `Player Volume is ${vol}`
     // textDiv.innerHTML = `The performance begins at 23:15 UTC+1 (5:15 CDT, 3:15 PDT)`
-    textDiv.innerHTML = `Unfortunately, due to technical issues, the performance today is cancelled.`
+    textDiv.innerHTML = `EMDM Streaming Performances.`
   });
 
 </script>
