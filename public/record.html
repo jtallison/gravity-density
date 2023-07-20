@@ -1,0 +1,125 @@
+<html>
+<head>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+
+  <button id="record" onclick="startRecording()">Record</button> | <button id="play" onclick="playRecording()">Play</button> | <button id="upload" onclick="uploadSample('whisper', 1, soundBlob)">Upload Latest</button>
+<div id="sound-clips">
+  <audio id="sound-recording" controls>
+    No Audio
+  </audio>
+</div>
+
+<script type="text/javascript">
+  let soundClips = document.getElementById('sound-clips') // for adding audio to page
+  let audio = document.getElementById('sound-recording'); // the default audio, can change src with new recordings
+
+  let tone = Tone;
+
+  // ---- Audio Input
+  let liveFeed = new Tone.UserMedia();  // the microphone just call .open
+
+  let recorder; // our mediaRecorder
+  let soundBlob;  // our audio blob once recorded
+  let chunks = [];  // samples of audio 
+  
+  // Uncomment if you want a list of devices
+  // Tone.UserMedia.enumerateDevices().then((devices) => {
+  //   console.log(devices)
+  // })
+
+  liveFeed.open().then(()=>{
+    //promise resolves when input is available
+    console.log("Recorder Available")
+    recorder = new MediaRecorder(liveFeed._stream);
+
+    recorder.ondataavailable = (evt) => {
+      chunks.push(evt.data);
+    };
+
+    recorder.onstop = (evt) => {
+      soundBlob = new Blob(chunks, {
+        type: 'audio/wav; codecs=0'
+      });
+      // soundBlob = new Blob(chunks, {
+      //   type: 'audio/ogg; codecs=opus'
+      // });
+
+      console.log('recording stopped');
+      audio.src = URL.createObjectURL(soundBlob);
+      makeNewAudio(soundBlob);
+      chunks = [];
+      // uploadSample(this.recorder.user, currentSample, soundBlob)
+    };
+  }).catch(e => {
+  	// promise is rejected when the user doesn't have or allow mic access
+  	console.log("mic not open");
+  });
+
+  function makeNewAudio(soundBlob) {
+    const newAudio = document.createElement("audio");
+    newAudio.setAttribute("controls", "");
+    soundClips.appendChild(newAudio);
+    newAudio.controls = true;
+    const audioURL = URL.createObjectURL(soundBlob);
+    newAudio.src = audioURL;
+  }
+
+  // ------ Toggle recording ------
+  let recording = false;
+  function startRecording() {
+    Tone.start();
+    if (recording) {
+      recorder.stop();
+      recording = false;
+      console.log('stopped recording')
+    } else {
+      recorder.start();
+      recording = true;
+      console.log('started recording')
+    }
+  }
+
+  function playRecording(){
+    audio.play();
+  }
+
+
+  function uploadSample(user = 'bob', userNumber = 0, soundBlob) {
+    let formdata = new FormData(); //create a from to of data to upload to the server
+    let soundFileName = user + '_Sample';
+    formdata.append('user', user);
+    formdata.append('id', userNumber);
+    formdata.append('soundBlob', soundBlob, soundFileName ); // append the sound blob and the name of the file. third argument will show up on the server as req.file.originalname
+
+    // Now we can send the blob to a server...
+    let serverUrl = '/upload'; //we've made a POST endpoint on the server at /upload
+    let httpRequestOptions = { //build a HTTP POST request
+      method: 'POST',
+      body: formdata, // with our form data packaged above
+      headers: new Headers({
+        'enctype': 'multipart/form-data' // the enctype is important to work with multer on the server
+      })
+    };
+
+    fetch(serverUrl, httpRequestOptions).then(res => {
+      console.log("Uploaded: ", res)
+    }).then(error => {
+      if(error) {
+        console.log(error)
+      }
+    });
+
+    console.log('recording sent');
+  };
+
+
+
+
+</script>
+
+</body>
+</html>

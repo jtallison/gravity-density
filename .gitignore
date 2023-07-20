@@ -1,4 +1,5 @@
-public/uploads/*
+public/uploads/*.wav
+public/uploads/*.mp3
 
 .DS_Store
 **.DS_Store
@@ -79,3 +80,6 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# Miscellaneous
+Allison-Notes.md
