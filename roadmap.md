@@ -4,9 +4,10 @@ What needs to be done, should be done, could be done.
 
 ### TODO: Audio Mostly
 - [ ] Test [VDO.Ninja](https://vdo.ninja/)
+- [ ] Setup Routing with Blackhole and Audio Interface...
 - [ ] Test devices sampling
-- [ ] move to render
-- [ ] 
+- [x] move to render
+
 
 
 ### To Move to NexusHub
@@ -54,6 +55,7 @@ One of these will work: https://www.gettoby.com/p/nsw633902rsm
 
 ### Hub UI
 
+- [ ] Get list of all audio recordings on server
 - [ ] Empty uploads folder (of .mp3, .wav. or both)
 - [ ] Clear Audio at once
 - [ ] Clear Audio by individual over time

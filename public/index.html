@@ -14,19 +14,20 @@
   <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet" type="text/css">
 
   <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="js/Tone.min.js"></script>
-  <script type="text/javascript" src="js/nexusUI.js"></script>
+  <script type="text/javascript" src="/js/Tone.js"></script>
+  <script type="text/javascript" src="/js/nexusUI.js"></script>
   <script type="text/javascript" src="/js/GravSound.js"></script>
-  <script type="text/javascript" src="js/browserHub.js"></script>
-  <script type="text/javascript" src="js/StartAudioContext.js"></script>
-  <script src="js/wavesurfer.min.js"></script>
-  <script src="js/wavesurfer.regions.min.js"></script>
+  <script type="text/javascript" src="/js/browserHub.js"></script>
+  <!-- <script type="text/javascript" src="js/StartAudioContext.js"></script> -->
+  <!-- <script src="/js/wavesurfer.min.js"></script>
+  <script src="/js/wavesurfer.regions.min.js"></script> -->
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
 
 </head>
 
 <body>
   <div class="display">
-
     <div class="nexusOverlay">
       <div class="overlayContent">
           <div class="header blur"><span class="title">Gravity &nbsp;&nbsp;Density</span>
@@ -56,7 +57,7 @@
     <div class="mainDisplay">
       <div id="header" class="header">
         <svg id="title-spinner" class="title-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 10 100" width="1em" height="2.5em"><line x1="5" y1="2" x2="5" y2="98" vector-effect="non-scaling-stroke" stroke-width="4" stroke="rgb(195,127,0)" stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="3"/></svg>
-        <span class="title" onclick="gravSound.triggerFirstSound(); titleClicked();">Gravity &nbsp;&nbsp;Density</span>
+        <span class="title" onclick="titleClicked();">Gravity &nbsp;&nbsp;Density</span>
       </div>
       <div id='message'>
         Sample what you like.<br> Select a region and set it.
@@ -106,10 +107,12 @@
     // window.addEventListener("contextmenu", function(e) { e.preventDefault(); e.stopPropagation(); return false;})
     // document.addEventListener("touchstart", function(){}, true);
 
+    //  ***** Variable Declarations ..........
     let coverBlur = document.getElementById('cover-blur');
     let controlBlur = document.getElementById('control-blur');
     let starfield = document.getElementById('star-field');
     let stars = document.getElementsByClassName('star');
+    console.log(stars);
     let titleSpinner = document.getElementById('title-spinner');
     let recordOrbit = document.getElementById("recordOrbitSVG");
     recordOrbit.listenersActive = false;
@@ -186,6 +189,25 @@
 
     let currentInstruction = 'preConcert';
 
+    let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
+    //
+
+  { // ***** Utility Functions
+    function randomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+  }
+
+  {  // ***** Nexus Hub Setup .........
     var Hub = require('hub');
     var hub = new Hub();
     
@@ -199,21 +221,67 @@
 
     hub.init();
 
-    let speakingClips = ['/data/mp3s/sp-beforeThisDecadeIsOut.mp3', '/data/mp3s/sp-clockHasStartedRoger.mp3', '/data/mp3s/sp-commitItself.mp3', '/data/mp3s/sp-ignitionSequence.mp3', '/data/mp3s/sp-primaryFunctions.mp3']
+  }  
+
+{ //  ***** Setup & Init Functions
+    function titleClicked() {
+      gravSound.triggerFirstSound();
+      titleSpinner.classList.add('spinner-center');
+      titleSpinner.addEventListener( "animationend",  function() {
+        titleSpinner.classList.remove("spinner-center");
+      });
+      demoSetup();
+    };
 
     hub.channel('demo',null,null, (data) => {
       demoSetup();
     })
+
     function demoSetup(){
       setMessage(messageText.spokenOpening.sputnik);
       let file = randomItem(speakingClips);
         gravSound.loadSample(file,true);
       enableEdit(true);
     }
-    function randomItem(list) {
-      return list[Math.floor(Math.random() * list.length)];
+
+    seatMap.addEventListener("click", getClickPosition, false);
+    document.querySelector('#seatMap')?.addEventListener('click', async () => {
+    	await Tone.start()
+    	console.log('audio is ready')
+      gravSound.createWaveformUI();
+      // gravSound.wavesurfer.on('region-click', function (e) {
+      //   console.log('Clicked-region ', e);
+      // });
+      demoSetup();
+    })
+
+    function getClickPosition(e) {
+      var m = seatMap.getScreenCTM();
+      var p = document.getElementById('seatMap').createSVGPoint();
+      p.x = e.clientX;
+      p.y = e.clientY;
+      p = p.matrixTransform(m.inverse());
+      var tx = document.getElementById('seatMap').getAttribute("viewBox").split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute("viewBox").split(" ")[3];
+      var mx = p.x / tx;
+      var my = p.y / ty;
+
+      hub.user.location.x = mx;
+      hub.user.location.y = my;
+      console.log(hub.user.location);
+
+      gravSound.triggerPitch();
+      
+      hub.register();
+      // FIXME: move default overlay into Hub
+      document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
+      document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
+      // wavesurfer.load('data/mbira_em.mp3');
+      // demoSetup();
     }
-    
+}
+
+{ //  ***** Cue Functions
     hub.channel('cue', null, null, (data) => { cue(data); });
 
     function cue(data) {
@@ -308,16 +376,17 @@
           console.log('Sample Command not recognized: ', data.val, data.name);
       }
     }
+}
+
 
     hub.channel('countdown', null, null, (data) => { countdown(data); });
-
     function countdown(data) {
       setMessage(messageText.countdown[data.val]);
     };
 
 
 
-      // Starfield & Stars
+{ //  ***** Starfield & Stars & Control Blurring
     function setRandomAnimationDuration(star) {
       star.style.animationDuration = Math.floor(Math.random() * 10 + 1) + "s";
     }
@@ -359,8 +428,9 @@
         controlBlur.style.display = 'none';
       }
     }
+}
 
-    
+
     let masterFaderNX = new Nexus.Slider('#slider1', {
       'mode': 'absolute'
     });
@@ -378,15 +448,6 @@
       //   });
       // };
     });
-
-    function titleClicked() {
-      titleSpinner.classList.add('spinner-center');
-      titleSpinner.addEventListener( "animationend",  function() {
-        titleSpinner.classList.remove("spinner-center");
-      });
-      demoSetup();
-    };
-
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .sample = "bang", .duration = "5"
@@ -419,7 +480,7 @@
             hub.log('Upload from: ', data.url);
             setTimeout((url) => {
               gravSound.loadSample('/uploads/' + url)
-            }, 500, data.url);
+            }, 1000, data.url);
           } else if (data.val == "load") {
             // loading an assigned sample and playing it
             setInstruction('loading');
@@ -444,7 +505,7 @@
         }
         if (data.val == "pause") {
           setInstruction('toPlay');
-          // gravSound.pause();
+          gravSound.pause();
         }
       }
     });
@@ -462,6 +523,33 @@
       playEnable = true;
       // enablePlay(playEnable);
     };
+
+
+    function hubPlay() {
+      hub.transmit('sample', null, {
+        'user': hub.user.name,
+        'val': 'playHub'
+      })
+    }
+
+    function hubPause() {
+      hub.transmit('sample', null, {
+        'user': hub.user.name,
+        'val': 'pauseHub'
+      })
+    }
+
+    function hubLoop() {
+      hub.transmit('sample', null, {
+          'user': hub.user.name,
+          'val': 'loopHub',
+          'play': true
+        })
+        // or hub.send('sample', {val:'playLoop', user: hub.user.name});
+    }
+
+
+{ //  ***** Enablement Functions [edit, loop, touch, record, play, playOnce]
 
     hub.channel('enable', null, null, (data) => {enable(data);});
 
@@ -492,69 +580,148 @@
         }
       }
     }
-
-
-    function hubPlay() {
-      hub.transmit('sample', null, {
-        'user': hub.user.name,
-        'val': 'playHub'
-      })
-    }
-
-    function hubPause() {
-      hub.transmit('sample', null, {
-        'user': hub.user.name,
-        'val': 'pauseHub'
-      })
-    }
-
-    function hubLoop() {
-      hub.transmit('sample', null, {
-          'user': hub.user.name,
-          'val': 'loopHub',
-          'play': true
-        })
-        // or hub.send('sample', {val:'playLoop', user: hub.user.name});
-    }
-
-
+      // All - Loop, Touch, Play
     function enableEdit(enabled) {
       if (enabled === false || enabled === true) {
         editEnable = enabled;
       }
-      enableLoop(enabled);
-      enableTouch(enabled);
-      enablePlay(enabled);
+      enableLoop(enabled);  // looping
+      enableTouch(enabled); // moving and resizing loop
+      enablePlay(enabled);  // play when button touched
     }
-
+      // Loop
     function enableLoop(enabled) {
       if (enabled === false || enabled === true) {
         loopEnable = enabled;
       }
       if(gravSound.hasLoop()){
-        gravSound.wavesurfer.regions.list[1].loop = loopEnable;
+        gravSound.loop = loopEnable;
         if (loopEnable) {
           // setInstruction('toLoop');
-          gravSound.wavesurfer.regions.list[1].color = 'hsla(39, 100%, 38%, 0.75)'
-          gravSound.wavesurfer.drawBuffer();
+          gravSound.updateLoop({
+            start:0., 
+            end: gravSound.duration,
+            color: 'hsla(39, 100%, 38%, 0.75)'
+          });
         } else {
           // setInstruction(sections[currentSection]);
-          gravSound.wavesurfer.regions.list[1].color = 'hsla(39, 100%, 38%, 0.25)'
-          gravSound.wavesurfer.drawBuffer();
+          gravSound.updateLoop({
+            start:0., 
+            end: gravSound.duration,
+            color: 'hsla(39, 100%, 38%, 0.25)'
+          });
         }
       }
     }
-
+      // Touch
     function enableTouch(enabled) {
       if (enabled === false || enabled === true) {
         touchEnable = enabled;
       }
-      // if(gravSound.hasLoop()){
-      //   gravSound.wavesurfer.regions.list[1].drag = touchEnable;
-      //   gravSound.wavesurfer.regions.list[1].resize = touchEnable;
-      // }
+      if(gravSound.hasLoop()){
+        gravSound.hasLoop().drag = touchEnable;
+      }
     }
+      // Play
+    function enablePlay(enabled) {
+      if (enabled === false || enabled === true) {
+        playEnable = enabled;
+      }
+      console.log('Play Enabled ', playEnable);
+      if (playEnable) {
+        // recordOrbit.classList.remove('active');
+        // recordOrbit.classList.remove('pulsate-fwd');
+        // recordOrbit.style.display = 'none';
+        // playOrbit.style.display = 'block';
+        // playOrbit.classList.add('active');
+        // playOrbit.classList.add('pulsate-fwd');
+        recordOrbit.classList.remove('blur');
+        recordOrbit.classList.remove('blurry');
+        recordOrbit.classList.add('rotate-center')
+        recordOrbit.classList.add('active');
+        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        setInstruction('toPlay');
 
+        if(!recordOrbit.listenersActive) {
+          recordOrbit.addEventListener('touchstart', orbitTouchPlay, false);
+          recordOrbit.addEventListener('touchend', orbitTouchPlayEnd, false);
+          recordOrbit.addEventListener('mousedown', orbitTouchPlay);
+          recordOrbit.addEventListener('mouseup', orbitTouchPlayEnd);
+          recordOrbit.listenersActive = true;
+        }
+
+        // recordOrbit.onclick = () => {
+        //   if(gravSound.isPlaying()) {
+        //     console.log('pause')
+        //     setInstruction('toPlay');
+        //     gravSound.pause();
+        //     hubPause();
+        //   } else {
+        //     console.log('play')
+        //     setInstruction('playing');
+        //     gravSound.playLoop();
+        //     hubPlay();
+        //   }
+        // };
+        // playOrbit.onmouseup = () => {
+        //   gravSound.pause();
+        // }
+      } else {
+        // setInstruction(sections[currentSection]);
+        recordOrbit.classList.remove('rotate-center')
+        recordOrbit.removeEventListener('touchstart', orbitTouchPlay);
+        recordOrbit.removeEventListener('touchend', orbitTouchPlayEnd);
+        recordOrbit.removeEventListener('mousedown', orbitTouchPlay);
+        recordOrbit.removeEventListener('mouseup', orbitTouchPlayEnd);
+        recordOrbit.listenersActive = false;
+        // recordOrbit.onclick = () => {};
+        if(recordEnable) {
+          // enableRecord();    // causes a feedback loop if enabled
+        } else {
+          recordOrbit.classList.add('blurry');
+        }
+      }
+    }
+      // Play Once
+    function enablePlayOnce(enabled) {
+      if (enabled === false || enabled === true) {
+        playOnceEnable = enabled;
+      }
+
+      console.log('Play Once Enabled ', playOnceEnable);
+      if (playOnceEnable) {
+        if(recordOrbit.listenersActive) {
+          recordOrbit.classList.remove('rotate-center')
+          recordOrbit.removeEventListener('touchstart', orbitTouchPlay);
+          recordOrbit.removeEventListener('touchend', orbitTouchPlayEnd);
+          recordOrbit.removeEventListener('mousedown', orbitTouchPlay);
+          recordOrbit.removeEventListener('mouseup', orbitTouchPlayEnd);
+        }
+
+        recordOrbit.classList.remove('blur');
+        recordOrbit.classList.remove('blurry');
+        recordOrbit.classList.remove('rotate-center');
+        recordOrbit.classList.add('pulsate-fwd');
+        recordOrbit.classList.add('active');
+        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
+        setInstruction('playMagnificent');
+        // playOrbit.onmousedown = () => {
+        recordOrbit.addEventListener('touchstart', orbitTouchPlayOnce);
+        recordOrbit.addEventListener('mousedown', orbitTouchPlayOnce);
+        recordOrbit.listenersActive = true;
+
+        // recordOrbit.onclick = orbitTouchPlayOnce;
+        // recordOrbit.addEventListener('touchend', () => {
+        //   if(gravSound.isPlaying()) {
+        //     console.log('pause')
+        //     setInstruction('toPlay');
+        //     gravSound.pause();
+        //     hubPause();
+        //   }}, false);
+
+      }
+    }
+      // Record
     function enableRecord(enabled) {
       if (enabled === false || enabled === true) {
         recordEnable = enabled;
@@ -599,7 +766,7 @@
       }
     }
 
-    let _touchPlay = (e) => {
+    let orbitTouchPlay = (e) => {
       if(!gravSound.isPlaying()) {
         console.log('play')
         setInstruction('playing');
@@ -607,15 +774,15 @@
         hubLoop();
       }
     };
-    let _touchPlayEnd = (e) => {
+    let orbitTouchPlayEnd = (e) => {
       if(gravSound.isPlaying()) {
-        console.log('pause')
+        console.log('pause orbitTouchPlayEnd')
         setInstruction('toPlay');
         gravSound.pause();
         hubPause();
       }
     };
-    let _touchPlayOnce = (e) => {
+    let orbitTouchPlayOnce = (e) => {
       if(!gravSound.isPlaying()) {
         console.log('play')
         setInstruction('postConcert');
@@ -623,144 +790,16 @@
         // gravSound.playOnce();
         hubPlay();
         recordOrbit.classList.remove('active');
-        if(_touchPlayOnce != undefined){
+        if(orbitTouchPlayOnce != undefined){
           // recordOrbit.onclick = () => {};
-          recordOrbit.removeEventListener('touchstart', _touchPlayOnce);
-          recordOrbit.removeEventListener('mousedown', _touchPlayOnce);
+          recordOrbit.removeEventListener('touchstart', orbitTouchPlayOnce);
+          recordOrbit.removeEventListener('mousedown', orbitTouchPlayOnce);
           recordOrbit.listenersActive = false;
         }
         enablePlayOnce(false);
       }
     };
-
-    function enablePlay(enabled) {
-      if (enabled === false || enabled === true) {
-        playEnable = enabled;
-      }
-      console.log('Play Enabled ', playEnable);
-      if (playEnable) {
-        // recordOrbit.classList.remove('active');
-        // recordOrbit.classList.remove('pulsate-fwd');
-        // recordOrbit.style.display = 'none';
-        // playOrbit.style.display = 'block';
-        // playOrbit.classList.add('active');
-        // playOrbit.classList.add('pulsate-fwd');
-        recordOrbit.classList.remove('blur');
-        recordOrbit.classList.remove('blurry');
-        recordOrbit.classList.add('rotate-center')
-        recordOrbit.classList.add('active');
-        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
-        setInstruction('toPlay');
-
-        if(!recordOrbit.listenersActive) {
-          recordOrbit.addEventListener('touchstart', _touchPlay, false);
-          recordOrbit.addEventListener('touchend', _touchPlayEnd, false);
-          recordOrbit.addEventListener('mousedown', _touchPlay);
-          recordOrbit.addEventListener('mouseup', _touchPlayEnd);
-          recordOrbit.listenersActive = true;
-        }
-
-        // recordOrbit.onclick = () => {
-        //   if(gravSound.isPlaying()) {
-        //     console.log('pause')
-        //     setInstruction('toPlay');
-        //     gravSound.pause();
-        //     hubPause();
-        //   } else {
-        //     console.log('play')
-        //     setInstruction('playing');
-        //     gravSound.playLoop();
-        //     hubPlay();
-        //   }
-        // };
-        // playOrbit.onmouseup = () => {
-        //   gravSound.pause();
-        // }
-      } else {
-        // setInstruction(sections[currentSection]);
-        recordOrbit.classList.remove('rotate-center')
-        recordOrbit.removeEventListener('touchstart', _touchPlay);
-        recordOrbit.removeEventListener('touchend', _touchPlayEnd);
-        recordOrbit.removeEventListener('mousedown', _touchPlay);
-        recordOrbit.removeEventListener('mouseup', _touchPlayEnd);
-        recordOrbit.listenersActive = false;
-        // recordOrbit.onclick = () => {};
-        if(recordEnable) {
-          // enableRecord();    // causes a feedback loop if enabled
-        } else {
-          recordOrbit.classList.add('blurry');
-        }
-      }
-    }
-
-    function enablePlayOnce(enabled) {
-      if (enabled === false || enabled === true) {
-        playOnceEnable = enabled;
-      }
-
-      console.log('Play Once Enabled ', playOnceEnable);
-      if (playOnceEnable) {
-        if(recordOrbit.listenersActive) {
-          recordOrbit.classList.remove('rotate-center')
-          recordOrbit.removeEventListener('touchstart', _touchPlay);
-          recordOrbit.removeEventListener('touchend', _touchPlayEnd);
-          recordOrbit.removeEventListener('mousedown', _touchPlay);
-          recordOrbit.removeEventListener('mouseup', _touchPlayEnd);
-        }
-
-        recordOrbit.classList.remove('blur');
-        recordOrbit.classList.remove('blurry');
-        recordOrbit.classList.remove('rotate-center');
-        recordOrbit.classList.add('pulsate-fwd');
-        recordOrbit.classList.add('active');
-        // gravSound.wavesurfer.setBackgroundColor('rgba(253,240,223,0.07)');
-        setInstruction('playMagnificent');
-        // playOrbit.onmousedown = () => {
-        recordOrbit.addEventListener('touchstart', _touchPlayOnce);
-        recordOrbit.addEventListener('mousedown', _touchPlayOnce);
-        recordOrbit.listenersActive = true;
-
-        // recordOrbit.onclick = _touchPlayOnce;
-        // recordOrbit.addEventListener('touchend', () => {
-        //   if(gravSound.isPlaying()) {
-        //     console.log('pause')
-        //     setInstruction('toPlay');
-        //     gravSound.pause();
-        //     hubPause();
-        //   }}, false);
-
-      }
-    }
-
-    seatMap.addEventListener("click", getClickPosition, false);
-    StartAudioContext(Tone.context, '#seatMap').then(function() {
-      console.log("AudioStarted");
-      //reverb.generate();
-    })
-
-    function getClickPosition(e) {
-      var m = seatMap.getScreenCTM();
-      var p = document.getElementById('seatMap').createSVGPoint();
-      p.x = e.clientX;
-      p.y = e.clientY;
-      p = p.matrixTransform(m.inverse());
-      var tx = document.getElementById('seatMap').getAttribute("viewBox").split(" ")[2];
-      var ty = document.getElementById('seatMap').getAttribute("viewBox").split(" ")[3];
-      var mx = p.x / tx;
-      var my = p.y / ty;
-
-      hub.user.location.x = mx;
-      hub.user.location.y = my;
-      console.log(hub.user.location);
-
-      gravSound.triggerPitch();
-      hub.register();
-      // FIXME: move default overlay into Hub
-      document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
-      document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
-      // wavesurfer.load('data/mbira_em.mp3');
-      demoSetup();
-    }
+}
 
     hub.channel('chat', null, null, function(data) {
       console.log("chat: " + data);
@@ -776,7 +815,7 @@
       enableRecord(data.recordEnable);
     });
 
-    // ******* Sections *******
+{    // ******* Sections *******
     hub.channel('setSection', null, null, function(data) {
       console.log(data);
       console.log("the section is now: " + sections[data.section]);
@@ -793,6 +832,14 @@
       if('instruction' in data) {
         setInstruction(data.instruction);
       }
+    });
+}
+
+
+    hub.channel('sendText', null, ['others'], function(data) {
+      console.log('sendText: ', data)
+      var textDiv = document.getElementById('footer');
+      textDiv.innerHTML = data.text;
     });
 
 
@@ -828,6 +875,13 @@
       numClicked++
     }
 
+    hub.channel('triggerCollide', null, null, function(data) {
+      gravSound.playSecondSound();
+    });
+
+    hub.channel('triggerPitch');
+    hub.channel('triggerFirstSound', null, ['max']);
+
     hub.channel('tapOthers', null, null, function(data) {
       console.log('Other Person: ', data);
       gravSound.playPitch(data.pitch);
@@ -843,42 +897,14 @@
       });
     }
 
-    hub.channel('sendText', null, ['others'], function(data) {
-      console.log('sendText: ', data)
-      var textDiv = document.getElementById('footer');
-      textDiv.innerHTML = data.text;
-    });
-
     function tapEnd() {
       document.getElementsByClassName("mainDisplay")[0].style.display = 'none';
       document.getElementsByClassName("endDisplay")[0].style.display = 'block';
     }
 
 
-    function getRandomColor() {
-      var letters = '0123456789ABCDEF'.split('');
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    }
-
-    hub.channel('triggerCollide', null, null, function(data) {
-      gravSound.playSecondSound();
-    });
-
-    hub.channel('triggerPitch');
-    hub.channel('triggerFirstSound', null, ['max']);
-
-
-
     var gravSound = new GravSound();
     hub.user.pitch = gravSound.pitch;
-
-    gravSound.wavesurfer.on('region-click', function (e) {
-      console.log('Clicked-region ', e);
-    });
 
   </script>
 

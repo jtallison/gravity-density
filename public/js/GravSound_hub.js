@@ -1,6 +1,6 @@
 class GravSound {
   // Oddly you can insert a filter into the wavesurfer chain
-  // connect the filter also to tone.toMaster (or another tone node)
+  // connect the filter also to tone.toDestination (or another tone node)
   // zero out the wavesurfer volume with wavesurfer.setVolume(0.)
   // then simply use Tone.
 
@@ -29,7 +29,7 @@ class GravSound {
     if(ctx) {
       // use context in setting up tone...
     }
-    this.tone = new Tone();
+    this.tone = Tone;
 
     this.wavesurfers = [];    // Each of the wavesurfers
     this.audio = [];          // An array of the audio tags!
@@ -108,7 +108,7 @@ class GravSound {
     
     // Effects and Synths
 
-    this.gain = new Tone.Gain({gain:1.0}).toMaster();
+    this.gain = new Tone.Gain({gain:1.0}).toDestination();
 
     this.tremolo = new Tone.Tremolo({
       "frequency": 8,
@@ -137,8 +137,8 @@ class GravSound {
     // Players
 
     this.player = [];
-    this.player[0] = new Tone.Player("/data/mp3s/noisybeep-delay.mp3").toMaster();
-    this.player[1] = new Tone.Player("/data/mp3s/beep.mp3").toMaster();
+    this.player[0] = new Tone.Player("/data/mp3s/noisybeep-delay.mp3").toDestination();
+    this.player[1] = new Tone.Player("/data/mp3s/beep.mp3").toDestination();
 
     Tone.Transport.start();
 
@@ -163,7 +163,7 @@ class GravSound {
 
 
   freq(midi) {
-    var note = Tone.Frequency(midi).toFrequency();
+    var note = Tone.Midi(midi).toFrequency();
     // console.log("Midi:", midi, note)
     return note;
   };

@@ -27,6 +27,7 @@
         "socket.io": "^1.4.5",
         "socket.io-redis": "^1.0.0",
         "sticky-session": "^0.1.0",
+        "tone": "^14.7.77",
         "wavesurfer.js": "^2.2.1"
     }
 }
