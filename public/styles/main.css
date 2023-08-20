@@ -308,6 +308,19 @@ body {
   height: 5%;
 }
 
+.testingControls {
+    /* float: left; */
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#map {
+  display: block;
+}
+
+/* Controller Functions */
+
 .controls {
   /* float: left; */
   display: flex;
@@ -315,11 +328,47 @@ body {
   justify-content: center;
 }
 
-.testingControls {
-    /* float: left; */
-    display: none;
-    flex-wrap: wrap;
+#controller-title {
+  /* position: absolute; */
+  display: block;
+  /* padding-top: 1.0em; */
+  /* padding-bottom: 0.2em; */
+  left: 0px;
+  right: 0px;
+  /* top: 0px;
+  bottom: 0px; */
+  /* font-size: 3.0em; */
+  padding-top: 0em;
+  padding-bottom: 0.2em;
+  /* display: inline-flex; */
+  box-sizing: border-box;
+  justify-content: center;
+  width: 100%;
+}
+
+#controller-messages, #controller-message, #controller-instruction {
+  font-size: 1.0em;
+  overflow: hidden;
+}
+
+#controller-messages {
+  /* background-color: rgba(253, 240, 223, 0.77);
+  color: #460000; */
+  /* background-color: rgba(20, 0, 0, 0.33); */
+  /* color: rgba(253, 240, 223, 0.77); */
+  color: #C37F00;
+  font-size: 1.0em;
+  padding: 1.0em;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-top: 0em;
+  margin-bottom: 0em;
+  width: 100%;
+  height: 5vh;
+  text-align: center;
+  display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #masterFader {
@@ -329,7 +378,15 @@ body {
   width: 20px;
 }
 
-#map {
+.selectorHeading {
+  display: block;
+}
+
+#cues, #sections {
+  display: flex;
+}
+
+#nextCue, #nextSection {
   display: block;
 }
 

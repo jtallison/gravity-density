@@ -129,7 +129,7 @@ class GravSound {
     
     // Effects and Synths
 
-    this.gain = new Tone.Gain({gain:1.0});
+    this.gain = new Tone.Gain({gain:0.1});
 
     this.tremolo = new Tone.Tremolo({
       "frequency": 8,

@@ -29,7 +29,7 @@ class Hub {
     this.transmit = this.transmit.bind(this);
     this.discreteClientCheck = this.discreteClientCheck.bind(this);
     this.setSection = this.setSection.bind(this);
-    this.sendSection = this.sendSection.bind(this);
+    this.syncSection = this.syncSection.bind(this);
     this.shareSection = this.shareSection.bind(this);
     this.getSection = this.getSection.bind(this);
     this.log = this.log.bind(this);
@@ -343,13 +343,12 @@ discreteClientCheck(whom) {
 // **** SECTIONS ****
 
 // to set everyone's section to the same thing
-setSection(sect, destinations) {
-  if (sect === 'undefined') {
-    sect = this.currentSection;
-  }
+setSection(sect = this.currentSection, destinations = ['others']) {
+
   if (sect >= this.sectionTitles.length) {
     sect = this.sectionTitles.length-1;
   }
+  this.currentSection = sect;
 
   var title = this.getSection(sect);
   this.io.sockets.emit('setSection', { section: sect, title: title });
@@ -357,16 +356,11 @@ setSection(sect, destinations) {
   // hub.transmit('audio')
 };
 
-// TODO: Do I still need this?
-// hub.sendSection(currentSection);	 // Sets everyone's section
-sendSection(sect, destinations) {
+// TODO: replaces sendSection
+// hub.syncSection(currentSection, destinations);	 // Sets everyone's section
+syncSection(sect = this.currentSection, destinations = ['all']) {
   // console.log("sendSection:", socket.id);
-  if (sect === 'undefined') {
-    sect = this.currentSection;
-  }
-  if (!destinations) {
-    destinations = ['others'];
-  }
+
   if (sect >= this.sectionTitles.length) {
     sect = this.sectionTitles.length-1;
   }
@@ -374,7 +368,7 @@ sendSection(sect, destinations) {
 
   let title = this.getSection(sect);
   // this.io.sockets.emit('setSection', { sect: sect, title: title });
-  this.transmit("setSection", destinations, { sect: sect, title: title });
+  this.transmit("setSection", destinations, { section: sect, title: title });
 
 };
 

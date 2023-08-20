@@ -169,7 +169,7 @@
       'countdown': 'Counting Down',
       'launch': 'Process',
       'space': 'Listen\nShortly you will\nbe enabled to Sample',
-      'gravity': 'Connect to Someone',
+      'makeConnection': 'Connect to Someone',
       'postConcert': 'Magnificent Desolation',
       'playMagnificent': 'Tap Once\nto play one last time',
       'toSample': 'Listen...\ntap to sample',
@@ -308,9 +308,9 @@
           setInstruction('firstLoad');
           break;
         case 'play': 
+          enableEdit(true);
           setMessage(messageText.spokenOpening.sputnik);
           setInstruction('dragPlay');
-          enableEdit(true);
           break;
         case 'countdown':
           // randomLoading(false);
@@ -329,10 +329,10 @@
           // uncover the UI
           break;
         case 'clear': 
-          setMessage(messageText.space.space);
-          setInstruction('space');
           enableRecord(false);
           enableEdit(false);
+          setMessage(messageText.space.space);
+          setInstruction('space');
           //clear, load silence
           break;
         case 'capture': 
@@ -345,16 +345,16 @@
           setInstruction('dragPlay');
           break;
         case 'load2': 
-          setMessage(messageText.gravity.default);
-          setInstruction('toSample');
           enableEdit(true);
           enableRecord(true);
+          setMessage(messageText.gravity.default);
+          setInstruction('toSample');
           break;
         case 'clear2': 
-          setMessage(messageText.gravity[1]);
-          setInstruction('abyss');
           enableRecord(false);
           enableEdit(false);
+          setMessage(messageText.gravity[1]);
+          setInstruction('abyss');
           break;
         case 'magnificent': 
           setMessage(messageText.gravity[2]);

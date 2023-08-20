@@ -161,7 +161,7 @@ hub.io.sockets.on('connection', function(socket) {
     } else if (socket.username == "gravityController") {
       hub.controller.id = socket.id;
       hub.discreteClients.controller.id = socket.id;
-      hub.log("Hello Sampler: ", hub.controller.id);
+      hub.log("Hello Controller: ", hub.controller.id);
     } else if (socket.username == "gravitySampler") {
       hub.sampler.id = socket.id;
       hub.discreteClients.sampler.id = socket.id;
@@ -276,9 +276,19 @@ hub.io.sockets.on('connection', function(socket) {
   hub.channel('cue', null, null, (data) => {
     // console.log('cue:', data);
     hub.log('cue:', data);
-    hub.transmit('cue', null, data);
+    hub.transmit('cue', ['all'], data);
     hub.currentCue = data.val;
     hub.currentSubCue = data.subcue;
+  });
+
+  hub.channel('setMessage', null, null, (data) => {
+    hub.log('setMessage:', data);
+    console.log("the message is now: " + hub.sectionTitles[hub.currentSection] + data.message);
+    let sectionText = messageText[hub.sectionTitles[currentSection]];
+    setMessage(sectionText[data.section][data.message]);
+    if('instruction' in data) {
+      setInstruction(data.instruction);
+    }
   });
 
   hub.channel('countdown', null, null, (data) => {
@@ -349,12 +359,15 @@ hub.io.sockets.on('connection', function(socket) {
   hub.channel('section', null, null, function(data) {
     if (data.section == 'next') {
       hub.currentSection += 1;
-    } else if (data.section >= 0 && data.section < hub.sectionTitles.length) {
+      if (hub.currentSection >= hub.sectionTitles.length) {
+        hub.currentSection = hub.sectionTitles.length - 1;
+      }
+      hub.syncSection(hub.currentSection);
+    } else if (typeof data.section === "number") {
       hub.currentSection = data.section;
+      hub.setSection(hub.currentSection);
     }
-
-    hub.setSection(hub.currentSection);
-    hub.log('Section is now:', data.section)
+    hub.log('Section is now:', data.section, typeof data.section)
   });
 
   hub.channel('item', null, null, function(data) {
