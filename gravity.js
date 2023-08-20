@@ -60,14 +60,14 @@ hub.app.post('/upload', upload.single('soundBlob'), function(req, res, next) {
   res.sendStatus(200); //send back that everything went ok
   hub.log("Seems to have uploaded...", req.body.id, req.body.user, req.file.originalname);
 
-  mp3(req.file.originalname);
+  mp3(req.file.originalname, req);
   // Could transmit the load sample from here:
-  hub.transmit('sample', null, { 'user': req.body.user, 'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id });
+  // hub.transmit('sample', null, { 'user': req.body.user, 'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id });
 })
 
 
 // Could spin off into it's own node app or spork a thread.
-function mp3(fileName) {
+function mp3(fileName, req) {
   hub.log('MP3: ', fileName);
   try {
     let process = new ffmpeg(__dirname + '/public/uploads/' + fileName + ".wav");
@@ -79,6 +79,7 @@ function mp3(fileName) {
       audio.fnExtractSoundToMP3(__dirname + '/public/uploads/' + fileName + ".mp3", function(error, file) {
         if (!error) {
           hub.log('Audio file: ', file);
+          hub.transmit('sample', null, { 'user': req.body.user, 'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id });
         } else {
           hub.log('Extraction Error: ', error);
         }

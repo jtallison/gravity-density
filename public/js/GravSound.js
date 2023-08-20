@@ -1,9 +1,5 @@
 class GravSound {
-  // Oddly you can insert a filter into the wavesurfer chain
-  // connect the filter also to tone.toDestination (or another tone node)
-  // zero out the wavesurfer volume with wavesurfer.setVolume(0.)
-  // then simply use Tone.  --- NOTE: this was with the previous version of Wavesurfer, latest version 
-  // Latest version simply connects to the <audio> source.
+  // Latest version of wavesurfer simply connects to the <audio> source.
 
   constructor(ctx) {
 
@@ -188,8 +184,6 @@ class GravSound {
 
   playSecondSound() {
     this.player[1].start();
-    // var pitch = this.pitchCollection[Math.floor(Math.random() * (this.pitchCollection.length))];
-    // this.synth.triggerAttackRelease(this.freq(pitch), 5);
     this.playRandomPitch();
   };
 
@@ -456,7 +450,7 @@ class GravSound {
   }
     // Sets this loop region to Normalized begin and end
   setLoop(user=hub.user.name, beginNorm=(this.hasLoop().start / this.duration), endNorm=(this.hasLoop().end / this.duration)) {
-    console.log('setLoop', beginNorm, endNorm);
+    // console.log('setLoop', beginNorm, endNorm);
     if (beginNorm >= 0. && endNorm <= 1.0) {
       if (this.hasLoop()) {
         this.region.start = beginNorm * this.duration;
