@@ -14,19 +14,40 @@
 
   <div class="url">gravity.emdm.io</div>
 
-  <div class="mainDisplay">
-    <h1>gravity | density</h1>
-    <p><h2>Mission Control</h2></p>
-    <br>
+  <div class="main-display">
+    <div id="nexus-overlay" class="fade-in">
+      <div id="header"><span id="controller-title">Gravity|Density</span></div>
+      <p><h2>Mission Control</h2></p>
+      <br>
 
-    <!-- <div id="typed-text">   </div> -->
+      <!-- <div id="typed-text">   </div> -->
 
-    <p><em>Tapping is the new snapping. Take your phones off silent, turn up the volume, and navigate to the URL below:</em></p>
-    <h2>https://gravity.emdm.io</h2>
-    <br />
-    <p>If you need WiFi use...
-      <br> Network: eduroam
-    </p>
+      <p><em>Tapping is the new snapping. Take your phones off silent, turn up the volume, and navigate to the URL below:</em></p>
+      <h2>https://gravity.emdm.io</h2>
+      <br />
+      <p>If you need WiFi use...
+        <br> Network: eduroam
+      </p>
+    </div>
+
+    <div id='controller-messages'>
+      <div id='controller-message'>
+        Sample what you like.<br> Select a region and set it.
+      </div>
+      <div id="controller-instruction">Instructions here</div>
+    </div>
+
+    <div id="map">
+      <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
+        style="max-width: 100vw; max-height: 100-vh; enable-background:new 0 0 640 445;">
+        <rect x="4" y="4" style="fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;" width="632"
+          height="437" />
+        <rect x="77.5" y="70" style="fill:none;stroke:#4D4D4D;stroke-width:8;stroke-miterlimit:10;" width="485.1"
+          height="350" />
+        <line style="fill:none;stroke:#4D4D4D;stroke-width:18;stroke-miterlimit:10;" x1="30" y1="40" x2="610"
+          y2="40" />
+      </svg>
+    </div>
   </div>
 
   <div id='star-field'>
@@ -39,7 +60,7 @@
   <div id="cover-blur"></div>
   <div id="control-blur">receiving transmission . . .</div>
 
-  <div class="endDisplay">
+  <div class="end-display">
     <p>Thank you. Have a nice voyage.</p>
   </div>
 
@@ -51,27 +72,388 @@
     hub.user.pitch = 55;
     hub.register();
 
-    hub.channel('tap', null, null, function(data) {
-      console.log('Tap: ', data);
-      var textDiv = document.getElementById('typed-text');
-      textDiv.innerHTML = data.tap;
+
+    let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
+    let currentSection = 0;
+    let nextSectionDiv = document.querySelector('#nextSection');
+    // let playerSampleCount = 0;
+    // let sampleLength = 5000;
+    let cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
+    let currentCue = 0;
+    let nextCueDiv = document.querySelector('#nextCue');
+    let currentSubCue = 0;
+
+    let coverBlur = document.getElementById('cover-blur');
+    let controlBlur = document.getElementById('control-blur');
+    let starfield = document.getElementById('star-field');
+    let stars = document.getElementsByClassName('star');
+    let nexusOverlay = document.getElementById('nexus-overlay');
+    let controllerMessages = document.getElementById('controller-messages')
+
+    let setMessage = (text) => {document.getElementById('controller-message').innerText = text};
+    let messageText = {
+      'preConcert': { default: 'Welcome\nexplore interface...',
+                      1: 'Welcome Performer\nloading density...', 
+                      2: 'designing interstellar experience...', 
+                      3: 'initiating gravity...',
+                      4: 'Gravity|Density'
+                    },
+      'spokenOpening':  { default: 'Bent CDs engaged\nAwaiting transmission...',
+                          sputnik: 'sputnik beeping from above\na single human object beyond earth\nthe pull of space is felt.'
+                        },
+      'countdown':  { default: 'Prepare for Launch',
+                      10: 'T-minus\n10', 9: '9', 8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1', 0: ''
+                    },
+      'launch': { default: '',
+                  liftoff: 'Liftoff'
+                },
+      'space': { default: '',
+                  space: 'Listen, take it all in'
+                },
+      'gravity':  { default: 'gravitational waves\n wash over the void\n ignoring all',
+                    1: "Ain't that somethin'",
+                    2: 'Magnificent sight out here',
+                    3: 'The Final Singularity',
+                    4: 'Magnificent Desolation'
+                  },
+      'postConcert': { default: 'Thank you for participating' }
+    }
+
+    let setInstruction = (instruction) => {
+      document.getElementById('controller-instruction').innerText = instructionText[instruction];
+      currentInstruction = instruction;
+    };
+    let instructionText = {
+      'preConcert': 'Control Zone\nnothing loaded',
+      'spokenOpening': 'Play a Sound',
+      'countdown': 'Counting Down',
+      'launch': 'Process',
+      'space': 'Listen\nShortly you will\nbe enabled to Sample',
+      'gravity': 'Connect to Someone',
+      'postConcert': 'Magnificent Desolation',
+      'playMagnificent': 'Tap Once\nto play one last time',
+      'toSample': 'Listen...\ntap to sample',
+      'sampling': 'recording transmission...',
+      'toLoad': 'preparing transmission\nplay once received',
+      'firstLoad': 'once loaded\ntap and hold to play',
+      'loading': 'receiving transmission...',
+      'toReceive': 'awaiting\ntransmission',
+      'toPlay': 'Tap and hold to play',
+      'playing': 'Playing',
+      'dragPlay': 'drag the loop\npress to play',
+      'toLoop': 'Tap to Loop\nagain to pause',
+      'looping': 'Looping',
+      'abyss': 'look into the abyss',
+      'gravity': 'gravity\ndensity'
+    }
+
+    hub.channel('masterFader', null, null, function (data) {
+      // masterFaderNX.value = data.val;
+    });
+
+    hub.channel('slowdownSlider', null, null, function (data) {
+      // slowdownSliderNX.value = data.val;
+    });
+
+    // ******* Cues *******
+    hub.channel('setCue', null, null, function (data) {
+      console.log(data);
+      console.log("the section is now: " + cues[data.val]);
+
+      currentCue = data.val;
+      // let nextCue = currentCue<=cues.length-2 ? cues[currentCue+1] : 'done'
+      // nextCueDiv.innerHTML = nextCue;
+    });
+
+
+    hub.channel('cue', null, null, (data) => { cue(data); });
+
+    function cue(data) {
+      hub.log('Cue', data);
+      currentCue = data.val;
+      // let nextCue = currentCue<=cues.length-2 ? cues[currentCue+1] : 'done'
+      // nextCueDiv.innerHTML = nextCue;
+
+      if(data.subcue != 0) {
+        setMessage(messageText[data.name][data.subcue])
+      } else {
+        switch(data.name){
+          case 'preshow':
+            setSection(sections.indexOf('preConcert'), 1)
+            setMessage(messageText.preConcert[1]);
+            setInstruction('preConcert');
+            break;
+          case 'starfield':
+            revealStars(true);
+            nexusOverlay.style.display = 'none';
+            nexusOverlay.classList.remove('fade-in');
+            setSection(sections.indexOf('preConcert'), 2)
+            setMessage(messageText.preConcert[2]);  // Make rotating
+            break;
+          case 'begin': 
+            revealStars(false);
+            document.getElementById('map').style.display = "block";
+            document.getElementById('controller-messages').style.display = "block";
+            setSection(sections.indexOf('spokenOpening'), 'default')
+            setMessage(messageText.spokenOpening.default);
+            setInstruction('toLoad');
+            break;
+          case 'load': 
+            setSection(sections.indexOf('spokenOpening'), 'sputnik')
+            setMessage(messageText.spokenOpening.sputnik);
+            setInstruction('firstLoad');
+            break;
+          case 'play': 
+            setSection(sections.indexOf('spokenOpening'), 'sputnik')
+            setMessage(messageText.spokenOpening.sputnik);
+            setInstruction('dragPlay');
+            break;
+          case 'countdown':
+            // randomLoading(false);
+            setSection(sections.indexOf('countdown'), 'default')
+            setMessage(messageText.countdown.default);
+            setInstruction('toPlay');
+            break;
+          case 'launch':
+            setSection(sections.indexOf('launch'), 'liftoff')
+            setMessage(messageText.launch.liftoff);
+            setInstruction('loading');
+            // cover the UI
+            break;
+          case 'play-launch': 
+            setInstruction('dragPlay');
+            // uncover the UI
+            break;
+          case 'clear': 
+            setSection(sections.indexOf('space'), 'space')
+            setMessage(messageText.space.space);
+            setInstruction('space');
+            break;
+          case 'capture': 
+            setSection(sections.indexOf('space'), 'space')
+            setMessage(messageText.space.space);
+            setInstruction('space');
+            break;
+          case 'play2':
+            setInstruction('dragPlay');
+            break;
+          case 'load2': 
+            setSection(sections.indexOf('gravity'), 'default')
+            setMessage(messageText.gravity.default);
+            setInstruction('toSample');
+            break;
+          case 'clear2': 
+            setSection(sections.indexOf('gravity'), 1)
+            setMessage(messageText.gravity[1]);
+            setInstruction('abyss');
+            break;
+          case 'magnificent': 
+            setSection(sections.indexOf('gravity'), 2)
+            setMessage(messageText.gravity[2]);
+            setInstruction('playMagnificent');
+            // don't load and play
+            break;
+          case 'desolation': 
+            setSection(sections.indexOf('gravity'), 4)
+            setMessage(messageText.gravity[4]);
+            break;
+          case 'postshow': 
+            setSection(sections.indexOf('postConcert'), 'default')
+            setMessage(messageText.postConcert.default);
+            setInstruction('gravity');
+            break;
+          case 'demo':
+            setInstruction('gravity');
+            break;
+          case 'default':
+            console.log('Sample Command not recognized: ', data.val, data.name);
+        }
+      }
+    }
+
+    hub.channel('countdown', null, null, (data) => { countdown(data); });
+    function countdown(data) {
+      setMessage(messageText.countdown[data.val]);
+    };
+    
+    hub.channel('demo',null,null, (data) => {
+      demoSetup();
     })
 
-    hub.channel('tapOthers', null, null, function(data) {
-      console.log('Other Person: ', data);
+    function demoSetup(){
+      setMessage(messageText.spokenOpening.sputnik);
+    }
 
-      var textDiv = document.getElementById('typed-text');
-      textDiv.innerHTML = data.name;
-      colr = data.color;
-      if (colr) {
-        textDiv.style.color = colr;
+
+    hub.channel('sample', null, null, (data) => {
+      // data.user = "name", .val = "capture", .duration = "5"
+      // 'user': user,'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id
+      // console.log("User? ", data.user in gravSound.userSamples);
+
+      switch(data.val){
+        case 'capture':
+          if(sampleLocally){
+            gravSound.createSample(data.user, gravSound.sampleLength);
+          }
+          console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
+          break;
+        case 'loop':
+          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
+          if(data.play) {
+            gravSound.playLoop(data.user);
+          }
+          console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
+          break;
+        case 'playHub': 
+          gravSound.playRegion(data.user);
+          break;
+        case 'loopHub': 
+          gravSound.playLoop(data.user);
+          break;
+        case 'pauseHub': 
+          gravSound.pause(data.user);
+          break;
+        case 'load':
+          if (!sampleLocally) {
+            gravSound.loadSample(data.user, '/uploads/' + data.url)
+          };
+          break;
+        case 'default':
+          console.log('Sample Command not recognized: ', data.val);
       }
     });
+
+
+
+
+    function findNearbyUsers(x,y, nRange=nearbyRange, aspect=1.0) {
+      let nearbyUsers = [];
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        let mag = Math.sqrt((((user.location.x-x)*aspect)*((user.location.x-x)*aspect))+((user.location.y-y)*(user.location.y-y)));
+        // console.log("Magnitude ", mag, user.username);
+        if (mag <= nRange) {
+          nearbyUsers.push(user.username);
+        }
+      });
+      return nearbyUsers;
+    }
+
+
+
+    function createNearbyRegion(){
+      let sv = document.getElementById('seatMap');
+      let svgns = "http://www.w3.org/2000/svg";
+      let circle = document.createElementNS(svgns, 'circle');
+
+      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
+      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
+      circle.setAttributeNS(null, 'cx', (0.5 * tx)); // 640
+      circle.setAttributeNS(null, 'cy', (0.5 * ty)); // 445
+      circle.setAttributeNS(null, 'r', nearbyRange*ty);
+      circle.setAttributeNS(null, 'style', 'fill: none; stroke: red; stroke-width: 2px;' );
+      circle.setAttributeNS(null, 'id', "nearbyRegion-seatmap");
+      sv.appendChild(circle);
+    }
+    // createNearbyRegion();
+    // let nearbyRegionCircle = document.getElementById('nearbyRegion-seatmap');
+
+
+    hub.channel('welcome', null, null, (data) => {
+      console.log('welcome', data);
+      registeredUsers.push(data); 
+      let user = registeredUsers.at(-1)
+      // {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation }
+      let sv = document.getElementById('seatMap');
+      let svgns = "http://www.w3.org/2000/svg";
+      let circle = document.createElementNS(svgns, 'circle');
+
+      // actual coordinates of the inner box
+      // circle.setAttributeNS(null, 'cx', 77.5 + (data.location.x * 485.1));
+      // circle.setAttributeNS(null, 'cy', 70 + (data.location.y * 350));
+      circle.setAttributeNS(null, 'cx', (data.location.x * 640));
+      circle.setAttributeNS(null, 'cy', (data.location.y * 445));
+      circle.setAttributeNS(null, 'r', 5);
+      circle.setAttributeNS(null, 'style', 'fill: orange; stroke: red; stroke-width: 1px;' );
+      circle.setAttributeNS(null, 'id', data.username + "-seatmap");
+      sv.appendChild(circle);
+      let c = document.getElementById(data.username + "-seatmap");
+      c.onclick = (e) => {
+        let seatID = e.target.id;
+        console.log('seatID', seatID);
+        let name = seatID.split('-seatmap')[0];
+        playRemote(name);
+        e.stopPropagation();
+      };
+      user.circle = c;
+    });
+
+
+       // Handling Messages, Sections & Cues
+       hub.channel('setMessage', null, null, function(data) {
+      console.log(data);
+      console.log("the message is now: " + sections[currentSection] + data.message);
+      let sectionText = messageText[sections[currentSection]];
+      setMessage(sectionText[data.section][data.message]);
+      if('instruction' in data) {
+        setInstruction(data.instruction);
+      }
+    });
+
+      // ******* Sections *******
+      // 'preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'
+    hub.channel('setSection', null, null, function (data) {
+      console.log(data);
+      console.log("the section is now: " + sections[data.section]);
+
+      currentSection = data.section;
+
+      setMessage(messageText[sections[currentSection]].default);
+      setInstruction(sections[currentSection]);
+    });
+
+    function setSection(sect, subcue = 'default') {
+      currentSection = sect;
+    }
+
+    function revealStars(enable=true) {
+      if(enable) {
+        starfield.style.display = 'block';
+        starfield.classList.add('fade-in');
+        coverBlur.style.display = 'block';
+        coverBlur.classList.add('fade-in');
+        Object.entries(stars).forEach (([number, star]) => {
+          star.classList.add('star-slide');
+        })
+      } else {
+        starfield.classList.remove('fade-in');
+        Object.entries(stars).forEach (([number, star]) => {
+          star.classList.remove('star-slide');
+        })
+        starfield.style.display = 'none';
+        coverBlur.classList.remove('fade-in');
+        coverBlur.style.display = 'none';
+      }
+    }
+
+    function tapEnd() {
+      document.getElementsByClassName("main-display")[0].style.display = 'none';
+      document.getElementsByClassName("end-display")[0].style.display = 'block';
+    }
+
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+
   </script>
 
-  <video autoplay muted loop id="bgvid">
-		<source src="data/therm.mp4" type="video/mp4">
-	</video>
+
 
 </body>
 
