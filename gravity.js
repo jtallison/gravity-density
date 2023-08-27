@@ -144,13 +144,14 @@ hub.io.sockets.on('connection', function(socket) {
     // TODO: iterate through data and add these properties dynamically.
     // Can add any other pertinent details to the socket to be retrieved later
 
-    socket.username = typeof data.name !== 'undefined' ? data.name : "a_user";
-    socket.userColor = typeof data.color !== 'undefined' ? data.color : "#CCCCCC";
-    socket.userNote = typeof data.note !== 'undefined' ? data.note : " ";
-    socket.userLocation = typeof data.location !== 'undefined' ? data.location : { x: 0.5, y: 0.5 };
+    data.username = socket.username = typeof data.name !== 'undefined' ? data.name : "a_user";
+    data.userColor = socket.userColor = typeof data.color !== 'undefined' ? data.color : "#CCCCCC";
+    data.userNote = socket.userNote = typeof data.note !== 'undefined' ? data.note : " ";
+    data.userLocation = socket.userLocation = typeof data.location !== 'undefined' ? data.location : { x: 0.5, y: 0.5 };
 
+    console.log('Registered User: ', data);
     // **** Standard client setup ****
-    if (socket.username == "display") {
+    if (socket.username == "missionControl") {
       hub.display.id = socket.id;
       hub.discreteClients.display.id = socket.id;
       hub.log("Hello display: ", hub.display.id);
@@ -220,7 +221,7 @@ hub.io.sockets.on('connection', function(socket) {
         // Check the userList every 30 seconds
         hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
       } else if(hub.controller.id != socket.id) {
-        let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
+        // let data = {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation };
         hub.io.to(hub.controller.id).emit('welcome', data); 
         hub.io.to(hub.hub.id).emit('welcome', data);
         hub.io.to(hub.sampler.id).emit('welcome', data);
@@ -234,20 +235,25 @@ hub.io.sockets.on('connection', function(socket) {
     socket.emit('setCue', { val: hub.currentCue, name: hub.cues[hub.currentCue], subcue: hub.currentSubCue });
   });
 
+
+
+
   // Traditional socket assignments work just fine
   socket.on('disconnect', function() {
     // hub.ioClients.remove(socket.id);	// FIXME: Remove client if they leave
     hub.log('SERVER: ', socket.id, ' has left the building');
   });
 
-   hub.enableUserTimeout();  // Adds 'checkin' channel
-  //  let userList = hub.getListOfUsers();
-  //  hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
+  hub.enableUserTimeout();  // Adds 'checkin' channel
+    //  let userList = hub.getListOfUsers();
+    //  hub.intervalTransmit('userList', null, {users: hub.getListOfUsers()}, 30000)
 
   hub.channel('nearbyLocation', null, null, (data) => {
     hub.transmit('nearbyLocation', ['sampler'], data);
   })
 
+    // Called by the User
+    // val = 'playHub', 'pauseHub', 'loopHub' play=true, 'capture' duration=5
   hub.channel('sample', null, null, (data) => {
     // data.user = "name", .sample = "bang", .duration = "5000"
 
@@ -264,6 +270,17 @@ hub.io.sockets.on('connection', function(socket) {
     }
   });
 
+      // Communications to the Sampler only
+  hub.channel('sampler', null, null, (data) => {
+    hub.log('sampler', data);
+    if (hub.discreteClientCheck('sampler')) {
+      hub.io.to(hub.sampler.id).emit('sample', data);
+    } else {
+      hub.log('no sampler registered');
+    }
+  })
+
+
   hub.channel('enable', null, null, (data) => {
     // data.user = "name", .val = record, .enabled = boolean
     // console.log('enable:', data);
@@ -271,6 +288,22 @@ hub.io.sockets.on('connection', function(socket) {
     gravity[data.val+'Enable'] = data.enabled;
     hub.transmit('enable', null, data);
   });
+
+
+  hub.channel('section', null, null, function(data) {
+    if (data.section == 'next') {
+      hub.currentSection += 1;
+      if (hub.currentSection >= hub.sectionTitles.length) {
+        hub.currentSection = hub.sectionTitles.length - 1;
+      }
+      hub.syncSection(hub.currentSection);
+    } else if (typeof data.section === "number") {
+      hub.currentSection = data.section;
+      hub.setSection(hub.currentSection);
+    }
+    hub.log('Section is now:', data.section, typeof data.section)
+  });
+
 
       // 'val': cue, 'name': cues(cue), 'subcue': subCue 
   hub.channel('cue', null, null, (data) => {
@@ -281,6 +314,7 @@ hub.io.sockets.on('connection', function(socket) {
     hub.currentSubCue = data.subcue;
   });
 
+
   hub.channel('setMessage', null, null, (data) => {
     hub.log('setMessage:', data);
     console.log("the message is now: " + hub.sectionTitles[hub.currentSection] + data.message);
@@ -290,6 +324,7 @@ hub.io.sockets.on('connection', function(socket) {
       setInstruction(data.instruction);
     }
   });
+
 
   hub.channel('countdown', null, null, (data) => {
     // console.log('cue:', data);
@@ -307,79 +342,15 @@ hub.io.sockets.on('connection', function(socket) {
   });
 
 
-
-
-  hub.channel('tap', null, ["others", "display"], function(data) {
-    hub.log('tap',data);
-    hub.transmit('tap', null, data);
-    //  socket.broadcast.emit('tap', data);  // just for others until a fix is made.
-  });
-
-  // Don't use auto callback creation yet, it's not secure.
-  // hub.channel('tap', null, ["others", "display", "audio"]);
-
-  // TODO: Should just demo this with tap ["others"] above.
-  hub.channel('tapOthers', null, ["others"], function(data) {
-    hub.log('tapOthers', data);
-    hub.transmit('tapOthers', null, data);
-    // socket.broadcast.emit('tapOthers', data);
-  });
-
-  hub.channel('shareToggle', null, ["others"], function(data) {
-    hub.log('shareToggle', data);
-    hub.transmit('shareToggle', null, data);
-  });
-
   hub.channel('masterFader', null, null, function(data) {
     // hub.transmit('masterFader', null, data);
     gravity['masterFader'] = data.val;
     socket.broadcast.emit('masterFader', data);
   });
 
-  hub.channel('shareColor', null, ["others"], function(data) {
-    hub.log('shareColor', data);
-    hub.transmit('shareColor', null, data);
-  });
-
-  hub.channel('sendText', null, ["others", "display"], function(data) {
-    hub.log('sendText', data);
-    hub.transmit('sendText', null, data);
-  });
-
-  hub.channel('triggerPitch', null, ["others", "display"], function(data) {
-    hub.log('triggerPitch', data);
-    hub.transmit('triggerPitch', null, data);
-  });
-
-  hub.channel('triggerMaxPitch', null, ["max"], function(data) {
-    hub.log('triggerMaxPitch', data);
-    hub.transmit('triggerMaxPitch', null, data);
-  });
-
-  hub.channel('section', null, null, function(data) {
-    if (data.section == 'next') {
-      hub.currentSection += 1;
-      if (hub.currentSection >= hub.sectionTitles.length) {
-        hub.currentSection = hub.sectionTitles.length - 1;
-      }
-      hub.syncSection(hub.currentSection);
-    } else if (typeof data.section === "number") {
-      hub.currentSection = data.section;
-      hub.setSection(hub.currentSection);
-    }
-    hub.log('Section is now:', data.section, typeof data.section)
-  });
-
-  hub.channel('item', null, null, function(data) {
-    hub.log('Socket:', socket.id, " tapped item: ", data);
-    // This could be done with the sendTypes array, but if you want to overwrite what is being sent, here you go:
-    if (hub.discreteClientCheck('display')) {
-      hub.io.to(hub.discreteClients['display'].id).emit('itemback', { phrase: data, color: "socket.userColor" }, 1);
-    }
-    if (hub.discreteClientCheck('audio')) {
-      hub.io.to(hub.discreteClients[audio].id).emit('/item', { id: "socket.id", item: data }, 1);
-    }
-    hub.transmit('itemback', null, data);
+  hub.channel('slowdownSlider', null, null, function (data) {
+    hub.log('slowdownSlider', data);
+    hub.transmit('slowdownSlider', null, data);
   });
 
 
@@ -388,3 +359,57 @@ hub.io.sockets.on('connection', function(socket) {
   hub.onConnection(socket);
 
 });
+
+
+  // hub.channel('tap', null, ["others", "display"], function(data) {
+  //   hub.log('tap',data);
+  //   hub.transmit('tap', null, data);
+  //   //  socket.broadcast.emit('tap', data);  // just for others until a fix is made.
+  // });
+
+  // Don't use auto callback creation yet, it's not secure.
+  // hub.channel('tap', null, ["others", "display", "audio"]);
+
+  // TODO: Should just demo this with tap ["others"] above.
+  // hub.channel('tapOthers', null, ["others"], function(data) {
+  //   hub.log('tapOthers', data);
+  //   hub.transmit('tapOthers', null, data);
+  //   // socket.broadcast.emit('tapOthers', data);
+  // });
+
+  // hub.channel('shareToggle', null, ["others"], function(data) {
+  //   hub.log('shareToggle', data);
+  //   hub.transmit('shareToggle', null, data);
+  // });
+
+ // hub.channel('shareColor', null, ["others"], function(data) {
+  //   hub.log('shareColor', data);
+  //   hub.transmit('shareColor', null, data);
+  // });
+
+  // hub.channel('sendText', null, ["others", "display"], function(data) {
+  //   hub.log('sendText', data);
+  //   hub.transmit('sendText', null, data);
+  // });
+
+  // hub.channel('triggerPitch', null, ["others", "display"], function(data) {
+  //   hub.log('triggerPitch', data);
+  //   hub.transmit('triggerPitch', null, data);
+  // });
+
+  // hub.channel('triggerMaxPitch', null, ["max"], function(data) {
+  //   hub.log('triggerMaxPitch', data);
+  //   hub.transmit('triggerMaxPitch', null, data);
+  // });
+
+  // hub.channel('item', null, null, function(data) {
+  //   hub.log('Socket:', socket.id, " tapped item: ", data);
+  //   // This could be done with the sendTypes array, but if you want to overwrite what is being sent, here you go:
+  //   if (hub.discreteClientCheck('display')) {
+  //     hub.io.to(hub.discreteClients['display'].id).emit('itemback', { phrase: data, color: "socket.userColor" }, 1);
+  //   }
+  //   if (hub.discreteClientCheck('audio')) {
+  //     hub.io.to(hub.discreteClients[audio].id).emit('/item', { id: "socket.id", item: data }, 1);
+  //   }
+  //   hub.transmit('itemback', null, data);
+  // });

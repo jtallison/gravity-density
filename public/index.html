@@ -95,7 +95,7 @@
       <br>
       Server <button onClick="hubPlay()">Play</button> -- <button onClick="hubPause()">Pause</button> -- <button onClick="hubLoop()">Loop</button>
       <br>
-      <div id="slider1"></div>
+      <div id="master-gain"></div>
       <br>
       <button onClick="tapEnd()">Tap To End Session</button>
     </div>
@@ -240,12 +240,15 @@
     function demoSetup(){
       setMessage(messageText.spokenOpening.sputnik);
       let file = randomItem(speakingClips);
-        gravSound.loadSample(file,true);
+      hub.user.audioFile = file;
+      gravSound.loadSample(file,true);
       enableEdit(true);
     }
 
-    seatMap.addEventListener("click", getClickPosition, false);
-    document.querySelector('#seatMap')?.addEventListener('click', async () => {
+    // seatMap.addEventListener("click", getClickPosition, false);
+    document.querySelector('#seatMap')?.addEventListener('click', async (e) => {
+      getClickPosition(e)
+
     	await Tone.start()
     	console.log('audio is ready')
       gravSound.createWaveformUI();
@@ -253,6 +256,10 @@
       //   console.log('Clicked-region ', e);
       // });
       demoSetup();
+
+      gravSound.triggerPitch();
+      console.log("registration", hub.user);
+      hub.register(hub.user);
     })
 
     function getClickPosition(e) {
@@ -270,9 +277,6 @@
       hub.user.location.y = my;
       console.log(hub.user.location);
 
-      gravSound.triggerPitch();
-      
-      hub.register();
       // FIXME: move default overlay into Hub
       document.getElementsByClassName("nexusOverlay")[0].style.display = 'none';
       document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
@@ -431,7 +435,7 @@
 }
 
 
-    let masterFaderNX = new Nexus.Slider('#slider1', {
+    let masterFaderNX = new Nexus.Slider('#master-gain', {
       'mode': 'absolute'
     });
     hub.channel('masterFader', null, null, function(data) {
@@ -447,6 +451,12 @@
       //     val: v
       //   });
       // };
+    });
+
+    hub.channel('slowdownSlider', null, null, function (data) {
+      if(data.user == 'all' || data.user == hub.userId){
+        gravSound.playbackRate(data.val, data.preservePitch);
+      }
     });
 
     hub.channel('sample', null, null, (data) => {
@@ -801,9 +811,9 @@
     };
 }
 
-    hub.channel('chat', null, null, function(data) {
-      console.log("chat: " + data);
-    });
+    // hub.channel('chat', null, null, function(data) {
+    //   console.log("chat: " + data);
+    // });
 
     hub.channel('gravityState', null,null, (data)=> {
       console.log('gravityState', data);
@@ -836,44 +846,44 @@
 }
 
 
-    hub.channel('sendText', null, ['others'], function(data) {
-      console.log('sendText: ', data)
-      var textDiv = document.getElementById('footer');
-      textDiv.innerHTML = data.text;
-    });
+    // hub.channel('sendText', null, ['others'], function(data) {
+    //   console.log('sendText: ', data)
+    //   var textDiv = document.getElementById('footer');
+    //   textDiv.innerHTML = data.text;
+    // });
 
 
-    hub.channel('tap', null, null, function(data) {
-      hub.log(`
-        tap received: $ {
-            data
-        }
-        `);
-    })
+    // hub.channel('tap', null, null, function(data) {
+    //   hub.log(`
+    //     tap received: $ {
+    //         data
+    //     }
+    //     `);
+    // })
 
-    function tapButton() {
-      hub.send('tap', {
-        'tap': 1
-      });
-    }
+    // function tapButton() {
+    //   hub.send('tap', {
+    //     'tap': 1
+    //   });
+    // }
 
-    hub.channel('itemback', null, 'about', function(data) {
-      console.log("itemback: ", data);
-    });
+    // hub.channel('itemback', null, 'about', function(data) {
+    //   console.log("itemback: ", data);
+    // });
 
-    var numClicked = 0;
+    // var numClicked = 0;
 
-    hub.channel('item', 'item', ['audio', 'display'])
+    // hub.channel('item', 'item', ['audio', 'display'])
 
-    function itemButton() {
-      console.log("numClicked = " + numClicked);
-      hub.send('item', {
-        "item": numClicked
-      });
+    // function itemButton() {
+    //   console.log("numClicked = " + numClicked);
+    //   hub.send('item', {
+    //     "item": numClicked
+    //   });
 
-      gravSound.playSecondSound();
-      numClicked++
-    }
+    //   gravSound.playSecondSound();
+    //   numClicked++
+    // }
 
     hub.channel('triggerCollide', null, null, function(data) {
       gravSound.playSecondSound();

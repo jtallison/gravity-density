@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>gravity | density sampler</title>
+  <title>gravity | density Sampler</title>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -18,18 +18,25 @@
   <script type="text/javascript" src="/js/nexusUI.js"></script>
   <script type="text/javascript" src="/js/GravSound_hub.js"></script>
   <script type="text/javascript" src="/js/browserHub.js"></script>
-  <script type="text/javascript" src="/js/StartAudioContext.js"></script>
-  <script src="/js/wavesurfer.min.js"></script>
-  <script src="/js/wavesurfer.regions.min.js"></script>
+  <!-- <script type="text/javascript" src="/js/StartAudioContext.js"></script> -->
+  <!-- <script src="/js/wavesurfer.min.js"></script>
+  <script src="/js/wavesurfer.regions.min.js"></script> -->
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
 
 </head>
 
 <body>
   <div class="display">
-    <div id="header"><span class="title">Gravity|Density</span> <span id="cueDisplay"></span></div>
-
+    <div id="header"><span id="controller-title">Gravity|Density</span></div>
+    <div id='controller-messages'>
+      <div id='controller-message'>
+        Sample what you like.<br> Select a region and set it.
+      </div>
+      <div id="controller-instruction">Instructions here</div>
+    </div>
     <div class="nexusOverlay">
-      <p>Sampler | <strong>Initialization</strong></p>
+      <p>Example | <strong>Testing</strong></p>
       <p>Start by tapping your approximate location in the space.</p>
       <svg version="1.1" id="preMap" x="0px" y="0px" viewbox="0 0 640 445"
         style="max-width: 70vh; enable-background:new 0 0 640 445;">
@@ -43,7 +50,6 @@
     </div>
 
     <div class="mainDisplay">
-      <div id="masterFader"></div>
       <div id="map">
         <svg version="1.1" id="seatMap" x="0px" y="0px" viewbox="0 0 640 445"
           style="max-width: 70vh; enable-background:new 0 0 640 445;">
@@ -55,11 +61,18 @@
             y2="40" />
         </svg>
       </div>
-      <!-- <div class='controls'>
-        <div id='cueSelector'></div><div id='cueNext'></div>
-        <div id='sectionSelector'></div><div id='sectionNext'></div>
-        <div id='clearUsers'></div>
-        <div class='controls'>
+      <div class='controls'>
+        <div id='cues'>
+          <div class='selectorHeading'><u>Next Cue:</u><div id='nextCue'>Cue: ---</div><div id='cueSelector'></div></div>
+          <div id='cueNext'></div>
+        </div>
+        <div id='sections'>
+          <div class='selectorHeading'><u>Next Section:</u><div id='nextSection'>Sect: ---</div><div id='sectionSelector'></div></div>
+          <div id='sectionNext'></div>
+        </div>
+        <!-- <div class='selectorHeading'>Clear Users<div id='clearUsers'></div></div> -->
+        <div class='selectorHeading'>MasterFader<div id="master-gain"></div></div>
+        <!-- <div class='controls'>
           <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
           <div id="enableCountdown"></div>Enable Countdown <div id="triggerCountdown"></div>Trigger Countdown
         </div>
@@ -74,8 +87,8 @@
           <div id="enablePlay"></div>Enable Play
           <div id="enableTouch"></div>Enable Touch
           <div id="enableLoop"></div>Enable Loop
-        </div>
-      </div> -->
+        </div> -->
+      </div>
       <div id="samples">
         <!-- <div id="player-1">
           <div id="record-1"></div>
@@ -84,8 +97,8 @@
           <div id="loopEnd-1"></div>
         </div> -->
       </div>
-      <!-- <br><br>
-      <button onClick="tapEnd()">Tap To End Session</button> -->
+      <br><br>
+      <button onClick="tapEnd()">Tap To End Session</button>
     </div>
 
   </div>
@@ -95,7 +108,7 @@
   <div class="endDisplay" style="display: none;">
     <p>
       <br>
-      <br><em>Thank you for participating!<br>
+      <br><em>Nice Set<br>
         Please visit <a href="http://gravity.emdm.io">gravity.emdm.io</a> for documentation.</em>
     </p>
   </div>
@@ -115,13 +128,78 @@
 
     hub.init();
 
+      // Will this page sample locally or not
+    hub.sampleLocally = true;
+    hub.playLocally = true;
+
     let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
     let currentSection = 0;
+    let nextSectionDiv = document.querySelector('#nextSection');
     // let playerSampleCount = 0;
     // let sampleLength = 5000;
     let cues = ['preshow', 'starfield', 'begin', 'load', 'play', 'countdown', 'launch', 'play-launch', 'clear', 'capture', 'play2', 'load2', 'clear2', 'magnificent', 'desolation', 'postshow'];
     let currentCue = 0;
+    let nextCueDiv = document.querySelector('#nextCue');
     let currentSubCue = 0;
+
+    let setMessage = (text) => {document.getElementById('controller-message').innerText = text};
+    let messageText = {
+      'preConcert': { default: 'Welcome\nexplore interface...',
+                      1: 'Welcome Performer\nloading density...', 
+                      2: 'designing interstellar experience...', 
+                      3: 'initiating gravity...',
+                      4: 'Gravity|Density'
+                    },
+      'spokenOpening':  { default: 'Bent CDs engaged\nAwaiting transmission...',
+                          sputnik: 'sputnik beeping from above\na single human object beyond earth\nthe pull of space is felt.'
+                        },
+      'countdown':  { default: 'Prepare for Launch',
+                      10: 'T-minus\n10', 9: '9', 8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1', 0: ''
+                    },
+      'launch': { default: '',
+                  liftoff: 'Liftoff'
+                },
+      'space': { default: '',
+                  space: 'Listen, take it all in'
+                },
+      'gravity':  { default: 'gravitational waves\n wash over the void\n ignoring all',
+                    1: "Ain't that somethin'",
+                    2: 'Magnificent sight out here',
+                    3: 'The Final Singularity',
+                    4: 'Magnificent Desolation'
+                  },
+      'postConcert': { default: 'Thank you for participating' }
+    }
+
+    let setInstruction = (instruction) => {
+      document.getElementById('controller-instruction').innerText = instructionText[instruction];
+      currentInstruction = instruction;
+    };
+    let instructionText = {
+      'preConcert': 'Control Zone\nnothing loaded',
+      'spokenOpening': 'Play a Sound',
+      'countdown': 'Counting Down',
+      'launch': 'Process',
+      'space': 'Listen\nShortly you will\nbe enabled to Sample',
+      'gravity': 'Connect to Someone',
+      'postConcert': 'Magnificent Desolation',
+      'playMagnificent': 'Tap Once\nto play one last time',
+      'toSample': 'Listen...\ntap to sample',
+      'sampling': 'recording transmission...',
+      'toLoad': 'preparing transmission\nplay once received',
+      'firstLoad': 'once loaded\ntap and hold to play',
+      'loading': 'receiving transmission...',
+      'toReceive': 'awaiting\ntransmission',
+      'toPlay': 'Tap and hold to play',
+      'playing': 'Playing',
+      'dragPlay': 'drag the loop\npress to play',
+      'toLoop': 'Tap to Loop\nagain to pause',
+      'looping': 'Looping',
+      'abyss': 'look into the abyss',
+      'gravity': 'gravity\ndensity'
+    }
+
+    let currentInstruction = 'preConcert';
     
     let registeredUsers = [];
 
@@ -133,7 +211,6 @@
     let nearbyRange = 0.2;
 
     // *** Nexus UI Elements ***
-    Nexus.colors.accent = "#C37F00"
 
     let record = [];
     let play = [];
@@ -141,8 +218,191 @@
     let loopEnd = [];
     let clear = [];
 
-        // Shared slider... possibly a good volume control?
-    let masterFaderNX = new Nexus.Slider('#masterFader', {
+    let sectionNX = new Nexus.Select('#sectionSelector',{
+      'size': [100,30],
+      'options': sections
+    });
+    let sectionNextNX = new Nexus.Button('#sectionNext');
+    sectionNextNX.mode = 'button';
+
+    let cueNX = new Nexus.Select('#cueSelector',{
+      'size': [100,30],
+      'options': cues
+    });
+    let cueNextNX = new Nexus.Button('#cueNext');
+    cueNextNX.mode = 'button';
+    // let clearUsersNX = new Nexus.Button("#clearUsers", {'size': [30,30]});
+    // clearUsersNX.mode = 'button';
+    
+    // let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
+    // loadLaunchNX.mode = 'button';
+    // let triggerLaunchNX = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
+    // triggerLaunchNX.mode = 'button';
+    // let enableCountdown = new Nexus.Toggle('#enableCountdown');
+    // let triggerCountdown = new Nexus.Button("#triggerCountdown", {'size': [30,30]});
+    // triggerCountdown.mode = 'button';
+    // let loadSpeaking = new Nexus.Button("#loadSpeaking", {'size': [30,30]});
+    // loadSpeaking.mode = 'button';
+    // let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
+    // triggerSpeaking.mode = 'button';
+    // let enableRecord = new Nexus.Toggle('#enableRecord');
+    // let enableEdit = new Nexus.Toggle('#enableEdit');
+    // let enablePlay = new Nexus.Toggle('#enablePlay');
+    // let enableTouch = new Nexus.Toggle('#enableTouch');
+    // let enableLoop = new Nexus.Toggle('#enableLoop');
+    // let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
+    // magnificentLaunch.mode = 'button';
+    // let silence = new Nexus.Button("#silence", {'size': [30,30]});
+    // silence.mode = 'button';
+    
+
+    // let record_1 = new Nexus.Toggle("#record-1");
+    // let play_1 = new Nexus.Toggle("#play-1");
+    // let loopBegin_1 = new Nexus.Number("#loopBegin-1");
+    // let loopEnd_1 = new Nexus.Number("#loopEnd-1");
+
+    // record_1.on('change', function (v) {
+    //   v ? gravSound.recorder.start() : gravSound.recorder.stop();
+    // });
+
+    // enableRecord.on ('change', (v) => {
+    //   let data = {};
+    //   data.user ="all";
+    //   data.val ="record";
+    //   data.enabled = v;
+    //   console.log(data)
+    //   hub.transmit('enable', null, data);
+    // });
+
+    // enableEdit.on ('change', (v) => {
+    //   let data = {};
+    //   data.user ="all";
+    //   data.val ="edit";
+    //   data.enabled = v;
+    //   console.log(data)
+    //   hub.transmit('enable', null, data);
+    // });
+
+    // enablePlay.on ('change', (v) => {
+    //   let data = {};
+    //   data.user ="all";
+    //   data.val ="play";
+    //   data.enabled = v;
+    //   console.log(data)
+    //   hub.transmit('enable', null, data);
+    // });
+
+      // If you want to set this outside of a sample load command do it here
+    function enablePlayOnce() {
+      let data = {};
+      data.user ="all";
+      data.val ="playOnce";
+      data.enabled = true;
+      console.log(data)
+      hub.transmit('enable', null, data);
+    };
+
+    // enableTouch.on ('change', (v) => {
+    //   let data = {};
+    //   data.user ="all";
+    //   data.val ="touch";
+    //   data.enabled = v;
+    //   console.log(data)
+    //   hub.transmit('enable', null, data);
+    // });
+
+    // enableLoop.on ('change', (v) => {
+    //   let data = {};
+    //   data.user ="all";
+    //   data.val ="loop";
+    //   data.enabled = v;
+    //   console.log(data)
+    //   hub.transmit('enable', null, data);
+    // });
+
+        // -------- LAUNCH CONTROLS
+    // loadLaunchNX.on('change', function (v) {
+    //   if(v==false) {
+    //     loadFile('/data/mp3s/AtlasVLaunch.mp3');
+    //   }
+    // });
+
+    // triggerLaunchNX.on('change', function (v) {
+    //   if(v==true) {
+    //     let data = {
+    //       user : 'all',
+    //       val : 'play'
+    //     }
+    //     hub.transmit('sample',null, data);
+    //   }
+    // });
+
+    // enableCountdown triggerCountdown loadSpeaking triggerSpeaking
+
+    function randomItem(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    
+    // enableCountdown.on ('change', (v) => {
+    //   countdownPosition = 10;
+    // });
+
+    // triggerCountdown.on('change', function (v) {
+    //   if(v == true) {
+    //     console.log("Countdown: " + countdownPosition);
+    //     if(countdownPosition >=0) {
+    //       for(let i= 0;i<registeredUsers.length / countdownNumber;i++) {
+    //         let file = countdownClips[countdownPosition]
+    //         let user = randomItem(registeredUsers);
+    //         loadPlayFile(user.username, file);
+    //         console.log('Countdown:' + countdownPosition + ' user ' + user.username);
+    //       }
+    //       hub.send('countdown', {val:countdownPosition});
+    //       countdownPosition--;
+    //     }
+    //   }
+    // });
+
+    // loadSpeaking.on('change', function (v) {
+    //   let user = randomItem(registeredUsers);
+    //   let file = randomItem(speakingClips);
+    //   if(v==false) {
+    //     loadPlayFile(user.username, file);
+    //   }
+    // });
+
+    // triggerSpeaking.on('change', function (v) {
+    //   if(v==false) {
+    //     let user = 'all';
+    //     let file = speakingClips[3]; // randomItem(speakingClips);  // sp-ignitionSequence.mp3
+    //     loadPlayFile(user, file);
+    //     // let data = {
+    //     //   user : 'all',
+    //     //   val : 'play'
+    //     // }
+    //     // hub.transmit('sample',null, data);
+    //   }
+    // });
+
+    // magnificentLaunch.on('change', function (v) {
+    //   if(v==false) {
+    //     let file = '/data/mp3s/MagnificentDesolation.mp3';
+    //     loadFile(file, true); // file, playOnce?
+    //   }
+    // });
+
+    // silence.on('change', function (v) {
+    //   if(v==false) {
+    //     let file = '/data/mp3s/silence.mp3';
+    //     loadFile(file);
+    //   }
+    // });
+
+    
+
+
+    // Shared master-gain... possibly a good volume control?
+    let masterFaderNX = new Nexus.Slider('#master-gain', {
       'mode': 'absolute',
       'value': 1.0
     });
@@ -160,241 +420,51 @@
       };
     });
 
-    /*
-    let sectionNX = new Nexus.Select('#sectionSelector',{
-      'size': [100,30],
-      'options': sections
-    });
-    let sectionNextNX = new Nexus.Button('#sectionNext');
-
-    let cueNX = new Nexus.Select('#cueSelector',{
-      'size': [100,30],
-      'options': cues
-    });
-    let cueNextNX = new Nexus.Button('#cueNext');
-    cueNextNX.mode = 'button';
-    let clearUsersNX = new Nexus.Button("#clearUsers", {'size': [30,30]});
-    clearUsersNX.mode = 'button';
-    
-    let loadLaunchNX = new Nexus.Button("#loadLaunch", {'size': [30,30]});
-    loadLaunchNX.mode = 'button';
-    let triggerLaunchNX = new Nexus.Button("#triggerLaunch", {'size': [30,30]});
-    triggerLaunchNX.mode = 'button';
-    let enableCountdown = new Nexus.Toggle('#enableCountdown');
-    let triggerCountdown = new Nexus.Button("#triggerCountdown", {'size': [30,30]});
-    triggerCountdown.mode = 'button';
-    let loadSpeaking = new Nexus.Button("#loadSpeaking", {'size': [30,30]});
-    loadSpeaking.mode = 'button';
-    let triggerSpeaking = new Nexus.Button("#triggerSpeaking", {'size': [30,30]});
-    triggerSpeaking.mode = 'button';
-    let enableRecord = new Nexus.Toggle('#enableRecord');
-    let enableEdit = new Nexus.Toggle('#enableEdit');
-    let enablePlay = new Nexus.Toggle('#enablePlay');
-    let enableTouch = new Nexus.Toggle('#enableTouch');
-    let enableLoop = new Nexus.Toggle('#enableLoop');
-    let magnificentLaunch = new Nexus.Button("#magnificentLaunch", {'size': [30,30]});
-    magnificentLaunch.mode = 'button';
-    let silence = new Nexus.Button("#silence", {'size': [30,30]});
-    silence.mode = 'button';
-    
-*/
-
-    // let record_1 = new Nexus.Toggle("#record-1");
-    // let play_1 = new Nexus.Toggle("#play-1");
-    // let loopBegin_1 = new Nexus.Number("#loopBegin-1");
-    // let loopEnd_1 = new Nexus.Number("#loopEnd-1");
-
-    // record_1.on('change', function (v) {
-    //   v ? gravSound.recorder.start() : gravSound.recorder.stop();
-    // });
-
-/*
-    enableRecord.on ('change', (v) => {
-      let data = {};
-      data.user ="all";
-      data.val ="record";
-      data.enabled = v;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    });
-
-    enableEdit.on ('change', (v) => {
-      let data = {};
-      data.user ="all";
-      data.val ="edit";
-      data.enabled = v;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    });
-
-    enablePlay.on ('change', (v) => {
-      let data = {};
-      data.user ="all";
-      data.val ="play";
-      data.enabled = v;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    });
-
-      // If you want to set this outside of a sample load command do it here
-    function enablePlayOnce() {
-      let data = {};
-      data.user ="all";
-      data.val ="playOnce";
-      data.enabled = true;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    };
-
-    enableTouch.on ('change', (v) => {
-      let data = {};
-      data.user ="all";
-      data.val ="touch";
-      data.enabled = v;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    });
-
-    enableLoop.on ('change', (v) => {
-      let data = {};
-      data.user ="all";
-      data.val ="loop";
-      data.enabled = v;
-      console.log(data)
-      hub.transmit('enable', null, data);
-    });
-
-        // -------- LAUNCH CONTROLS
-    loadLaunchNX.on('change', function (v) {
-      if(v==false) {
-        loadFile('/data/mp3s/AtlasVLaunch.mp3');
+    hub.channel('slowdownSlider', null, null, function (data) {
+      if(data.user == 'all'){
+        gravSound.playbackRate(null, data.val, data.preservePitch);
       }
     });
 
-    triggerLaunchNX.on('change', function (v) {
-      if(v==true) {
-        let data = {
-          user : 'all',
-          val : 'play'
-        }
-        hub.transmit('sample',null, data);
-      }
-    });
-
-    // enableCountdown triggerCountdown loadSpeaking triggerSpeaking
-
-    enableCountdown.on ('change', (v) => {
-      countdownPosition = 10;
-    });
-
-    triggerCountdown.on('change', function (v) {
-      if(v == true) {
-        console.log("Countdown: " + countdownPosition);
-        if(countdownPosition >=0) {
-          for(let i= 0;i<registeredUsers.length / countdownNumber;i++) {
-            let file = countdownClips[countdownPosition]
-            let user = randomItem(registeredUsers);
-            loadPlayFile(user.username, file);
-            console.log('Countdown:' + countdownPosition + ' user ' + user.username);
-          }
-          hub.send('countdown', {val:countdownPosition});
-          countdownPosition--;
-        }
-      }
-    });
-
-    loadSpeaking.on('change', function (v) {
-      let user = randomItem(registeredUsers);
-      let file = randomItem(speakingClips);
-      if(v==false) {
-        loadPlayFile(user.username, file);
-      }
-    });
-
-    triggerSpeaking.on('change', function (v) {
-      if(v==false) {
-        let user = 'all';
-        let file = speakingClips[3]; // randomItem(speakingClips);  // sp-ignitionSequence.mp3
-        loadPlayFile(user, file);
-        // let data = {
-        //   user : 'all',
-        //   val : 'play'
-        // }
-        // hub.transmit('sample',null, data);
-      }
-    });
-
-    magnificentLaunch.on('change', function (v) {
-      if(v==false) {
-        let file = '/data/mp3s/MagnificentDesolation.mp3';
-        loadFile(file, true); // file, playOnce?
-      }
-    });
-
-    silence.on('change', function (v) {
-      if(v==false) {
-        let file = '/data/mp3s/silence.mp3';
-        loadFile(file);
-      }
-    });
-
-*/
-
-
-    function randomItem(list) {
-      return list[Math.floor(Math.random() * list.length)];
-    }
-    
-
+{ //  ***** Cue Functions
         // ******* Cues *******
-    let cueDisplay = document.getElementById('cueDisplay');
     hub.channel('setCue', null, null, function (data) {
       console.log(data);
-      currentCue = data.val;
-      console.log("the section is now: " + cues[currentCue]);
+      console.log("the section is now: " + cues[data.val]);
 
-      cueDisplay.innerText = cues[currentCue];
-      setCue(currentCue);
-      // cueNX.selectIndex = currentCue;
-    });
-    hub.channel('cue', null, null, function (data) {
-      console.log(data);
       currentCue = data.val;
-      console.log("the section is now: " + cues[currentCue]);
-
-      cueDisplay.innerText = cues[currentCue];
-      setCue(currentCue);
-      // cueNX.selectIndex = currentCue;
+      cueNX.selectIndex = currentCue;
+      let nextCue = currentCue<=cues.length-2 ? cues[currentCue+1] : 'done'
+      nextCueDiv.innerHTML = nextCue;
     });
 
+    cueNX.on ('change', (v) => {
+      console.log('Cue ', v.index, v.value, v);
+      setCue(v.index);
+      currentCue = v.index;
+    });
 
-    // cueNX.on ('change', (v) => {
-    //   console.log('Cue ', v.index, v.value, v);
-    //   setCue(v.index);
-    //   currentCue = v.index;
-    // });
+    cueNextNX.on ('change', (v) => {
+      if(v == true) {
+        nextCue();
+      }
+    });
 
-    // cueNextNX.on ('change', (v) => {
-    //   if(v == true) {
-    //     nextCue();
-    //   }
-    // });
-
-    // function nextCue() {
-    //   currentCue += 1;
-    //   if (currentCue >= cues.length) {
-    //     currentCue = cues.length - 1;
-    //   }
-    //   setCue(currentCue);
-    //   cueNX.selectIndex = currentCue;
-    // }
+    function nextCue() {
+      currentCue += 1;
+      if (currentCue >= cues.length) {
+        currentCue = cues.length - 1;
+      }
+      setCue(currentCue);
+      cueNX.selectIndex = currentCue;
+    }
 
     function setCue(cue, subcue=0) {
-      // hub.send('cue', {
-      //   'val': cue,
-      //   'name': cues[cue],
-      //   'subcue': subcue 
-      // });
+      hub.send('cue', {
+        'val': cue,
+        'name': cues[cue],
+        'subcue': subcue 
+      });
       if(cues[cue] == 'magnificent') {
         let file = '/data/mp3s/MagnificentDesolation.mp3';
         loadFile(file, true); // file, playOnce?
@@ -405,6 +475,121 @@
         loadFile('/data/mp3s/AtlasVLaunch.mp3');
       }
     }
+
+
+    hub.channel('cue', null, null, (data) => { cue(data); });
+
+    function cue(data) {
+      hub.log('Cue', data);
+      currentCue = data.val;
+      cueNX.selectIndex = currentCue;
+      let nextCue = currentCue<=cues.length-2 ? cues[currentCue+1] : 'done'
+      nextCueDiv.innerHTML = nextCue;
+
+      if(data.subcue != 0) {
+        setMessage(messageText[data.name][data.subcue])
+      } else {
+        switch(data.name){
+          case 'preshow':
+            setSection(sections.indexOf('preConcert'), 1)
+            setMessage(messageText.preConcert[1]);
+            setInstruction('preConcert');
+            break;
+          case 'starfield':
+            setSection(sections.indexOf('preConcert'), 2)
+            setMessage(messageText.preConcert[2]);  // Make rotating
+            break;
+          case 'begin': 
+            setSection(sections.indexOf('spokenOpening'), 'default')
+            setMessage(messageText.spokenOpening.default);
+            setInstruction('toLoad');
+            break;
+          case 'load': 
+            setSection(sections.indexOf('spokenOpening'), 'sputnik')
+            setMessage(messageText.spokenOpening.sputnik);
+            setInstruction('firstLoad');
+            break;
+          case 'play': 
+            setSection(sections.indexOf('spokenOpening'), 'sputnik')
+            setMessage(messageText.spokenOpening.sputnik);
+            setInstruction('dragPlay');
+            break;
+          case 'countdown':
+            // randomLoading(false);
+            setSection(sections.indexOf('countdown'), 'default')
+            setMessage(messageText.countdown.default);
+            setInstruction('toPlay');
+            break;
+          case 'launch':
+            setSection(sections.indexOf('launch'), 'liftoff')
+            setMessage(messageText.launch.liftoff);
+            setInstruction('loading');
+            // cover the UI
+            break;
+          case 'play-launch': 
+            setInstruction('dragPlay');
+            // uncover the UI
+            break;
+          case 'clear': 
+            setSection(sections.indexOf('space'), 'space')
+            setMessage(messageText.space.space);
+            setInstruction('space');
+            break;
+          case 'capture': 
+            setSection(sections.indexOf('space'), 'space')
+            setMessage(messageText.space.space);
+            setInstruction('space');
+            break;
+          case 'play2':
+            setInstruction('dragPlay');
+            break;
+          case 'load2': 
+            setSection(sections.indexOf('gravity'), 'default')
+            setMessage(messageText.gravity.default);
+            setInstruction('toSample');
+            break;
+          case 'clear2': 
+            setSection(sections.indexOf('gravity'), 1)
+            setMessage(messageText.gravity[1]);
+            setInstruction('abyss');
+            break;
+          case 'magnificent': 
+            setSection(sections.indexOf('gravity'), 2)
+            setMessage(messageText.gravity[2]);
+            setInstruction('playMagnificent');
+            // don't load and play
+            break;
+          case 'desolation': 
+            setSection(sections.indexOf('gravity'), 4)
+            setMessage(messageText.gravity[4]);
+            break;
+          case 'postshow': 
+            setSection(sections.indexOf('postConcert'), 'default')
+            setMessage(messageText.postConcert.default);
+            setInstruction('gravity');
+            break;
+          case 'demo':
+            setInstruction('gravity');
+            break;
+          case 'default':
+            console.log('Sample Command not recognized: ', data.val, data.name);
+        }
+      }
+    }
+
+    hub.channel('countdown', null, null, (data) => { countdown(data); });
+    function countdown(data) {
+      setMessage(messageText.countdown[data.val]);
+    };
+    
+    hub.channel('demo',null,null, (data) => {
+      demoSetup();
+    })
+
+    function demoSetup(){
+      setMessage(messageText.spokenOpening.sputnik);
+    }
+}
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
@@ -432,15 +617,9 @@
           gravSound.pause(data.user);
           break;
         case 'load':
-          if (data.user == 'all') {
-            if(data.playOnce){
-              loadFile(data.url, true)
-            } else {
-              loadFile(data.url, false)
-            }
-          } else {
-            loadPlayFile(data.user, data.url);
-          }
+          if (data.sample != true) {
+            gravSound.loadSample(data.user, data.url)
+          };
           break;
         case 'default':
           console.log('Sample Command not recognized: ', data.val);
@@ -454,13 +633,13 @@
         playOnce: playOnce,
         url : file
       }
-        // no need to send as this is controllered
       // hub.transmit('sample', null, data);
       // gravSound.loadAllSamples(file);
 
         // Doing this here allows for us to add in users who had not recorded anything yet.
       Object.entries(registeredUsers).forEach(([number, user])=>{
-        gravSound.loadSample(user.username, file, playOnce)
+        gravSound.loadSample(user.username, file)
+        user.audioFile = file;
         // let sampleNumber = user.id;
         // this.wavesurfers[sampleNumber].on('ready', () => {this.wavesurferLoaded(sampleNumber, toPlay)});
         // this.wavesurfers[sampleNumber].load(url);
@@ -474,7 +653,6 @@
         url: file,
         play: true
       }
-        // No need to transmit
       // hub.transmit('sample', null, data);
       gravSound.loadSample(user, file);
     }
@@ -509,9 +687,15 @@
 
     preMap.addEventListener('click', getClickPosition, false);
     seatMap.addEventListener('click', clickToFindNearbyUsers, false);
-    StartAudioContext(Tone.context, '#preMap').then(function () {
-      console.log("AudioStarted");
+
+    document.querySelector('preMap')?.addEventListener('click', async () => {
+    	await Tone.start()
+    	console.log('audio is ready')
     })
+
+    // StartAudioContext(Tone.context, '#preMap').then(function () {
+    //   console.log("AudioStarted");
+    // })
 
     function getClickPosition(e) {
       var m = preMap.getScreenCTM();
@@ -535,29 +719,6 @@
       document.getElementsByClassName("mainDisplay")[0].style.display = 'block';
       // wavesurfer.load('data/mbira_em.mp3');
       preMap.removeEventListener('click', getClickPosition, false);
-    }
-
-    hub.channel('nearbyLocation', null, null, (data) => {
-      hub.log('nearbyLocation', data)
-      nearbyUserCheck(data.x,data.y);
-    })
-
-    function nearbyUserCheck(mx,my){
-      var m = seatMap.getScreenCTM();
-      var p = document.getElementById('seatMap').createSVGPoint();
-      var tx = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[2];
-      var ty = document.getElementById('seatMap').getAttribute('viewBox').split(" ")[3];
-      p.x = mx * tx;
-      p.y = my * ty;
-      // p = p.matrixTransform(m.inverse());   // point clicked in svg coords
-      nearbyRegionCircle.setAttribute("cx", p.x);
-      nearbyRegionCircle.setAttribute("cy", p.y);
-      console.log("Client",p.x,p.y, " t ", tx, ty, " m ", mx, my)
-      let aspect = tx/ty;
-      let nearbyUsers = findNearbyUsers(mx,my, nearbyRange, aspect)
-      nearbyUsers.forEach((user) => {
-        playRemote(user);
-      });
     }
 
     function clickToFindNearbyUsers(e) {
@@ -613,6 +774,7 @@
     hub.channel('welcome', null, null, (data) => {
       console.log('welcome', data);
       registeredUsers.push(data); 
+      let user = registeredUsers.at(-1)
       // {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation }
       let sv = document.getElementById('seatMap');
       let svgns = "http://www.w3.org/2000/svg";
@@ -635,6 +797,8 @@
         playRemote(name);
         e.stopPropagation();
       };
+      user.circle = c;
+      gravSound.loadSample(user.username, user.audioFile)
     });
 
     function playRemote(user) {
@@ -643,48 +807,95 @@
           user : user,
           val : 'play'
         }
-        hub.transmit('sample',null, data);
+        // hub.transmit('sample',null, data);
     }
 
-    // sectionNextNX.on ('change', (v) => {
+    // clearUsersNX.on ('change', (v) => {
     //   if(v == true) {
     //     hub.send('clearUsers', 'now');
     //   }
     // });
 
 
+    hub.channel('setMessage', null, null, function(data) {
+      console.log(data);
+      console.log("the message is now: " + sections[currentSection] + data.message);
+      let sectionText = messageText[sections[currentSection]];
+      setMessage(sectionText[data.section][data.message]);
+      if('instruction' in data) {
+        setInstruction(data.instruction);
+      }
+    });
+
       // ******* Sections *******
+      // 'preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'
     hub.channel('setSection', null, null, function (data) {
       console.log(data);
       console.log("the section is now: " + sections[data.section]);
 
       currentSection = data.section;
-      // sectionNX.selectIndex = currentSection;
+      sectionNX.selectIndex = currentSection;
+      let nextSect = currentSection<=sections.length-2 ? sections[currentSection+1] : 'done'
+      nextSectionDiv.innerHTML = nextSect;
+
+      setMessage(messageText[sections[currentSection]].default);
+      setInstruction(sections[currentSection]);
     });
 
-    // sectionNX.on ('change', (v) => {
-    //   console.log('Section ', v.index, v.value, v);
-    //   setSection(v.index);
-    // });
+    sectionNX.on ('change', (v) => {
+      console.log('Section ', v.index, v.value, v);
+      setSection(v.index);
+    });
 
-    // sectionNextNX.on ('change', (v) => {
-    //   if(v == true) {
-    //     nextSection();
-    //   }
-    // });
+    sectionNextNX.on ('change', (v) => {
+      if(v == true) {
+        nextSection();
+      }
+    });
 
-    // function nextSection() {
-    //   hub.send('section', {
-    //     'section': 'next'
+    function nextSection() {
+        // Constraints should be handled automatically by hub
+      // if(typeof messageText[currentSection] === 'object') {
+      //     let num = Object.keys(messageText[currentSection]).length
+      //     if (num>subcue) {
+      //       subcue++;
+      //       setCue(cue, subcue)
+      //     } else {
+      //       subcue = 0;
+      //       hub.send('section', {
+      //         'section': 'next'
+      //       });
+      //     }
+      // } else {
+        hub.send('section', {
+          'section': 'next'
+        });
+      // }
+    }
+
+    function setSection(sect, subcue = 'default') {
+      hub.send('section', {
+        'section': sect
+      });
+      currentSection = sect;
+      sectionNX.selectIndex = currentSection;
+      let nextSect = sect<=sections.length-2 ? sections[sect+1] : 'done'
+      nextSectionDiv.innerHTML = nextSect;
+    }
+
+    // hub.channel('tap', null, null, function (data) {
+    //   hub.log(`tap received: $ { data }`);
+    // })
+
+    // function tapButton() {
+    //   hub.send('tap', {
+    //     'tap': 1
     //   });
     // }
 
-    // function setSection(sect) {
-    //   hub.send('section', {
-    //     'section': sect
-    //   });
-    // }
-
+    // hub.channel('itemback', null, 'about', function (data) {
+    //   console.log("itemback: ", data);
+    // });
 
 
     function tapEnd() {

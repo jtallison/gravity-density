@@ -27,11 +27,11 @@ var Hub = function() {
     // this.init();  // FIXME: implicit init or wait to ensure socket.io and other things load?
 }
 
-Hub.prototype.register = function() {
+Hub.prototype.register = function(user = this.user) {
     // Tone.startMobile();		// May need this back - check on devices.
-    console.log("Registering with nexusHub\n User: " + this.user.name);
+    console.log("Registering with nexusHub\n User: " + user.name);
     // Just send the this.user object so other people can 
-    this.socket.emit('register', this.user);
+    this.socket.emit('register', user);
 };
 
 Hub.prototype.log = function(title='Log:', ...l) {
@@ -165,6 +165,7 @@ var User = function() {
     };
     this.note = "";
     this.pitch = 60;
+    this.audioFile = "";
 }
 
 

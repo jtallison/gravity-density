@@ -2,7 +2,7 @@ class GravSound {
   // Grav sound for the overlord and the recording pages
   // Latest version of wavesurfer simply connects to the <audio> source.
 
-  constructor(ctx) {
+  constructor(ctx, sampleLocally = true) {
 
   { //  ***** Initialize properties & Methods .....
     // Bind functions with this.
@@ -13,26 +13,31 @@ class GravSound {
     this.playFirstSound = this.playFirstSound.bind(this);
     this.triggerFirstSound = this.triggerFirstSound.bind(this);
     this.playSecondSound = this.playSecondSound.bind(this);
-    this.uploadSample = this.uploadSample.bind(this);
+
     this.createSample = this.createSample.bind(this);
-    this.createUI = this.createUI.bind(this);
-    this.playRegion = this.playRegion.bind(this);
+    this.uploadSample = this.uploadSample.bind(this);
     this.loadSample = this.loadSample.bind(this);
     this.loadAllSamples = this.loadAllSamples.bind(this);
+    this.createUI = this.createUI.bind(this);
     this.wavesurferLoaded = this.wavesurferLoaded.bind(this);
     this.wavesurferVolume = this.wavesurferVolume.bind(this);
+    this.playRegion = this.playRegion.bind(this);
     this.setLoop = this.setLoop.bind(this);
-    // this.loopHasMoved = this.loopHasMoved.bind(this);
     this.playLoop = this.playLoop.bind(this);
+    // this.loopHasMoved = this.loopHasMoved.bind(this);
     // this.play = this.play.bind(this);
     // this.pause = this.pause.bind(this);
     // this.playbackRate = this.playbackRate.bind(this);
     // this.hasLoop = this.hasLoop.bind(this);
     // this.updateLoop = this.updateLoop.bind(this);
-    this.masterGain = this.masterGain.bind(this);
     // this.createWaveformUI = this.createWaveformUI.bind(this);
+    this.masterGain = this.masterGain.bind(this);
 
       // Properties
+    console.log(sampleLocally)
+    this.sampleLocally = sampleLocally;
+    this.playLocally = false;
+
     this.wavesurfers = [];    // Each of the wavesurfers
     this.wsRegions = [];      // Each of the Region collections
     this.region = [];         // individual region
@@ -40,6 +45,7 @@ class GravSound {
     // this.wavesurferDivs = []; // Each of the divs...
     this.audio = [];          // An array of the audio tags!
     this.userSamples = {};    // this.userSamples[user].id => playerSampleCount e.g. the sample number of that username
+    this.chunks = [];     // Audio Chunks for each user when recording
     // this.loopBeginNX = [];      // all of the Nexusui elements for each sample
     // this.loopEndNX = [];
     this.playNX = [];
@@ -57,63 +63,64 @@ class GravSound {
     }
     this.tone = Tone;
 
-    // ---- Audio Input from microphone
-    var liveFeed = new Tone.UserMedia();
-
-    Tone.UserMedia.enumerateDevices().then(function (devices) {
-      console.log(devices)
-    })
-    liveFeed.open().then(function () {
-      //promise resolves when input is available
-      console.log("Recorder Available")
-    });
-
-    // this.audio[0] = document.querySelector('audio');
-    this.dest = this.tone.context.createMediaStreamDestination();
-    this.recorder = new MediaRecorder(this.dest.stream);
-
-    liveFeed.connect(this.dest);
-    // ------
-
-    this.chunks = [];
-
-    this.recorder.ondataavailable = evt => {
-      // chunks.push(evt.data);
-      for (let i = 0; i < this.playerSampleCount; i++) {
-        if (this.chunks[i].recording === true) {
-          this.chunks[i].chunks.push(evt.data);
-        }
-      }
-    };
-
-    this.recorder.onstop = evt => {
-      let soundBlob = new Blob(this.chunks[this.recorder.userNumber].chunks, {
-        type: 'audio/wav; codecs=0'
+    if(this.sampleLocally){
+      // ---- Audio Input from microphone
+      var liveFeed = new Tone.UserMedia();
+      Tone.UserMedia.enumerateDevices().then(function (devices) {
+        console.log(devices)
+      })
+      liveFeed.open().then(function () {
+        //promise resolves when input is available
+        console.log("Recorder Available")
       });
-      // let soundBlob = new Blob(this.chunks[this.recorder.userNumber].chunks, {
-      //   type: 'audio/ogg; codecs=opus'
-      // });
-      this.chunks[this.recorder.userNumber].recording = false;
-      for (let i = 0; i < this.playerSampleCount; i++) {
-        if (this.chunks[i].recording === true && this.recorder.state === "inactive") {
-          this.recorder.start();
+
+      // this.audio[0] = document.querySelector('audio');
+      this.dest = this.tone.context.createMediaStreamDestination();
+      this.recorder = new MediaRecorder(this.dest.stream);
+
+      liveFeed.connect(this.dest);
+        
+      // ------
+
+      this.recorder.ondataavailable = evt => {
+        // chunks.push(evt.data);
+        for (let i = 0; i < this.playerSampleCount; i++) {
+          if (this.chunks[i].recording === true) {
+            this.chunks[i].chunks.push(evt.data);
+          }
         }
-      }
-      console.log('recording stopped', this.recorder.userNumber);
-      this.audio[this.recorder.userNumber].src = URL.createObjectURL(soundBlob);
+      };
 
-      let currentSample = this.recorder.userNumber;
-      console.log("currentSample Outside: ", currentSample);
-      console.log("wavesurfer: ", this.wavesurfers[currentSample]);
+      this.recorder.onstop = evt => {
+        let soundBlob = new Blob(this.chunks[this.recorder.userNumber].chunks, {
+          type: 'audio/wav; codecs=0'
+        });
+        // let soundBlob = new Blob(this.chunks[this.recorder.userNumber].chunks, {
+        //   type: 'audio/ogg; codecs=opus'
+        // });
+        this.chunks[this.recorder.userNumber].recording = false;
+        for (let i = 0; i < this.playerSampleCount; i++) {
+          if (this.chunks[i].recording === true && this.recorder.state === "inactive") {
+            this.recorder.start();
+          }
+        }
+        console.log('recording stopped', this.recorder.userNumber);
+        this.audio[this.recorder.userNumber].src = URL.createObjectURL(soundBlob);
 
-      this.wavesurfers[currentSample].on('ready', () => {this.wavesurferLoaded(currentSample)});
+        let currentSample = this.recorder.userNumber;
+        console.log("currentSample Outside: ", currentSample);
+        console.log("wavesurfer: ", this.wavesurfers[currentSample]);
 
-      this.wavesurfers[currentSample].loadBlob(soundBlob);
-      console.log('recording Loaded');
+        this.wavesurfers[currentSample].on('ready', () => {this.wavesurferLoaded(currentSample)});
 
-      this.uploadSample(this.recorder.user, currentSample, soundBlob)
-    };
-    // this.recorder.onstop.bind(this);
+        this.wavesurfers[currentSample].loadBlob(soundBlob);
+        console.log('recording Loaded');
+
+        this.uploadSample(this.recorder.user, currentSample, soundBlob)
+      };
+      // this.recorder.onstop.bind(this);
+
+    }
 
 
 
@@ -201,8 +208,14 @@ class GravSound {
     this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
   };
 
-  playbackRate(val) {
-    this.wavesurfer.setPlaybackRate(val);
+  playbackRate(user, val, preservePitch = true) {
+    if (user in this.userSamples) {
+      this.wavesurfer.setPlaybackRate(val, preservePitch);
+    } else {
+      this.wavesurfers.forEach((surfer)=>{
+        surfer.setPlaybackRate(val, preservePitch);
+      });
+    }
   }
 
   freq(midi) {
@@ -368,7 +381,7 @@ class GravSound {
       this.playNX[currentSample].on('change', (v) => {
         if(this.sampleHasLoop(currentSample)) {
           // v ? this.wavesurfers[currentSample].regions.list[0].play() : this.wavesurfers[currentSample].pause();
-          v ? this.regions[currentSample].play() : this.wavesurfers[currentSample].pause();
+          v ? this.region[currentSample].play() : this.wavesurfers[currentSample].pause();
         }
       });
       this.clearNX[currentSample].on('change', (v) => {
@@ -594,7 +607,7 @@ class GravSound {
   hasLoop(user) {
     if (user in this.userSamples) {
       let sampleNumber = this.userSamples[user].id;
-      return ('0' in this.wavesurfers[sampleNumber].regions.list);
+      return (this.wsRegions[sampleNumber]);
     } else {
       return false;
     }

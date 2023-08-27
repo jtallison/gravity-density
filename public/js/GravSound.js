@@ -137,8 +137,8 @@ class GravSound {
     this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
   };
 
-  playbackRate(val) {
-    this.wavesurfer.setPlaybackRate(val);
+  playbackRate(val, preservePitch = true) {
+    this.wavesurfer.setPlaybackRate(val, preservePitch);
   }
 
   freq(midi) {

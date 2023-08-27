@@ -71,7 +71,10 @@
           <div id='sectionNext'></div>
         </div>
         <div class='selectorHeading'>Clear Users<div id='clearUsers'></div></div>
-        <div class='selectorHeading'>MasterFader<div id="slider"></div></div>
+        <div class='selectorHeading'>
+          MasterFader<div id="master-gain"></div>
+          SlowDown<div id="slowdown-slider"></div>
+        </div>
         <div class='controls'>
           <div id="loadLaunch"></div>Load Launch <div id="triggerLaunch"></div>Trigger Launch
           <div id="enableCountdown"></div>Enable Countdown <div id="triggerCountdown"></div>Trigger Countdown
@@ -116,17 +119,22 @@
   <script>
     document.addEventListener("touchstart", function(){}, true);
 
+    
     var Hub = require('hub');
     var hub = new Hub();
-
+    
     hub.user.name ="gravityHub";
     hub.user.color = getRandomColor();
     hub.user.location = {
       x: 0.5,
       y: 0.5
     }
-
+    
     hub.init();
+    
+      // Will this page sample locally or not
+    hub.sampleLocally = false;  // in the constructor
+    hub.playLocally = false;
 
     let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
     let currentSection = 0;
@@ -394,11 +402,15 @@
       }
     });
 
-    
+    clearUsersNX.on ('change', (v) => {
+      if(v == true) {
+        hub.send('clearUsers', 'now');
+      }
+    });
 
 
-    // Shared slider... possibly a good volume control?
-    let masterFaderNX = new Nexus.Slider('#slider', {
+    // Shared master-gain... possibly a good volume control?
+    let masterFaderNX = new Nexus.Slider('#master-gain', {
       'mode': 'absolute',
       'value': 1.0
     });
@@ -413,6 +425,26 @@
         });
         // console.log(v);
         gravSound.masterGain(v);
+      };
+    });
+
+    // Shared master-gain... possibly a good volume control?
+    let slowdownSliderNX = new Nexus.Slider('#slowdown-slider', {
+      'mode': 'absolute',
+      'value': 1.0
+    });
+    hub.channel('slowdownSlider', null, null, function (data) {
+      slowdownSliderNX.value = data.val;
+    });
+    slowdownSliderNX.on('change', function (v) {
+      // do not send along if not changed from a user interaction.
+      if (slowdownSliderNX.clicked) {
+        hub.send('slowdownSlider', {
+          val: v,
+          user: 'all',
+          preservePitch: false
+        });
+        gravSound.playbackRate(null, v, false);
       };
     });
 
@@ -583,11 +615,14 @@
 
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
+      // 'user': user,'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id
       // console.log("User? ", data.user in gravSound.userSamples);
 
       switch(data.val){
         case 'capture':
-          gravSound.createSample(data.user, gravSound.sampleLength);
+          if(sampleLocally){
+            gravSound.createSample(data.user, gravSound.sampleLength);
+          }
           console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
           break;
         case 'loop':
@@ -605,6 +640,11 @@
           break;
         case 'pauseHub': 
           gravSound.pause(data.user);
+          break;
+        case 'load':
+          if (!sampleLocally) {
+            gravSound.loadSample(data.user, '/uploads/' + data.url)
+          };
           break;
         case 'default':
           console.log('Sample Command not recognized: ', data.val);
@@ -758,6 +798,7 @@
     hub.channel('welcome', null, null, (data) => {
       console.log('welcome', data);
       registeredUsers.push(data); 
+      let user = registeredUsers.at(-1)
       // {id: socket.id, username: socket.username, color: socket.userColor, location: socket.userLocation }
       let sv = document.getElementById('seatMap');
       let svgns = "http://www.w3.org/2000/svg";
@@ -780,6 +821,7 @@
         playRemote(name);
         e.stopPropagation();
       };
+      user.circle = c;
     });
 
     function playRemote(user) {
@@ -791,13 +833,7 @@
         hub.transmit('sample',null, data);
     }
 
-    clearUsersNX.on ('change', (v) => {
-      if(v == true) {
-        hub.send('clearUsers', 'now');
-      }
-    });
-
-
+      // Handling Messages, Sections & Cues
     hub.channel('setMessage', null, null, function(data) {
       console.log(data);
       console.log("the message is now: " + sections[currentSection] + data.message);
@@ -864,26 +900,10 @@
       nextSectionDiv.innerHTML = nextSect;
     }
 
-    // hub.channel('tap', null, null, function (data) {
-    //   hub.log(`tap received: $ { data }`);
-    // })
-
-    // function tapButton() {
-    //   hub.send('tap', {
-    //     'tap': 1
-    //   });
-    // }
-
-    // hub.channel('itemback', null, 'about', function (data) {
-    //   console.log("itemback: ", data);
-    // });
-
-
     function tapEnd() {
       document.getElementsByClassName("mainDisplay")[0].style.display = 'none';
       document.getElementsByClassName("endDisplay")[0].style.display = 'block';
     }
-
 
 
     function getRandomColor() {
@@ -896,7 +916,7 @@
     }
 
 
-    var gravSound = new GravSound();
+    var gravSound = new GravSound(null, hub.sampleLocally);
     hub.user.pitch = gravSound.pitch;
 
   </script>
