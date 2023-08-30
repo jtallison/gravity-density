@@ -594,7 +594,7 @@
     hub.channel('sample', null, null, (data) => {
       // data.user = "name", .val = "capture", .duration = "5"
       // console.log("User? ", data.user in gravSound.userSamples);
-
+      console.log('sample', data)
       switch(data.val){
         case 'capture':
           gravSound.createSample(data.user, gravSound.sampleLength);

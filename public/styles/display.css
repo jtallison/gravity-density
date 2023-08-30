@@ -208,6 +208,24 @@ small {
 }
 
 
+.sound-rings {
+  transform-box: fill-box;
+  animation: soundRings 0.7s linear 0s 2;
+}
+@keyframes soundRings {
+  0% {
+    transform: scale(1.0) translate(0%, 0%);
+    opacity: 1.0
+  }
+  100% {
+    transform: scale(3.0) translate(-25%, -25%);
+    opacity: 0.1;
+  }
+}
+
+
+
+
 
 
 @-webkit-keyframes zoomInUp {

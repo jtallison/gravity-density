@@ -28,6 +28,8 @@ class GravSound {
     this.createWaveformUI = this.createWaveformUI.bind(this);
 
       // Properties
+    this.volume = 1.0;
+
     this.wavesurfer;
     this.wsRegions;
     this.wavesurferContainer = '#waveform';
@@ -133,8 +135,8 @@ class GravSound {
 
   //  CONSTRUCTOR Complete //
 
-  masterGain(val) {
-    this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, 0.015);
+  masterGain(val, duration = 0.015) {
+    this.gain.gain.setValueAtTime(val, this.tone.context.currentTime, duration);
   };
 
   playbackRate(val, preservePitch = true) {
@@ -288,7 +290,7 @@ class GravSound {
         }
       };
       this.region.element.onmousemove = (e)=> {
-        console.log('mousemove', e)
+        // console.log('mousemove', e)
         if(touchEnable) {
           let regionDragY = e.clientY;
           let regionDragX = e.clientX;

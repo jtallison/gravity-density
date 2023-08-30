@@ -301,6 +301,7 @@
           break;
         case 'begin': 
           revealStars(false)
+          gravSound.loadSample('/data/mp3s/noisybeep-delay.mp3')
           setMessage(messageText.spokenOpening.default);
           setInstruction('toLoad');
           break;
@@ -411,7 +412,10 @@
         Object.entries(stars).forEach (([number, star]) => {
           star.classList.add('star-slide');
         })
+        gravSound.loadSample('/data/mp3s/beep.mp3')
+        gravSound.masterGain(0.5);
       } else {
+        gravSound.masterGain(1.0, 1.0); // ramp back up over 1 second
         starfield.classList.remove('fade-in');
         Object.entries(stars).forEach (([number, star]) => {
           star.classList.remove('star-slide');
@@ -776,7 +780,8 @@
       }
     }
 
-    let orbitTouchPlay = (e) => {
+    // let orbitTouchPlay = (e) => {
+    function orbitTouchPlay (e) {
       if(!gravSound.isPlaying()) {
         console.log('play')
         setInstruction('playing');
@@ -784,7 +789,8 @@
         hubLoop();
       }
     };
-    let orbitTouchPlayEnd = (e) => {
+    // let orbitTouchPlayEnd = (e) => {
+    function orbitTouchPlayEnd (e) {  
       if(gravSound.isPlaying()) {
         console.log('pause orbitTouchPlayEnd')
         setInstruction('toPlay');
@@ -792,7 +798,8 @@
         hubPause();
       }
     };
-    let orbitTouchPlayOnce = (e) => {
+    // let orbitTouchPlayOnce = (e) => {
+    function orbitTouchPlayOnce (e) {
       if(!gravSound.isPlaying()) {
         console.log('play')
         setInstruction('postConcert');
@@ -818,6 +825,7 @@
     hub.channel('gravityState', null,null, (data)=> {
       console.log('gravityState', data);
       masterFaderNX.value = data.masterFader;
+      // must be in correct order as Edit controls 3 states... not good planning
       enablePlay(data.playEnable);
       enableEdit(data.editEnable);
       enableLoop(data.editEnable);
@@ -885,27 +893,27 @@
     //   numClicked++
     // }
 
-    hub.channel('triggerCollide', null, null, function(data) {
-      gravSound.playSecondSound();
-    });
+    // hub.channel('triggerCollide', null, null, function(data) {
+    //   gravSound.playSecondSound();
+    // });
 
-    hub.channel('triggerPitch');
-    hub.channel('triggerFirstSound', null, ['max']);
+    // hub.channel('triggerPitch');
+    // hub.channel('triggerFirstSound', null, ['max']);
 
-    hub.channel('tapOthers', null, null, function(data) {
-      console.log('Other Person: ', data);
-      gravSound.playPitch(data.pitch);
-    });
+    // hub.channel('tapOthers', null, null, function(data) {
+    //   console.log('Other Person: ', data);
+    //   gravSound.playPitch(data.pitch);
+    // });
 
-    function triggerOthersButton() {
-      hub.send('tapOthers', {
-        "userId": hub.user.id,
-        "name": hub.user.name,
-        "color": hub.user.color,
-        "location": hub.user.location,
-        "pitch": hub.user.pitch
-      });
-    }
+    // function triggerOthersButton() {
+    //   hub.send('tapOthers', {
+    //     "userId": hub.user.id,
+    //     "name": hub.user.name,
+    //     "color": hub.user.color,
+    //     "location": hub.user.location,
+    //     "pitch": hub.user.pitch
+    //   });
+    // }
 
     function tapEnd() {
       document.getElementsByClassName("mainDisplay")[0].style.display = 'none';

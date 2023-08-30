@@ -2,12 +2,34 @@
 
 What needs to be done, should be done, could be done.
 
+## Notes
+- Have an object or at least a .js file with all of the control methods, settings, dom interactions, graphics drawing, etc. 
+- likely that audio is all in it's own .js
+- have another file that just receives and sends communications and executes the other code.  e.g. your command script for the composition.
+- In this way, if anything is misbehaving it is due to the control methods, not the script. the script is there just to trigger the appropriate actions at the appropriate time.
+
+
 ### TODO: Audio Mostly
-- [ ] Test [VDO.Ninja](https://vdo.ninja/)
-- [ ] Setup Routing with Blackhole and Audio Interface...
-- [ ] Test devices sampling
+- [ ] Upgrade render to a beefier server
+- [ ] Get beepy star screen functioning
+- [ ] set timer - if no sample is returned within 10 seconds, automatically load another sample.
+- [ ] delay return of playing a file after sampling until the new sound has loaded.
+- [ ] get recording of India - Modhi
+- [ ] Mission Control - Check the Messages
+- [x] Check and fix iOS interactions
+- [x] load beep.mp3, JunoMorse.mp3 and noisy-beep-delay.mp3 for star intro, first sound of the piece, 
+- [x] Automatically start with a beep when loading the page
+- [x] Mission Control - graphically represent the dots
+- [x] Mission Control – when playback is triggered make automation
+- [x] Test [VDO.Ninja](https://vdo.ninja/)
+- [x] Setup Routing with Blackhole and Audio Interface...
+- [x] Test devices sampling
 - [x] move to render
 
+### Someday
+- [ ] refactor gravSound.js
+- [ ] refactor gravSoundHub.js
+- [ ] refactor index.js and create score.js (or commandScript.js or cueScript.js or ...)
 
 
 ### To Move to NexusHub

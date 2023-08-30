@@ -191,21 +191,23 @@ hub.io.sockets.on('connection', function(socket) {
       }
     }
     
-    if (hub.controller.id || hub.hub.id || hub.sampler.id ) {
+    if (hub.controller.id || hub.hub.id || hub.sampler.id || hub.display.id) {
       if (hub.controller.id == socket.id ) {   // the controller just joined. do we have users already?
         if(hub.registeredUsers.length > 0) {
           Object.entries(hub.registeredUsers).forEach(([number, data])=>{
             hub.io.to(hub.controller.id).emit('welcome', data);
             hub.io.to(hub.hub.id).emit('welcome', data);
             hub.io.to(hub.sampler.id).emit('welcome', data);
+            hub.io.to(hub.display.id).emit('welcome', data);
           });
         }
-      } else if (hub.sampler.id == socket.id) {  // the sampler just joined. do we have users already?
+      } else if (hub.sampler.id == socket.id || hub.display.id == socket.id) {  // the sampler just joined. do we have users already?
         if(hub.registeredUsers.length > 0) {
           Object.entries(hub.registeredUsers).forEach(([number, data])=>{
             hub.io.to(hub.controller.id).emit('welcome', data);
             hub.io.to(hub.hub.id).emit('welcome', data);
             hub.io.to(hub.sampler.id).emit('welcome', data);
+            hub.io.to(hub.display.id).emit('welcome', data);
           });
         }
         // Check the userList every 30 seconds
@@ -216,6 +218,7 @@ hub.io.sockets.on('connection', function(socket) {
             hub.io.to(hub.controller.id).emit('welcome', data);
             hub.io.to(hub.hub.id).emit('welcome', data);
             hub.io.to(hub.sampler.id).emit('welcome', data);
+            hub.io.to(hub.display.id).emit('welcome', data);
           });
         }
         // Check the userList every 30 seconds
@@ -225,6 +228,7 @@ hub.io.sockets.on('connection', function(socket) {
         hub.io.to(hub.controller.id).emit('welcome', data); 
         hub.io.to(hub.hub.id).emit('welcome', data);
         hub.io.to(hub.sampler.id).emit('welcome', data);
+        hub.io.to(hub.display.id).emit('welcome', data);
         hub.registeredUsers.push(data); 
       }
     }
@@ -264,6 +268,7 @@ hub.io.sockets.on('connection', function(socket) {
       // hub.transmit('sample', null, data);
     } else if (data.val == 'loop' || data.val == 'loopHub' || data.val == 'pauseHub' || data.val == 'playHub') {
       hub.io.to(hub.sampler.id).emit('sample', data);
+      hub.io.to(hub.display.id).emit('sample', data);
       hub.io.to(hub.hub.id).emit('sample', data);
     } else {
       hub.transmit('sample', null, data);

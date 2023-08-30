@@ -72,6 +72,8 @@
     hub.user.pitch = 55;
     hub.register();
 
+    let registeredUsers = [];
+
 
     let sections = ['preConcert', 'spokenOpening', 'countdown', 'launch', 'space', 'gravity', 'postConcert'];
     let currentSection = 0;
@@ -159,8 +161,10 @@
     hub.channel('setCue', null, null, function (data) {
       console.log(data);
       console.log("the section is now: " + cues[data.val]);
-
       currentCue = data.val;
+      nexusOverlay.style.display = 'none';
+      nexusOverlay.classList.remove('fade-in');
+      cue(data);
       // let nextCue = currentCue<=cues.length-2 ? cues[currentCue+1] : 'done'
       // nextCueDiv.innerHTML = nextCue;
     });
@@ -179,6 +183,8 @@
       } else {
         switch(data.name){
           case 'preshow':
+            nexusOverlay.style.display = 'block';
+            nexusOverlay.classList.add('fade-in');
             setSection(sections.indexOf('preConcert'), 1)
             setMessage(messageText.preConcert[1]);
             setInstruction('preConcert');
@@ -289,33 +295,31 @@
       // data.user = "name", .val = "capture", .duration = "5"
       // 'user': user,'val': 'load', 'sample': true, 'url': req.file.originalname + '.mp3', 'id': req.body.id
       // console.log("User? ", data.user in gravSound.userSamples);
-
+      console.log('sample', data)
       switch(data.val){
         case 'capture':
-          if(sampleLocally){
-            gravSound.createSample(data.user, gravSound.sampleLength);
-          }
+          captureAnimation(data)
           console.log(`${data.user} recording a sample of ${gravSound.sampleLength} seconds`);
           break;
         case 'loop':
-          gravSound.setLoop(data.user, data.loopBegin, data.loopEnd);
+
           if(data.play) {
-            gravSound.playLoop(data.user);
+            soundRingAnimation(data)
           }
           console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
           break;
         case 'playHub': 
-          gravSound.playRegion(data.user);
+          soundRingAnimation(data)
           break;
         case 'loopHub': 
-          gravSound.playLoop(data.user);
+          soundRingAnimation(data)
           break;
         case 'pauseHub': 
-          gravSound.pause(data.user);
+
           break;
         case 'load':
           if (!sampleLocally) {
-            gravSound.loadSample(data.user, '/uploads/' + data.url)
+
           };
           break;
         case 'default':
@@ -323,7 +327,21 @@
       }
     });
 
+    function soundRingAnimation (data) {
+      getUser(data.user).circle.classList.add('sound-rings');
+      getUser(data.user).circle.onanimationend = (e) => {
+        console.log("Event", event.target);
+        event.target.classList.remove('sound-rings');
+      };
+    }
 
+    function captureAnimation (data) {
+      getUser(data.user).circle.classList.add('sound-rings');
+      getUser(data.user).circle.onanimationend = (e) => {
+        console.log("Event", event.target);
+        event.target.classList.remove('sound-rings');
+      };
+    }
 
 
     function findNearbyUsers(x,y, nRange=nearbyRange, aspect=1.0) {
@@ -370,6 +388,12 @@
       // actual coordinates of the inner box
       // circle.setAttributeNS(null, 'cx', 77.5 + (data.location.x * 485.1));
       // circle.setAttributeNS(null, 'cy', 70 + (data.location.y * 350));
+
+      // circle.setAttributeNS(null, 'transform-origin', `(${data.location.x * 100}%, ${data.location.y * 100}%)`);
+      // circle.setAttributeNS(null, 'translate', `${data.location.x * 640}, ${data.location.y * 445}`);
+      // circle.setAttributeNS(null, 'transform', `translate(${data.location.x * 640}, ${data.location.y * 445})`);
+      // circle.setAttributeNS(null, 'cx', 0);
+      // circle.setAttributeNS(null, 'cy', 0);
       circle.setAttributeNS(null, 'cx', (data.location.x * 640));
       circle.setAttributeNS(null, 'cy', (data.location.y * 445));
       circle.setAttributeNS(null, 'r', 5);
@@ -377,19 +401,23 @@
       circle.setAttributeNS(null, 'id', data.username + "-seatmap");
       sv.appendChild(circle);
       let c = document.getElementById(data.username + "-seatmap");
-      c.onclick = (e) => {
-        let seatID = e.target.id;
-        console.log('seatID', seatID);
-        let name = seatID.split('-seatmap')[0];
-        playRemote(name);
-        e.stopPropagation();
-      };
       user.circle = c;
     });
 
+    function getUser(userName) {
+      let userToReturn;
+      Object.entries(registeredUsers).forEach(([number, user])=>{
+        if (user.name === userName) {
+          userToReturn = user;
+        }
+      });
+
+      return userToReturn;
+    }
+
 
        // Handling Messages, Sections & Cues
-       hub.channel('setMessage', null, null, function(data) {
+    hub.channel('setMessage', null, null, function(data) {
       console.log(data);
       console.log("the message is now: " + sections[currentSection] + data.message);
       let sectionText = messageText[sections[currentSection]];
