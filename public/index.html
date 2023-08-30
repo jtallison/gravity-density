@@ -144,10 +144,10 @@
       'countdown':  { default: 'Prepare for Launch',
                       10: 'T-minus\n10', 9: '9', 8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1', 0: ''
                     },
-      'launch': { default: '',
+      'launch': { default: 'Liftoff',
                   liftoff: 'Liftoff'
                 },
-      'space': { default: '',
+      'space': { default: 'Listen, take it all in',
                   space: 'Listen, take it all in'
                 },
       'gravity':  { default: 'gravitational waves\n wash over the void\n ignoring all',
@@ -164,7 +164,7 @@
       currentInstruction = instruction;
     };
     let instructionText = {
-      'preConcert': 'Control Zone\nnothing loaded',
+      'preConcert': 'Control Zone\nawaiting connection',
       'spokenOpening': 'Play a Sound',
       'countdown': 'Counting Down',
       'launch': 'Process',
@@ -184,7 +184,8 @@
       'toLoop': 'Tap to Loop\nagain to pause',
       'looping': 'Looping',
       'abyss': 'look into the abyss',
-      'gravity': 'gravity\ndensity'
+      'gravity': 'gravity\ndensity',
+      'clear': ''
     }
 
     let currentInstruction = 'preConcert';
@@ -230,7 +231,7 @@
       titleSpinner.addEventListener( "animationend",  function() {
         titleSpinner.classList.remove("spinner-center");
       });
-      demoSetup();
+      // demoSetup();
     };
 
     hub.channel('demo',null,null, (data) => {
@@ -239,10 +240,10 @@
 
     function demoSetup(){
       setMessage(messageText.spokenOpening.sputnik);
-      let file = randomItem(speakingClips);
+      let file = randomItem('/data/mp3s/JunoMorse.mp3');
       hub.user.audioFile = file;
       gravSound.loadSample(file,true);
-      enableEdit(true);
+      // enableEdit(true);
     }
 
     // seatMap.addEventListener("click", getClickPosition, false);
@@ -308,6 +309,9 @@
         case 'load': 
           // start loading files to process
           // randomLoading(true);
+          let file = randomItem(speakingClips);
+          hub.user.audioFile = file;
+          gravSound.loadSample(file);
           enablePlay(true);
           setMessage(messageText.spokenOpening.sputnik);
           setInstruction('firstLoad');
@@ -839,7 +843,7 @@
       console.log("the section is now: " + sections[data.section]);
       currentSection = data.section;
       setMessage(messageText[sections[currentSection]].default);
-      setInstruction(sections[currentSection]);
+      // setInstruction(sections[currentSection]);
     });
 
     hub.channel('setMessage', null, null, function(data) {

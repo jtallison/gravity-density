@@ -106,10 +106,10 @@
       'countdown':  { default: 'Prepare for Launch',
                       10: 'T-minus\n10', 9: '9', 8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1', 0: ''
                     },
-      'launch': { default: '',
+      'launch': { default: 'Liftoff',
                   liftoff: 'Liftoff'
                 },
-      'space': { default: '',
+      'space': { default: 'Listen, take it all in',
                   space: 'Listen, take it all in'
                 },
       'gravity':  { default: 'gravitational waves\n wash over the void\n ignoring all',
@@ -146,7 +146,9 @@
       'toLoop': 'Tap to Loop\nagain to pause',
       'looping': 'Looping',
       'abyss': 'look into the abyss',
-      'gravity': 'gravity\ndensity'
+      'gravity': 'gravity\ndensity',
+      'simplyListen': 'Simply listen',
+      'clear': ''
     }
 
     hub.channel('masterFader', null, null, function (data) {
@@ -191,7 +193,7 @@
             document.getElementById('controller-messages').style.display = "none";
             setSection(sections.indexOf('preConcert'), 1)
             setMessage(messageText.preConcert[1]);
-            setInstruction('preConcert');
+            setInstruction('clear');
             break;
           case 'starfield':
             revealStars(true);
@@ -206,51 +208,51 @@
             document.getElementById('controller-messages').style.display = "block";
             setSection(sections.indexOf('spokenOpening'), 'default')
             setMessage(messageText.spokenOpening.default);
-            setInstruction('toLoad');
+            setInstruction('clear');
             break;
           case 'load': 
             setSection(sections.indexOf('spokenOpening'), 'sputnik')
             setMessage(messageText.spokenOpening.sputnik);
-            setInstruction('firstLoad');
+            setInstruction('clear');
             break;
           case 'play': 
             setSection(sections.indexOf('spokenOpening'), 'sputnik')
             setMessage(messageText.spokenOpening.sputnik);
-            setInstruction('dragPlay');
+            setInstruction('clear');
             break;
           case 'countdown':
             // randomLoading(false);
             setSection(sections.indexOf('countdown'), 'default')
             setMessage(messageText.countdown.default);
-            setInstruction('toPlay');
+            setInstruction('clear');
             break;
           case 'launch':
             setSection(sections.indexOf('launch'), 'liftoff')
             setMessage(messageText.launch.liftoff);
-            setInstruction('loading');
+            setInstruction('clear');
             // cover the UI
             break;
           case 'play-launch': 
-            setInstruction('dragPlay');
+            setInstruction('clear');
             // uncover the UI
             break;
           case 'clear': 
             setSection(sections.indexOf('space'), 'space')
             setMessage(messageText.space.space);
-            setInstruction('space');
+            setInstruction('simplyListen');
             break;
           case 'capture': 
             setSection(sections.indexOf('space'), 'space')
             setMessage(messageText.space.space);
-            setInstruction('space');
+            setInstruction('clear');
             break;
           case 'play2':
-            setInstruction('dragPlay');
+            setInstruction('clear');
             break;
           case 'load2': 
             setSection(sections.indexOf('gravity'), 'default')
             setMessage(messageText.gravity.default);
-            setInstruction('toSample');
+            setInstruction('clear');
             break;
           case 'clear2': 
             setSection(sections.indexOf('gravity'), 1)
@@ -260,7 +262,7 @@
           case 'magnificent': 
             setSection(sections.indexOf('gravity'), 2)
             setMessage(messageText.gravity[2]);
-            setInstruction('playMagnificent');
+            setInstruction('clear');
             // don't load and play
             break;
           case 'desolation': 
@@ -270,7 +272,7 @@
           case 'postshow': 
             setSection(sections.indexOf('postConcert'), 'default')
             setMessage(messageText.postConcert.default);
-            setInstruction('gravity');
+            setInstruction('clear');
             break;
           case 'demo':
             setInstruction('gravity');
@@ -439,8 +441,8 @@
 
       currentSection = data.section;
 
-      setMessage(messageText[sections[currentSection]].default);
-      setInstruction(sections[currentSection]);
+      // setMessage(messageText[sections[currentSection]].default);
+      // setInstruction(sections[currentSection]);
     });
 
     function setSection(sect, subcue = 'default') {
