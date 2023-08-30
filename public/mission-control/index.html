@@ -314,6 +314,9 @@
           }
           console.log(`${data.user} set loop to ${data.loopBegin} – ${data.loopEnd}`);
           break;
+        case 'play':
+          soundRingAnimation(data)
+          break;
         case 'playHub': 
           soundRingAnimation(data)
           break;
